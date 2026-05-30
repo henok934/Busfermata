@@ -10,7 +10,7 @@ DEBUG = True
 
 #ALLOWED_HOSTS = ['*']
 
-ALLOWED_HOSTS = ['transportationtechnonogy.onrender.com', 'wedehagertransport.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['busfermata-1.onrender.com', 'wedehagertransport.onrender.com', 'localhost', '127.0.0.1']
 #CSRF_TRUSTED_ORIGINS = ['https://wedehagertransport.onrender.com']
 
 # Security Headers for Production/Audit
