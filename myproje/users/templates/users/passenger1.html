@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Manage Ticket | Busfermata</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f1f5f9; 
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        /* --- NAVIGATION (Matches Index.html) --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+        .brand-logo { 
+            height: 60px !important; 
+            width: auto; 
+            border-radius: 8px; 
+            margin-right: 15px; 
+            border: 3px solid var(--brand-navy);
+        }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 24px; text-transform: uppercase; }
+
+        /* --- TICKET STYLING --- */
+        .ticket-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .ticket-header {
+            background: var(--brand-navy);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .update-section {
+            background: #f8fafc;
+            padding: 20px;
+            border-bottom: 2px dashed #cbd5e1;
+        }
+
+        .ticket-body { padding: 40px; }
+
+        .info-group { margin-bottom: 20px; }
+        .info-label { 
+            font-weight: 800; 
+            color: var(--brand-navy); 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            display: block;
+        }
+        .info-data { 
+            font-weight: 700; 
+            color: #334155; 
+            font-size: 16px; 
+            display: block;
+            margin-top: 2px;
+        }
+
+        .qr-box {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #f1f5f9;
+            border-radius: 12px;
+        }
+
+        .btn-update { background: var(--brand-navy); color: white; font-weight: 700; border-radius: 6px; border: none; padding: 10px 25px; }
+        .btn-pdf { background: var(--brand-gold); color: var(--brand-navy); font-weight: 800; border-radius: 6px; border: none; padding: 10px 20px; }
+
+        @media print { .no-print { display: none !important; } }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar no-print">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Busfermata | International Transport Standards</span>
+        <div class="user_box_login"><a href="{% url 'login' %}" style="color: var(--brand-gold); font-weight: 700;">STAFF LOGIN</a></div>
+    </div>
+</div>
+
+<nav class="navbar-main no-print">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo">
+            <span class="brand-text">Busfermata</span>
+        </a>
+        <ul class="nav-links d-none d-lg-flex list-unstyled m-0 d-flex flex-row" style="gap: 20px;">
+            <li><a href="{% url 'home' %}" style="color: var(--brand-navy); font-weight: 700; text-decoration: none;">HOME</a></li>
+            <li><a href="{% url 'about' %}" style="color: var(--brand-navy); font-weight: 700; text-decoration: none;">About us</a></li>
+           <li><a href="{% url 'book' %}" style="color: var(--brand-navy); font-weight: 700; text-decoration: none;">Book</a></li>
+            <li><a href="{% url 'get_ticket' %}" style="color: var(--brand-navy); font-weight: 700; text-decoration: none;">My Tickets</a></l>
+	    <li>
+                <form action="{% url 'changebuses' %}" method="post" id="nav_bus_form" class="d-inline">
+                    {% csrf_token %}
+                    <button type="button" id="notificationButton" style="background:none; border:none; cursor:pointer;">
+                        🔔<span class="badge badge-danger" id="buschanges-count">{{ buschanges_count }}</span>
+                    </button>
+                    <input type="date" name="date" id="dateInput" style="display: none;" class="form-control-sm">
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <form action="{% url 'passenger' %}" method="post">
+        {% csrf_token %}
+
+        {% if error %}<div class="alert alert-danger mt-4 text-center"><b>{{ error }}</b></div>{% endif %}
+        {% if success %}<div class="alert alert-success mt-4 text-center"><b>{{ success }}</b></div>{% endif %}
+
+        <div id="ticket-area" class="ticket-container">
+            <div class="ticket-header">
+                <h2 class="m-0" style="font-weight: 800; letter-spacing: 1px;">ELECTRONIC BUS TICKET</h2>
+                <p class="m-0 opacity-75">Thank you for traveling with Busfermata Digital Technologynology</p>
+            </div>
+
+            {% if ticket %}
+            <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
+            <input type="hidden" name="descity" value="{{ ticket.descity }}">
+            <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
+            <input type="hidden" name="date" value="{{ ticket.date }}">
+            <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
+            <input type="hidden" name="phone" value="{{ ticket.phone }}">
+
+            <div class="update-section no-print">
+                <div class="row align-items-end">
+                    <div class="col-md-3">
+                        <label class="info-label">Update First Name</label>
+                        <input type="text" name="new_firstname" class="form-control" oninput="formatName(this)" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="info-label">Update Last Name</label>
+                        <input type="text" name="new_lastname" class="form-control" oninput="formatName(this)" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="info-label">Phone Number</label>
+                        <input type="tel" name="new_phone" class="form-control" maxlength="10" required>
+                    </div>
+                    <div class="col-md-4 d-flex" style="gap: 10px;">
+                        <button type="submit" class="btn-update">UPDATE</button>
+                        <button type="button" onclick="downloadPDF()" class="btn-pdf"><i class="fas fa-download mr-2"></i>PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ticket-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-6 info-group">
+                                <span class="info-label">Passenger Name</span>
+                                <span class="info-data text-uppercase">{{ ticket.firstname }} {{ ticket.lastname }}</span>
+                            </div>
+                            <div class="col-6 info-group">
+                                <span class="info-label">PNR / Reference</span>
+                                <span class="info-data text-primary">{{ ticket.pnr }}</span>
+                            </div>
+                            <div class="col-6 info-group">
+                                <span class="info-label">Departure From</span>
+                                <span class="info-data">{{ ticket.depcity }}</span>
+                            </div>
+                            <div class="col-6 info-group">
+                                <span class="info-label">Destination Hub</span>
+                                <span class="info-data">{{ ticket.descity }}</span>
+                            </div>
+                            <div class="col-6 info-group">
+                                <span class="info-label">Travel Date</span>
+                                <span class="info-data">{{ ticket.date }}</span>
+                            </div>
+                            <div class="col-3 info-group">
+                                <span class="info-label">Seat No.</span>
+                                <span class="info-data text-danger" style="font-size: 22px;">#{{ ticket.no_seat }}</span>
+                            </div>
+                            <div class="col-3 info-group">
+                                <span class="info-label">Level</span>
+                                <span class="info-data">{{ level }}</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-4 info-group"><span class="info-label">Plate No.</span><span class="info-data">{{ ticket.plate_no }}</span></div>
+                            <div class="col-4 info-group"><span class="info-label">Total Price</span><span class="info-data text-success">{{ ticket.price }} ETB</span></div>
+                            <div class="col-4 info-group"><span class="info-label">Email</span><span class="info-data" style="font-size: 12px;">{{ ticket.email }}</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
+                        <div class="qr-box">
+                            <img src="{{ ticket.qr_code }}" alt="Verification QR" style="width: 150px; height: auto;">
+                            <p class="info-label mt-2">Scan to Verify Ticket</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<script>
+    // Name formatting logic
+    function formatName(input) {
+        let value = input.value.replace(/[^A-Za-z\s]/g, '');
+        if (value.length > 0) {
+            input.value = value.charAt(0).toUpperCase() + value.slice(1);
+        }
+    }
+
+    // PDF Generation logic
+    function downloadPDF() {
+        const element = document.getElementById('ticket-area');
+        const updatePanel = document.querySelector('.update-section');
+        
+        updatePanel.style.display = 'none'; // Temporarily hide inputs for clean PDF
+
+        const opt = {
+            margin: 0.5,
+            filename: 'Busfermata_Ticket_{{ ticket.pnr }}.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            updatePanel.style.display = 'block';
+        });
+    }
+
+    // Nav notification logic
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        const input = document.getElementById('dateInput');
+        input.style.display = (input.style.display === 'none') ? 'inline-block' : 'none';
+        if(input.style.display === 'inline-block') input.focus();
+    });
+
+    document.getElementById('dateInput').addEventListener('change', function() {
+        document.getElementById('nav_bus_form').submit();
+    });
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

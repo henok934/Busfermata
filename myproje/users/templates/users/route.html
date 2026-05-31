@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Deployment Registry</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --ethiopia-green: #2e7d32;
+            --surface-gray: #f8fafc;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--surface-gray); 
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar-main {
+            background: #ffffff;
+            padding: 12px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 24px; text-transform: uppercase; line-height: 1; }
+        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 10px; letter-spacing: 1px; display: block; }
+
+        .custom-nav-select {
+            border: 2px solid #e2e8f0;
+            background-color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 8px;
+            height: 38px;
+            min-width: 170px;
+            color: var(--brand-navy);
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* --- FORM STYLING --- */
+        .admin-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .form-control-modern {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            height: 48px;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-submit {
+            background: var(--brand-navy);
+            color: white;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 8px;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #cc0000;
+            transform: translateY(-2px);
+        }
+
+        /* --- FOOTER --- */
+        .footer-main { 
+            background: var(--brand-navy); 
+            color: white; 
+            padding: 50px 0 30px; 
+            margin-top: 80px; 
+            text-align: center;
+            border-top: 5px solid var(--brand-gold);
+        }
+
+        @media (max-width: 1199.98px) {
+            .navbar-collapse {
+                background: white;
+                padding: 20px;
+                border-radius: 12px;
+                margin-top: 15px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+            .custom-nav-select { width: 100%; margin-bottom: 10px !important; }
+        }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+<style>
+.brand-logo {
+    border: none !important;      /* Removes the black border */
+    box-shadow: none !important;  /* Removes any surrounding shadow if present */
+    border-radius: 0;             /* Resets the rounded corners if necessary */
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-shield-check mr-2"></i> System Administration Portal</span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold ml-3 text-decoration-none">
+            <i class="fas fa-power-off mr-1"></i> LOGOUT
+        </a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+            <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#adminNavbar">
+            <i class="fas fa-bars" style="color: var(--brand-navy); font-size: 22px;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNavbar">
+            <div class="navbar-nav ml-auto">
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'registor' %}">Add System Controller</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'changebus' %}">Update Fleet (Bus)</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+
+                <select onchange="location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'sce' %}">View Share Companies</option>
+                    <option value="{% url 'buses' %}">View Fleet (Buses)</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Transaction History</option>
+                </select>
+                <select onchange="location.href = this.value;" class="custom-nav-select maintenance-select mx-xl-1" style="color: red;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Controller</option>
+                    <option value="{% url 'scdelete' %}">Decommission Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'workerdelete' %}">Terminate Agent</option>
+                    <option value="{% url 'delete_ticket' %}">Void Transaction</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="admin-card">
+                <h4 class="font-weight-bold text-center mb-4" style="color: var(--brand-navy);">Initialize Route Deployment</h4>
+
+                {% if error %}
+                <div class="error" style="background: #fff5f5; border-left: 5px solid red; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h6 style="color: red; text-align: center; margin: 0;">
+                        <b>{{ error }}</b>
+                        <span style="margin-left:10px; cursor:pointer;" onclick="this.parentElement.parentElement.parentElement.style.display='none'">x</span>
+                    </h6>
+                </div>
+                {% endif %}
+
+                {% if success %}
+                <div class="message success" style="background: #f0fff4; border-left: 5px solid green; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h5 style="text-align: center; color: green; margin: 0;"><b>{{ success }}</b><span> ✔</span></h5>
+                </div>
+                {% endif %}
+
+                <form id="search_form_1" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Departure <span class="text-danger">*</span></label>
+                            <select name="depcity" id="depcity" class="form-control form-control-modern" required onchange="calculateKilo()">
+                                <option value="">Select City</option>
+                                {% for item in des %}
+                                    {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                                    <option value="{{ item.depcity }}">{{ item.depcity }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Destination <span class="text-danger">*</span></label>
+                            <select name="descity" id="descity" class="form-control form-control-modern" required onchange="calculateKilo()">
+                                <option value="">Select City</option>
+                                {% for item in des %}
+                                    {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                                    <option value="{{ item.depcity }}">{{ item.depcity }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Distance <span class="text-danger">*</span></label>
+                        <input type="text" name="kilometer" id="km_input" class="form-control form-control-modern" placeholder="654 KM">
+                    </div>
+
+<!--			
+		    <div class="row mb-3">
+    <div class="col-md-4">
+        <label class="form-label">Bus Level</label>
+        <select id="level-filter" class="form-control form-control-modern" onchange="filterByLevel(this.value)">
+            <option value="">-- Select Level --</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+    -->
+
+
+    <!--
+
+   			<div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Level</label>
+                            <select name="#" id="plate-no-input" class="form-control form-control-modern" required onchange="updateSideNo(this.value)">
+                                <option value="">Select</option>
+                                {% for d in bus %}
+                                    <option value="{{ d.level}}" data-sideno="{{ d.level }}">{{ d.level }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Plate No</label>
+                            <select name="plate_no" id="plate-no-input" class="form-control form-control-modern" required onchange="updateSideNo(this.value)">
+                                <option value="">Select</option>
+                                {% for d in bus %}
+                                    <option value="{{ d.plate_no }}" data-sideno="{{ d.sideno }}">{{ d.plate_no }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label">Side No</label>
+                            <select name="side_no" id="side-no-input" class="form-control form-control-modern" required onchange="updatePlateNo(this.value)">
+                                <option value="">Select</option>
+                                {% for d in bus %}
+                                    <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}">{{ d.sideno }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+    -->
+
+
+
+
+    <!--
+    <div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Level</label>
+        <select id="level-input" class="form-control form-control-modern" required onchange="filterByLevel(this.value)">
+            <option value="">Select Level</option>
+            {% for d in bus %}
+                <option value="{{ d.level }}">{{ d.level }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Plate No</label>
+        <select name="plate_no" id="plate-no-input" class="form-control form-control-modern" required onchange="updateSideNo(this.value)">
+            <option value="">Select Plate</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" data-sideno="{{ d.sideno }}" data-level="{{ d.level }}">{{ d.plate_no }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Side No</label>
+        <select name="side_no" id="side-no-input" class="form-control form-control-modern" required onchange="updatePlateNo(this.value)">
+            <option value="">Select Side</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}" data-level="{{ d.level }}">{{ d.sideno }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+-->
+
+
+<!--
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Level (ደረጃ)</label>
+        <select id="level-select" class="form-control form-control-modern" required onchange="filterByLevel(this.value)">
+            <option value="">Select Level</option>
+            <option value="1st">1st (1ኛ)</option>
+            <option value="2nd">2nd (2ኛ)</option>
+            <option value="3rd">3rd (3ኛ)</option>
+            <option value="Liyu Bus">Liyu Bus (ልዩ ባስ)</option>
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Bus Type (የባስ አይነት)</label>
+        <select id="bus-name-select" class="form-control form-control-modern" required onchange="filterByBusName(this.value)">
+            <option value="">Select Bus Type</option>
+            {% for d in bus %}
+                <option value="{{ d.name }}" data-level="{{ d.level }}">{{ d.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Plate No (የሰሌዳ ቁጥር)</label>
+        <select name="plate_no" id="plate-no-select" class="form-control form-control-modern" required onchange="syncSideNo(this.value)">
+            <option value="">Select Plate</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" data-sideno="{{ d.sideno }}" data-name="{{ d.name }}" data-level="{{ d.level }}">{{ d.plate_no }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Side No (የጎን ቁጥር)</label>
+        <select name="side_no" id="side-no-select" class="form-control form-control-modern" required onchange="syncPlateNo(this.value)">
+            <option value="">Select Side</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}" data-name="{{ d.name }}" data-level="{{ d.level }}">{{ d.sideno }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+function filterByLevel(selectedLevel) {
+    const nameSelect = document.getElementById("bus-name-select");
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+
+    // Reset all subsequent dropdowns
+    nameSelect.value = "";
+    plateSelect.value = "";
+    sideSelect.value = "";
+
+    // Filter Bus Names based on Level
+    Array.from(nameSelect.options).forEach(option => {
+        if (option.value === "") return;
+        option.hidden = (selectedLevel !== "" && option.getAttribute("data-level") !== selectedLevel);
+    });
+
+    // Also hide plates until a name is picked
+    filterByBusName(""); 
+}
+
+function filterByBusName(selectedName) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+
+    plateSelect.value = "";
+    sideSelect.value = "";
+
+    // Filter Plate and Side Numbers based on Bus Name
+    [plateSelect, sideSelect].forEach(select => {
+        Array.from(select.options).forEach(option => {
+            if (option.value === "") return;
+            option.hidden = (selectedName !== "" && option.getAttribute("data-name") !== selectedName);
+        });
+    });
+}
+
+function syncSideNo(val) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedOption = plateSelect.options[plateSelect.selectedIndex];
+
+    if (val !== "") {
+        sideSelect.value = selectedOption.getAttribute("data-sideno");
+    } else {
+        sideSelect.value = "";
+    }
+}
+
+function syncPlateNo(val) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedOption = sideSelect.options[sideSelect.selectedIndex];
+
+    if (val !== "") {
+        plateSelect.value = selectedOption.getAttribute("data-plate");
+    } else {
+        plateSelect.value = "";
+    }
+}
+</script>
+-->
+
+<!--
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Level (ደረጃ)</label>
+        <select id="level-select" class="form-control form-control-modern" required onchange="showBusType(this.value)">
+            <option value="">Select Level</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+    <div class="col-md-6" id="bus-type-wrapper" style="display: none;">
+        <label class="form-label">Bus Type (የባስ አይነት)</label>
+        <select id="bus-name-select" class="form-control form-control-modern" onchange="showPlates(this.value)">
+            <option value="">Select Bus Type</option>
+            {% for d in bus %}
+                <option value="{{ d.name }}" data-level="{{ d.level }}">{{ d.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="row mb-3" id="plate-side-wrapper" style="display: none;">
+    <div class="col-md-6">
+        <label class="form-label">Plate No (የሰሌዳ ቁጥር)</label>
+        <select name="plate_no" id="plate-no-select" class="form-control form-control-modern" onchange="syncSideNo(this.value)">
+            <option value="">Select Plate</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" data-sideno="{{ d.sideno }}" data-name="{{ d.name }}">{{ d.plate_no }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Side No (የጎን ቁጥር)</label>
+        <select name="side_no" id="side-no-select" class="form-control form-control-modern" onchange="syncPlateNo(this.value)">
+            <option value="">Select Side</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}" data-name="{{ d.name }}">{{ d.sideno }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<script>
+function showBusType(selectedLevel) {
+    const wrapper = document.getElementById("bus-type-wrapper");
+    const nameSelect = document.getElementById("bus-name-select");
+    const plateWrapper = document.getElementById("plate-side-wrapper");
+
+    if (selectedLevel !== "") {
+        wrapper.style.display = "block"; // Show the Bus Type dropdown
+        
+        // Filter names based on level and hide duplicates
+        let seenNames = [];
+        Array.from(nameSelect.options).forEach(option => {
+            if (option.value === "") return;
+            
+            const matchesLevel = option.getAttribute("data-level") === selectedLevel;
+            const isDuplicate = seenNames.includes(option.value);
+
+            if (matchesLevel && !isDuplicate) {
+                option.style.display = "block";
+                seenNames.push(option.value);
+            } else {
+                option.style.display = "none";
+            }
+        });
+    } else {
+        wrapper.style.display = "none";
+        plateWrapper.style.display = "none";
+    }
+    nameSelect.value = ""; // Reset next dropdown
+}
+
+function showPlates(selectedName) {
+    const plateWrapper = document.getElementById("plate-side-wrapper");
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+
+    if (selectedName !== "") {
+        plateWrapper.style.display = "flex"; // Show the Plate/Side row
+        
+        // Filter plates based on name
+        [plateSelect, sideSelect].forEach(select => {
+            Array.from(select.options).forEach(option => {
+                if (option.value === "") return;
+                option.style.display = (option.getAttribute("data-name") === selectedName) ? "block" : "none";
+            });
+        });
+    } else {
+        plateWrapper.style.display = "none";
+    }
+    plateSelect.value = "";
+    sideSelect.value = "";
+}
+
+// Logic for auto-filling Plate when Side is picked and vice-versa
+function syncSideNo(val) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedOption = plateSelect.options[plateSelect.selectedIndex];
+    if (val !== "") sideSelect.value = selectedOption.getAttribute("data-sideno");
+}
+
+function syncPlateNo(val) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedOption = sideSelect.options[sideSelect.selectedIndex];
+    if (val !== "") plateSelect.value = selectedOption.getAttribute("data-plate");
+}
+</script>
+-->
+
+
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Level <span class="text-danger">*</span></label>
+        <select id="level-select" class="form-control form-control-modern" required onchange="filterBusNames(this.value)">
+            <option value="">Choose</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+
+    <div class="col-md-6" id="bus-type-wrapper" style="display: none;">
+        <label class="form-label">Bus Type <span class="text-danger">*</span></label>
+        <select id="bus-name-select" class="form-control form-control-modern" onchange="filterPlatesAndSides(this.value)">
+            <option value="">Choose Bus Type</option>
+            {% for d in bus %}
+                <option value="{{ d.name }}" data-level="{{ d.level }}">{{ d.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="row mb-3" id="plate-side-wrapper" style="display: none;">
+    <div class="col-md-6">
+        <label class="form-label">Plate No <span class="text-danger">*</span></label>
+        <select name="plate_no" id="plate-no-select" class="form-control form-control-modern" onchange="syncSideNo(this.value)">
+            <option value="">Plate Number</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" data-sideno="{{ d.sideno }}" data-name="{{ d.name }}" data-level="{{ d.level }}">{{ d.plate_no }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Side No <span class="text-danger">*</span></label>
+        <select name="side_no" id="side-no-select" class="form-control form-control-modern" onchange="syncPlateNo(this.value)">
+            <option value="">Side Number</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}" data-name="{{ d.name }}" data-level="{{ d.level }}">{{ d.sideno }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<script>
+function filterBusNames(selectedLevel) {
+    const nameWrapper = document.getElementById("bus-type-wrapper");
+    const nameSelect = document.getElementById("bus-name-select");
+    const plateWrapper = document.getElementById("plate-side-wrapper");
+
+    // Reset everything
+    nameSelect.value = "";
+    plateWrapper.style.display = "none";
+
+    if (selectedLevel) {
+        nameWrapper.style.display = "block";
+        let seenNames = new Set();
+
+        Array.from(nameSelect.options).forEach(option => {
+            if (option.value === "") return;
+
+            const matchesLevel = option.getAttribute("data-level").trim() === selectedLevel.trim();
+            if (matchesLevel && !seenNames.has(option.value)) {
+                option.style.display = "block";
+                option.disabled = false;
+                seenNames.add(option.value);
+            } else {
+                option.style.display = "none";
+                option.disabled = true;
+            }
+        });
+    } else {
+        nameWrapper.style.display = "none";
+    }
+}
+
+function filterPlatesAndSides(selectedName) {
+    const plateWrapper = document.getElementById("plate-side-wrapper");
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedLevel = document.getElementById("level-select").value;
+
+    if (selectedName && selectedLevel) {
+        plateWrapper.style.display = "flex";
+
+        [plateSelect, sideSelect].forEach(select => {
+            select.value = "";
+            Array.from(select.options).forEach(option => {
+                if (option.value === "") return;
+
+                // IMPORTANT: Match BOTH Name and Level
+                const matchesName = option.getAttribute("data-name") === selectedName;
+                const matchesLevel = option.getAttribute("data-level").trim() === selectedLevel.trim();
+
+                if (matchesName && matchesLevel) {
+                    option.style.display = "block";
+                    option.disabled = false;
+                } else {
+                    option.style.display = "none";
+                    option.disabled = true;
+                }
+            });
+        });
+    } else {
+        plateWrapper.style.display = "none";
+    }
+}
+
+// Auto-sync Plate <-> Side
+function syncSideNo(val) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedOption = plateSelect.options[plateSelect.selectedIndex];
+    if (val) sideSelect.value = selectedOption.getAttribute("data-sideno");
+}
+
+function syncPlateNo(val) {
+    const plateSelect = document.getElementById("plate-no-select");
+    const sideSelect = document.getElementById("side-no-select");
+    const selectedOption = sideSelect.options[sideSelect.selectedIndex];
+    if (val) plateSelect.value = selectedOption.getAttribute("data-plate");
+}
+</script>
+
+
+
+
+
+
+<!--
+<div class="row mb-3">
+    <div class="col-md-12 mb-3">
+        <label class="form-label" style="font-weight: bold;">Step 1: Select Bus Level</label>
+        <select id="level-filter" class="form-control" onchange="filterBusesByLevel(this.value)">
+            <option value="">-- Choose Level --</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Plate No</label>
+        <select name="plate_no" id="plate-no-input" class="form-control" required onchange="updateSideNo(this.value)">
+            <option value="">Select Plate</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" 
+                        data-sideno="{{ d.sideno }}" 
+                        data-level="{{ d.level|lower }}" 
+                        class="bus-option" 
+                        style="display: none;"> {{ d.plate_no }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Side No</label>
+        <select name="side_no" id="side-no-input" class="form-control" required onchange="updatePlateNo(this.value)">
+            <option value="">Select Side</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" 
+                        data-plate="{{ d.plate_no }}" 
+                        data-level="{{ d.level|lower }}" 
+                        class="bus-option" 
+                        style="display: none;"> {{ d.sideno }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+
+<script>
+    function filterBusesByLevel(selectedLevel) {
+        // Clean the input to match data attributes
+        const target = selectedLevel.toLowerCase().trim();
+
+        const plateSelect = document.getElementById("plate-no-input");
+        const sideSelect = document.getElementById("side-no-input");
+
+        // Reset Plate and Side values so old data doesn't stay
+        plateSelect.value = "";
+        sideSelect.value = "";
+
+        // Find all options that have the 'bus-option' class
+        const options = document.querySelectorAll(".bus-option");
+
+        options.forEach(opt => {
+            const optLevel = opt.getAttribute("data-level").trim();
+
+            // If the user picked "1st", show only options where data-level is "1st"
+            if (target !== "" && optLevel === target) {
+                opt.style.display = "block";
+            } else {
+                opt.style.display = "none";
+            }
+        });
+    }
+
+    // --- YOUR ORIGINAL SYNC LOGIC (Unchanged) ---
+    function updateSideNo(selectedPlateNo) {
+        const sideNoInput = document.getElementById("side-no-input");
+        const plateSelect = document.getElementById("plate-no-input");
+        const selectedOption = plateSelect.options[plateSelect.selectedIndex];
+
+        if (selectedPlateNo === "") {
+            sideNoInput.value = "";
+            return;
+        }
+        sideNoInput.value = selectedOption.getAttribute("data-sideno");
+    }
+
+    function updatePlateNo(selectedSideNo) {
+        const plateNoInput = document.getElementById("plate-no-input");
+        const sideSelect = document.getElementById("side-no-input");
+        const selectedOption = sideSelect.options[sideSelect.selectedIndex];
+
+        if (selectedSideNo === "") {
+            plateNoInput.value = "";
+            return;
+        }
+        plateNoInput.value = selectedOption.getAttribute("data-plate");
+    }
+</script>
+-->
+
+
+
+
+<!--
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label class="form-label">Bus Level</label>
+        <select id="level-filter" class="form-control form-control-modern" onchange="filterByLevel(this.value)">
+            <option value="">-- Select Level --</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Plate No</label>
+        <select name="plate_no" id="plate-no-input" class="form-control form-control-modern" required onchange="syncSelection(this, 'plate')">
+            <option value="">Select Plate</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}"
+                        data-sideno="{{ d.sideno }}"
+                        data-level="{{ d.level|lower }}"
+                        class="bus-option"
+                        style="display: none;">
+                    {{ d.plate_no }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Side No</label>
+        <select name="side_no" id="side-no-input" class="form-control form-control-modern" required onchange="syncSelection(this, 'side')">
+            <option value="">Select Side</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}"
+                        data-plate="{{ d.plate_no }}"
+                        data-level="{{ d.level|lower }}"
+                        class="bus-option"
+                        style="display: none;">
+                    {{ d.sideno }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+
+<script>
+function filterByLevel(selectedLevel) {
+    // 1. Clean the user selection
+    const target = selectedLevel.toLowerCase().trim();
+
+    const plateSelect = document.getElementById('plate-no-input');
+    const sideSelect = document.getElementById('side-no-input');
+
+    // 2. Clear current values
+    plateSelect.value = "";
+    sideSelect.value = "";
+
+    // 3. Filter the options
+    const allOptions = document.querySelectorAll('.bus-option');
+
+    allOptions.forEach(opt => {
+        // Get the level from the data attribute and clean it here
+        const optLevel = opt.getAttribute('data-level').toLowerCase().trim();
+
+        if (target !== "" && optLevel === target) {
+            opt.style.display = 'block';
+            opt.disabled = false;
+        } else {
+            opt.style.display = 'none';
+            opt.disabled = true;
+        }
+    });
+}
+
+function syncSelection(element, type) {
+    const plateInput = document.getElementById('plate-no-input');
+    const sideInput = document.getElementById('side-no-input');
+    const selectedOption = element.options[element.selectedIndex];
+
+    if (type === 'plate') {
+        const val = selectedOption.getAttribute('data-sideno');
+        if (val) sideInput.value = val;
+    } else {
+        const val = selectedOption.getAttribute('data-plate');
+        if (val) plateInput.value = val;
+    }
+}
+</script>
+-->
+
+
+
+
+
+
+<!--
+<div class="row mb-3">
+   
+    <div class="col-md-4">
+        <label class="form-label">Bus Level</label>
+        <select id="level-filter" class="form-control form-control-modern" onchange="filterByLevel(this.value)">
+            <option value="">-- Select Level --</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Plate No</label>
+        <select name="plate_no" id="plate-no-input" class="form-control form-control-modern" required onchange="syncSelection(this, 'plate')">
+            <option value="">Select Plate</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" 
+                        data-sideno="{{ d.sideno }}" 
+                        data-level="{{ d.level}}" 
+                        class="bus-option" 
+                        style="display: none;">
+                    {{ d.plate_no }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Side No</label>
+        <select name="side_no" id="side-no-input" class="form-control form-control-modern" required onchange="syncSelection(this, 'side')">
+            <option value="">Select Side</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" 
+                        data-plate="{{ d.plate_no }}" 
+                        data-level="{{ d.level }}" 
+                        class="bus-option" 
+                        style="display: none;">
+                    {{ d.sideno }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<script>
+function filterByLevel(selectedLevel) {
+    // Standardize the selected level: lowercase and remove extra spaces
+    const target = selectedLevel.toLowerCase().trim();
+
+    const plateSelect = document.getElementById('plate-no-input');
+    const sideSelect = document.getElementById('side-no-input');
+
+    // Reset selections
+    plateSelect.value = "";
+    sideSelect.value = "";
+
+    // Function to process each dropdown
+    const updateOptions = (selectElement) => {
+        const options = selectElement.getElementsByClassName('bus-option');
+        let matchCount = 0;
+
+        for (let opt of options) {
+            const optLevel = opt.getAttribute('data-level').toLowerCase().trim();
+
+            if (target !== "" && optLevel === target) {
+                opt.style.setProperty('display', 'block', 'important');
+                opt.disabled = false;
+                matchCount++;
+            } else {
+                opt.style.setProperty('display', 'none', 'important');
+                opt.disabled = true;
+            }
+        }
+        console.log(`Found ${matchCount} matches for level: ${target}`);
+    };
+
+    updateOptions(plateSelect);
+    updateOptions(sideSelect);
+}
+
+function syncSelection(element, type) {
+    const plateInput = document.getElementById('plate-no-input');
+    const sideInput = document.getElementById('side-no-input');
+    const selectedOption = element.options[element.selectedIndex];
+
+    if (type === 'plate') {
+        const val = selectedOption.getAttribute('data-sideno');
+        if (val) sideInput.value = val;
+    } else {
+        const val = selectedOption.getAttribute('data-plate');
+        if (val) plateInput.value = val;
+    }
+}
+</script>
+-->
+
+
+
+
+<!--
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label class="form-label">Bus Level</label>
+        <select id="level-filter" class="form-control form-control-modern" onchange="filterByLevel(this.value)">
+            <option value="">Select Level</option>
+        
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Plate No</label>
+        <select name="plate_no" id="plate-no-input" class="form-control form-control-modern" required onchange="syncSelection(this, 'plate')">
+            <option value="">Select Plate</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" 
+                        data-sideno="{{ d.sideno }}" 
+                        data-level="{{ d.level }}" 
+                        class="bus-option" 
+                        style="display: none;">
+                    {{ d.plate_no }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+   
+    <div class="col-md-4">
+        <label class="form-label">Side No</label>
+        <select name="side_no" id="side-no-input" class="form-control form-control-modern" required onchange="syncSelection(this, 'side')">
+            <option value="">Select Side</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" 
+                        data-plate="{{ d.plate_no }}" 
+                        data-level="{{ d.level }}" 
+                        class="bus-option" 
+                        style="display: none;"> 
+                    {{ d.sideno }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<script>
+function filterByLevel(selectedLevel) {
+    const plateSelect = document.getElementById('plate-no-input');
+    const sideSelect = document.getElementById('side-no-input');
+    
+    // Reset selections
+    plateSelect.value = "";
+    sideSelect.value = "";
+
+    // Filter Plate No options
+    const plateOptions = plateSelect.querySelectorAll('.bus-option');
+    plateOptions.forEach(opt => {
+        if (opt.getAttribute('data-level') === selectedLevel) {
+            opt.style.display = 'block';
+        } else {
+            opt.style.display = 'none';
+        }
+    });
+
+    // Filter Side No options
+    const sideOptions = sideSelect.querySelectorAll('.bus-option');
+    sideOptions.forEach(opt => {
+        if (opt.getAttribute('data-level') === selectedLevel) {
+            opt.style.display = 'block';
+        } else {
+            opt.style.display = 'none';
+        }
+    });
+}
+
+function syncSelection(element, type) {
+    const plateInput = document.getElementById('plate-no-input');
+    const sideInput = document.getElementById('side-no-input');
+
+    if (type === 'plate') {
+        const selectedOption = element.options[element.selectedIndex];
+        const linkedSide = selectedOption.getAttribute('data-sideno');
+        if (linkedSide) sideInput.value = linkedSide;
+    } else {
+        const selectedOption = element.options[element.selectedIndex];
+        const linkedPlate = selectedOption.getAttribute('data-plate');
+        if (linkedPlate) plateInput.value = linkedPlate;
+    }
+}
+</script>
+-->
+
+
+<!--
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label class="form-label">Bus Level</label>
+        <select id="level-filter" class="form-control form-control-modern" onchange="filterBusesByLevel(this.value)">
+            <option value="">-- Select Level --</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+
+ 
+    <div class="col-md-4">
+        <label class="form-label">Plate No</label>
+        <select name="plate_no" id="plate-no-input" class="form-control form-control-modern" required onchange="syncDropdowns(this, 'plate')">
+            <option value="">Select</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" 
+                        data-sideno="{{ d.sideno }}" 
+                        data-level="{{ d.level }}" 
+                        class="bus-option" 
+                        style="display: none;">
+                    {{ d.plate_no }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    
+    <div class="col-md-4">
+        <label class="form-label">Side No</label>
+        <select name="side_no" id="side-no-input" class="form-control form-control-modern" required onchange="syncDropdowns(this, 'side')">
+            <option value="">Select</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" 
+                        data-plate="{{ d.plate_no }}" 
+                        data-level="{{ d.level }}" 
+                        class="bus-option" 
+                        style="display: none;">
+                    {{ d.sideno }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+-->
+
+
+<!--
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label class="form-label">Bus Level</label>
+        <select id="level-filter" class="form-control form-control-modern" onchange="filterBusesByLevel(this.value)">
+            <option value="">-- Select Level --</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Plate No</label>
+        <select name="plate_no" id="plate-no-input" class="form-control form-control-modern" required onchange="syncDropdowns(this, 'plate')">
+            <option value="">Select Plate</option>
+            {% for d in bus %}
+                <option value="{{ d.plate_no }}" 
+                        data-sideno="{{ d.sideno }}" 
+                        data-level="{{ d.level }}" 
+                        class="bus-option" 
+                        hidden>
+                    {{ d.plate_no }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    
+    <div class="col-md-4">
+        <label class="form-label">Side No</label>
+        <select name="side_no" id="side-no-input" class="form-control form-control-modern" required onchange="syncDropdowns(this, 'side')">
+            <option value="">Select Side</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" 
+                        data-plate="{{ d.plate_no }}" 
+                        data-level="{{ d.level }}" 
+                        class="bus-option" 
+                        hidden>
+                    {{ d.sideno }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+-->
+
+
+<!--
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label class="form-label">Bus Level</label>
+        <select id="level-filter" class="form-control form-control-modern" onchange="filterBusesByLevel(this.value)">
+            <option value="">Select Level</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="Special Bus">Special Bus</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Plate No</label>
+        <select name="plate_no" id="plate-no-input" class="form-control form-control-modern" required onchange="syncDropdowns(this, 'plate')">
+            <option value="" data-level="">Select</option>
+            {% for d in bus %}
+            
+                <option value="{{ d.plate_no }}" data-sideno="{{ d.sideno }}" data-level="{{ d.level }}" class="bus-option">
+                    {{ d.plate_no }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Side No</label>
+        <select name="side_no" id="side-no-input" class="form-control form-control-modern" required onchange="syncDropdowns(this, 'side')">
+            <option value="" data-level="">Select</option>
+            {% for d in bus %}
+                <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}" data-level="{{ d.level }}" class="bus-option">
+                    {{ d.sideno }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+-->
+
+
+
+
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Price <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" name="price" class="form-control form-control-modern" placeholder="0.00" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Date <span class="text-danger">*</span></label>
+                            <input type="date" name="date" class="form-control form-control-modern" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 btn-submit">Submit Registration</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    .admin-card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin-top: 20px;
+    }
+    .form-label {
+        font-weight: 600;
+        font-size: 14px;
+        color: #334155;
+    }
+    .form-control-modern {
+        border: 1px solid #e2e8f0;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .btn-submit {
+        background-color: #001f3f;
+        color: white;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .btn-submit:hover {
+        background-color: #003366;
+    }
+        /* --- HIDE GOOGLE UI --- */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+
+
+
+<!--
+<script>
+    function updateSideNo(selectedPlateNo) {
+        const sideNoInput = document.getElementById("side-no-input");
+        const plateSelect = document.getElementById("plate-no-input");
+        const selectedOption = plateSelect.options[plateSelect.selectedIndex];
+
+        if (selectedPlateNo === "") {
+            sideNoInput.value = "";
+            return;
+        }
+        sideNoInput.value = selectedOption.getAttribute("data-sideno");
+    }
+
+    function updatePlateNo(selectedSideNo) {
+        const plateNoInput = document.getElementById("plate-no-input");
+        const sideSelect = document.getElementById("side-no-input");
+        const selectedOption = sideSelect.options[sideSelect.selectedIndex];
+
+        if (selectedSideNo === "") {
+            plateNoInput.value = "";
+            return;
+        }
+        plateNoInput.value = selectedOption.getAttribute("data-plate");
+    }
+
+    // Placeholder for your calculateKilo function
+    function calculateKilo() {
+        const dep = document.getElementById("depcity").value;
+        const des = document.getElementById("descity").value;
+        if(dep && des) {
+            console.log("Calculating distance between " + dep + " and " + des);
+            // Add your distance logic here
+        }
+    }
+</script>
+-->
+
+
+<!--
+<script>
+function filterByLevel(selectedLevel) {
+    const plateSelect = document.getElementById("plate-no-input");
+    const sideSelect = document.getElementById("side-no-input");
+
+    // Reset both dropdowns
+    plateSelect.value = "";
+    sideSelect.value = "";
+
+    // Filter Plate Number Options
+    Array.from(plateSelect.options).forEach(option => {
+        if (option.value === "") return; // Skip "Select" placeholder
+        
+        if (selectedLevel === "" || option.getAttribute("data-level") === selectedLevel) {
+            option.style.display = "block";
+        } else {
+            option.style.display = "none";
+        }
+    });
+
+    // Filter Side Number Options
+    Array.from(sideSelect.options).forEach(option => {
+        if (option.value === "") return;
+        
+        if (selectedLevel === "" || option.getAttribute("data-level") === selectedLevel) {
+            option.style.display = "block";
+        } else {
+            option.style.display = "none";
+        }
+    });
+}
+
+function updateSideNo(selectedPlateNo) {
+    const plateSelect = document.getElementById("plate-no-input");
+    const sideSelect = document.getElementById("side-no-input");
+    const selectedOption = plateSelect.options[plateSelect.selectedIndex];
+
+    if (selectedPlateNo !== "") {
+        sideSelect.value = selectedOption.getAttribute("data-sideno");
+    } else {
+        sideSelect.value = "";
+    }
+}
+
+function updatePlateNo(selectedSideNo) {
+    const plateSelect = document.getElementById("plate-no-input");
+    const sideSelect = document.getElementById("side-no-input");
+    const selectedOption = sideSelect.options[sideSelect.selectedIndex];
+
+    if (selectedSideNo !== "") {
+        plateSelect.value = selectedOption.getAttribute("data-plate");
+    } else {
+        plateSelect.value = "";
+    }
+}
+</script>
+-->
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p class="small opacity-75">Integrated Transport Information Systems • Ethiopia Core Division</p>
+        <p class="opacity-50 mt-2">© 2026 Busfermata • National Travel Solutions</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function calculateKilo() {
+        // Logic to calculate kilometer based on selection
+    }
+    function syncPlateSide(el, target) {
+        // Logic to sync plate and side numbers
+    }
+</script>
+
+<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+</html>

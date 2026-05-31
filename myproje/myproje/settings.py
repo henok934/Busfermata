@@ -10,7 +10,7 @@ DEBUG = True
 
 #ALLOWED_HOSTS = ['*']
 
-ALLOWED_HOSTS = ['busfermata-1.onrender.com', 'wedehagertransport.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', 'localhost', '127.0.0.1']
 #CSRF_TRUSTED_ORIGINS = ['https://wedehagertransport.onrender.com']
 
 # Security Headers for Production/Audit
@@ -56,7 +56,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'myproje.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -165,13 +164,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
     'https://wedehagertransport.onrender.com',
-    'https://transportationtechnonogy.onrender.com'
+    'https://busfermata.onrender.com'
 ]
-
-
-
-
-
 
 #CSRF_TRUSTED_ORIGINS = ['https://wedehagertransport.onrender.com']
 
