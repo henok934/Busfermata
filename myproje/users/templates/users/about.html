@@ -179,12 +179,20 @@
         <h2 style="font-weight: 800; margin-bottom: 20px;">Direct Support Line</h2>
         <a href="tel:+251975143134" class="phone-link"><i class="fas fa-phone-alt mr-3"></i>+251 975 143 134</a>
         <div class="mt-4">
+	
+	    <!--
             <a href="https://t.me/towardcountry" target="_blank" class="btn btn-outline-light btn-lg mx-2"><i class="fab fa-telegram-plane mr-2"></i>Telegram</a>
-            <a href="https://wa.me/251975143134" target="_blank" class="btn btn-success btn-lg mx-2"><i class="fab fa-whatsapp mr-2"></i>WhatsApp</a>
+            <a href="https://wa.me/251907252775" target="_blank" class="btn btn-success btn-lg mx-2"><i class="fab fa-whatsapp mr-2"></i>WhatsApp</a>
+-->
+<a href="https://t.me/+251907252775" target="_blank" class="btn btn-outline-light btn-lg mx-2">
+    <i class="fab fa-telegram-plane mr-2"></i>Telegram
+</a>
+<a href="https://wa.me/251907252775" target="_blank" class="btn btn-success btn-lg mx-2">
+    <i class="fab fa-whatsapp mr-2"></i>WhatsApp
+</a>
         </div>
     </div>
 </div>
-
 <footer class="footer-main">
     <div class="container">
         <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
@@ -194,9 +202,7 @@
         </div>
     </div>
 </footer>
-
 <div id="google_translate_element" style="display:none;"></div>
-
 <script type="text/javascript">
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
@@ -205,7 +211,6 @@
             autoDisplay: false
         }, "google_translate_element");
     }
-
     function changeLanguage(l) {
         localStorage.setItem("userLanguage", l);
         document.documentElement.setAttribute('lang', l);
@@ -215,7 +220,6 @@
             s.dispatchEvent(new Event("change"));
         }
     }
-
     (function syncImmediately() {
         const savedLang = localStorage.getItem("userLanguage");
         if (savedLang && savedLang !== "en") {
@@ -232,18 +236,15 @@
         }
     })();
 </script>
-
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
     document.getElementById('notificationButton').addEventListener('click', function() {
         const input = document.getElementById('dateInput');
         input.style.display = (input.style.display === 'none' || input.style.display === '') ? 'inline-block' : 'none';
         if(input.style.display === 'inline-block') input.focus();
     });
-
     const brand = document.querySelector('.brand-area');
     const logo = document.querySelector('.brand-logo');
     brand.addEventListener('mousemove', (e) => {
@@ -254,6 +255,5 @@
     });
     brand.addEventListener('mouseleave', () => { logo.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`; });
 </script>
-
 </body>
 </html>

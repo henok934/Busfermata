@@ -209,9 +209,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <nav class="navbar navbar-expand-lg navbar-main">
     <div class="container">
+	<!--
         <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
             <img src="../static/images/l.jpeg" height="45" class="mr-2 rounded shadow-sm">
             <span style="font-weight:800; color:var(--primary); font-size: 22px;">Busfermata</span>
+        </a>
+	-->
+
+	 <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNav">
@@ -223,9 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li><a class="nav-link nav-link-custom" href="{% url 'home' %}">Home</a></li>
                 <li><a class="nav-link nav-link-custom" href="{% url 'booker' %}">Book</a></li>
                 <li><a class="nav-link nav-link-custom" href="{% url 'get_ticket' %}">Manage Ticket</a></li>
-                <li><a class="nav-link nav-link-custom" href="{% url 'comment' %}">Feedback</a></li>
             </ul>
-            
             <div class="d-flex align-items-center justify-content-center pt-3 pt-lg-0">
                 <div class="bell-wrapper mr-4" id="notificationButton">
                     <i class="fas fa-bell fa-lg text-muted"></i>

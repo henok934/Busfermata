@@ -275,6 +275,254 @@
 
 		    -->
 
+
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Departure <span class="text-danger">*</span></label>
+        <select name="depcity" id="depcity" class="form-control form-control-modern" required onchange="calculateKilo()">
+            <option value="" data-eng-name="">Select City</option>
+            {% for item in des %}
+                {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="col-md-6">
+        <label class="form-label">Destination <span class="text-danger">*</span></label>
+        <select name="descity" id="descity" class="form-control form-control-modern" required onchange="calculateKilo()">
+            <option value="" data-eng-name="">Select City</option>
+            {% for item in des %}
+                {% if item.depcity not in "Kality,Autobustera,Lamberet,Ayertena,Asko" %}
+                <option value="{{ item.depcity }}" data-eng-name="{{ item.depcity }}">{{ item.depcity }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="form-group mb-3">
+    <label class="form-label">Distance <span class="text-danger">*</span></label>
+    <input type="text" name="kilometer" id="km_input" class="form-control form-control-modern" placeholder="Distance will clear/calculate automatically" readonly required>
+</div>
+
+<script>
+// Master Ethiopian National Transport Distance Matrix Map Data
+const matrix = {
+    "Addisababa": {
+        "Abaala": "790", "Abiyaddi": "985", "Abobo": "810", "Adama": "99", "Adet": "485", "Addiszemen": "645",
+        "Adigrat": "883", "Adigudom": "895", "Adiremets": "1110", "Adwa": "960", "Afrera": "785", "Agaro": "390",
+        "Akobo": "965", "Axum": "1012", "Alabakulito": "245", "Alamata": "600", "Alamahal": "745", "Alemdegolowereilu": "295",
+        "Alemketema": "180", "Aletawondo": "350", "Ambo": "115", "Ameya": "145", "Amibara": "295", "Amstructural": "315",
+        "Amuru": "380", "Anosire": "170", "Arbaminich": "435", "Arere": "995", "Arjogudetu": "395", "Asayita": "638",
+        "Asella": "165", "Asossa": "660", "Ataye": "270", "Awash": "225", "Awasharba": "240", "Awbare": "705",
+        "Ayira": "520", "Babillesomali": "590", "Bahirdar": "565", "Bako": "250", "Bambasi": "625", "Bati": "414",
+        "Batu": "160", "Bedelle": "480", "Bega": "590", "Berhale": "810", "Bichena": "260", "Birbir": "540",
+        "Bishoftu": "45", "Bonga": "450", "Bulehora": "465", "Bullene": "620", "Bure": "411", "Bureafar": "660",
+        "Buregambela": "635", "Bureoromia": "440", "Butajira": "135", "Chagni": "515", "Chagnimetekel": "515",
+        "Chencha": "445", "Chena": "695", "Chereti": "910", "Chifra": "485", "Chiro": "325", "Dallol": "870",
+        "Dangila": "472", "Dangur": "710", "Danod": "1040", "Dansha": "870", "Debark": "843", "Debirebirhan": "129",
+        "Debremarkos": "298", "Debiresina": "190", "Debiretabor": "665", "Debrezeitbenishangul": "580", "Dedu": "480",
+        "Degehabur": "785", "Dejen": "230", "Dembecha": "346", "Dembidollo": "650", "Dera": "125", "Dessie": "398",
+        "Dibate": "595", "Digotsion": "365", "Dilla": "365", "Dima": "835", "Diredawa": "515", "Ditre": "525",
+        "Dolloado": "980", "Dufti": "575", "Durame": "305", "Durbete": "530", "Elkere": "890", "Endabaguna": "1080",
+        "Erebti": "690", "Erer": "515", "Esite": "610", "Fafan": "610", "Feresbet": "398", "Fiche": "112",
+        "Filtu": "720", "Finchawabereha": "410", "Finchawaketema": "420", "Finoteselam": "385", "Galessa": "520",
+        "Gambela": "766", "Gashamo": "935", "Gawane": "365", "Geladin": "1120", "Gera": "430", "Geregera": "485",
+        "Gewane": "365", "Gidole": "485", "Gilgelbeles": "676", "Gimbi": "440", "Gimijabetazenayehu": "490",
+        "Goba": "445", "Gode": "1045", "Goderesomali": "1020", "Gog": "845", "Gonder": "740", "Guba": "750",
+        "Gulen": "110", "Gundewoin": "335", "Hamusit": "595", "Harar": "518", "Hararroadmojo": "75", "Hargelle": "965",
+        "Hawassa": "275", "Hawzen": "925", "Hosana": "230", "Humera": "1200", "Idagamamus": "910", "Imey": "880",
+        "Inango": "405", "Injibara": "436", "Itang": "795", "Jaragedo": "280", "Jiga": "395", "Jigjiga": "630",
+        "Jimma": "350", "Jinka": "525", "Jikawo": "855", "Kake": "550", "Kamashi": "623", "Karati": "520",
+        "Kebribeyah": "680", "Kebridahar": "915", "Kelala": "460", "Kelafo": "1125", "Kemise": "325", "Kika": "820",
+        "Kobo": "570", "Kobodeder": "385", "Kombolcha": "375", "Korem": "615", "Kosober": "445", "Kurmuk": "765",
+        "Lalibela": "700", "Lare": "860", "Lera": "235", "Limu": "415", "Logiya": "585", "Lumame": "270",
+        "Mankush": "740", "Maokomo": "745", "Maychew": "665", "Maykadra": "1175", "Mehoni": "660", "Mekele": "932",
+        "Mendi": "530", "Mendibenishangul": "565", "Merabete": "185", "Mertolemariam": "365", "Meskela": "240",
+        "Metema": "920", "Metar": "890", "Metu": "545", "Mille": "520", "Mizan": "587", "Mizanaman": "560",
+        "Modjo": "73", "Mojo": "73", "Motta": "370", "Mustahil": "1185", "Nazreth": "99", "Negeleborena": "595",
+        "Nefasmewcha": "660", "Nekemte": "321", "Odabuldigilu": "715", "Pignudo": "850", "Robie": "430",
+        "Sanja": "804", "Sawla": "475", "Sekota": "720", "Selekleka": "1045", "Semera": "592", "Mekele": "373", 
+        "Shambu": "315", "Shashemene": "250", "Sheraro": "1125", "Sherkole": "720", "Sherkolegambela": "825", 
+        "Shewarobit": "225", "Shilabo": "1030", "Shire": "1060", "Shishinda": "560", "Sodo": "330", "Tepi": "610", 
+        "Teru": "615", "Togwajale": "710", "Tongo": "755", "Turmi": "635", "Waliso": "110", "Wardher": "1025", 
+        "Wayu": "340", "Wegidi": "385", "Welayita": "330", "Welayatiatercha": "395", "Weldiya": "520", "Mekele": "260", 
+        "Wombera": "570", "Woreta": "539", "Woreilu": "285", "Wuchale": "461", "Wukro": "975", "Yabelo": "565", 
+        "Yallo": "560", "Yejube": "306", "Yirgalem": "320", "Yirgachefe": "400"
+    },
+    "Abaala": { "Addisababa": "790" }, "Abiyaddi": { "Addisababa": "985" }, "Abobo": { "Addisababa": "810" },
+    "Adama": { "Addisababa": "99" }, "Adet": { "Addisababa": "485" }, "Addiszemen": { "Addisababa": "645" },
+    "Adigrat": { "Addisababa": "883" }, "Adigudom": { "Addisababa": "895" }, "Adiremets": { "Addisababa": "1110" },
+    "Adwa": { "Addisababa": "960" }, "Afrera": { "Addisababa": "785" }, "Agaro": { "Addisababa": "390" },
+    "Akobo": { "Addisababa": "965" }, "Axum": { "Addisababa": "1012" }, "Alabakulito": { "Addisababa": "245" },
+    "Alamata": { "Addisababa": "600" }, "Alamahal": { "Addisababa": "745" }, "Alemdegolowereilu": { "Addisababa": "295" },
+    "Alemketema": { "Addisababa": "180" }, "Aletawondo": { "Addisababa": "350" }, "Ambo": { "Addisababa": "115" },
+    "Ameya": { "Addisababa": "145" }, "Amibara": { "Addisababa": "295" }, "Amstructural": { "Addisababa": "315" },
+    "Amuru": { "Addisababa": "380" }, "Anosire": { "Addisababa": "170" }, "Arbaminich": { "Addisababa": "435" },
+    "Arere": { "Addisababa": "995" }, "Arjogudetu": { "Addisababa": "395" }, "Asayita": { "Addisababa": "638" },
+    "Asella": { "Addisababa": "165" }, "Asossa": { "Addisababa": "660" }, "Ataye": { "Addisababa": "270" },
+    "Awash": { "Addisababa": "225" }, "Awasharba": { "Addisababa": "240" }, "Awbare": { "Addisababa": "705" },
+    "Ayira": { "Addisababa": "520" }, "Babillesomali": { "Addisababa": "590" }, "Bahirdar": { "Addisababa": "565" },
+    "Bako": { "Addisababa": "250" }, "Bambasi": { "Addisababa": "625" }, "Bati": { "Addisababa": "414" },
+    "Batu": { "Addisababa": "160" }, "Bedelle": { "Addisababa": "480" }, "Bega": { "Addisababa": "590" },
+    "Berhale": { "Addisababa": "810" }, "Bichena": { "Addisababa": "260" }, "Birbir": { "Addisababa": "540" },
+    "Bishoftu": { "Addisababa": "45" }, "Bonga": { "Addisababa": "450" }, "Bulehora": { "Addisababa": "465" },
+    "Bullene": { "Addisababa": "620" }, "Bure": { "Addisababa": "411" }, "Bureafar": { "Addisababa": "660" },
+    "Buregambela": { "Addisababa": "635" }, "Bureoromia": { "Addisababa": "440" }, "Butajira": { "Addisababa": "135" },
+    "Chagni": { "Addisababa": "515" }, "Chagnimetekel": { "Addisababa": "515" }, "Chencha": { "Addisababa": "445" },
+    "Chena": { "Addisababa": "695" }, "Chereti": { "Addisababa": "910" }, "Chifra": { "Addisababa": "485" },
+    "Chiro": { "Addisababa": "325" }, "Dallol": { "Addisababa": "870" }, "Dangila": { "Addisababa": "472" },
+    "Dangur": { "Addisababa": "710" }, "Danod": { "Addisababa": "1040" }, "Dansha": { "Addisababa": "870" },
+    "Debark": { "Addisababa": "843" }, "Debirebirhan": { "Addisababa": "129" }, "Debremarkos": { "Addisababa": "298" },
+    "Debiresina": { "Addisababa": "190" }, "Debiretabor": { "Addisababa": "665" }, "Debrezeitbenishangul": { "Addisababa": "580" },
+    "Dedu": { "Addisababa": "480" }, "Degehabur": { "Addisababa": "785" }, "Dejen": { "Addisababa": "230" },
+    "Dembecha": { "Addisababa": "346" }, "Dembidollo": { "Addisababa": "650" }, "Dera": { "Addisababa": "125" },
+    "Dessie": { "Addisababa": "398" }, "Dibate": { "Addisababa": "595" }, "Digotsion": { "Addisababa": "365" },
+    "Dilla": { "Addisababa": "365" }, "Dima": { "Addisababa": "835" }, "Diredawa": { "Addisababa": "515" },
+    "Ditre": { "Addisababa": "525" }, "Dolloado": { "Addisababa": "980" }, "Dufti": { "Addisababa": "575" },
+    "Durame": { "Addisababa": "305" }, "Durbete": { "Addisababa": "530" }, "Elkere": { "Addisababa": "890" },
+    "Endabaguna": { "Addisababa": "1080" }, "Erebti": { "Addisababa": "690" }, "Erer": { "Addisababa": "515" },
+    "Esite": { "Addisababa": "610" }, "Fafan": { "Addisababa": "610" }, "Feresbet": { "Addisababa": "398" },
+    "Fiche": { "Addisababa": "112" }, "Filtu": { "Addisababa": "720" }, "Finchawabereha": { "Addisababa": "410" },
+    "Finchawaketema": { "Addisababa": "420" }, "Finoteselam": { "Addisababa": "385" }, "Galessa": { "Addisababa": "520" },
+    "Gambela": { "Addisababa": "766" }, "Gashamo": { "Addisababa": "935" }, "Gawane": { "Addisababa": "365" },
+    "Geladin": { "Addisababa": "1120" }, "Gera": { "Addisababa": "430" }, "Geregera": { "Addisababa": "485" },
+    "Gewane": { "Addisababa": "365" }, "Gidole": { "Addisababa": "485" }, "Gilgelbeles": { "Addisababa": "676" },
+    "Gimbi": { "Addisababa": "440" }, "Gimijabetazenayehu": { "Addisababa": "490" }, "Goba": { "Addisababa": "445" },
+    "Gode": { "Addisababa": "1045" }, "Goderesomali": { "Addisababa": "1020" }, "Gog": { "Addisababa": "845" },
+    "Gonder": { "Addisababa": "740" }, "Guba": { "Addisababa": "750" }, "Gulen": { "Addisababa": "110" },
+    "Gundewoin": { "Addisababa": "335" }, "Hamusit": { "Addisababa": "595" }, "Harar": { "Addisababa": "518" },
+    "Hararroadmojo": { "Addisababa": "75" }, "Hargelle": { "Addisababa": "965" }, "Hawassa": { "Addisababa": "275" },
+    "Hawzen": { "Addisababa": "925" }, "Hosaena": { "Addisababa": "230" }, "Humera": { "Addisababa": "1200" },
+    "Idagamamus": { "Addisababa": "910" }, "Imey": { "Addisababa": "880" }, "Inango": { "Addisababa": "405" },
+    "Injibara": { "Addisababa": "436" }, "Itang": { "Addisababa": "795" }, "Jaragedo": { "Addisababa": "280" },
+    "Jiga": { "Addisababa": "395" }, "Jigjiga": { "Addisababa": "630" }, "Jimma": { "Addisababa": "350" },
+    "Jinka": { "Addisababa": "525" }, "Jikawo": { "Addisababa": "855" }, "Kake": { "Addisababa": "550" },
+    "Kamashi": { "Addisababa": "623" }, "Karati": { "Addisababa": "520" }, "Kebribeyah": { "Addisababa": "680" },
+    "Kebridahar": { "Addisababa": "915" }, "Kelala": { "Addisababa": "460" }, "Kelafo": { "Addisababa": "1125" },
+    "Kemise": { "Addisababa": "325" }, "Kika": { "Addisababa": "820" }, "Kobo": { "Addisababa": "570" },
+    "Kobodeder": { "Addisababa": "385" }, "Kombolcha": { "Addisababa": "375" }, "Korem": { "Addisababa": "615" },
+    "Kosober": { "Addisababa": "445" }, "Kurmuk": { "Addisababa": "765" }, "Lalibela": { "Addisababa": "700" },
+    "Lare": { "Addisababa": "860" }, "Lera": { "Addisababa": "235" }, "Limu": { "Addisababa": "415" },
+    "Logiya": { "Addisababa": "585" }, "Lumame": { "Addisababa": "270" }, "Mankush": { "Addisababa": "740" },
+    "Maokomo": { "Addisababa": "745" }, "Maychew": { "Addisababa": "665" }, "Maykadra": { "Addisababa": "1175" },
+    "Mehoni": { "Addisababa": "660" }, "Mekele": { "Addisababa": "932" }, "Mendi": { "Addisababa": "530" },
+    "Mendibenishangul": { "Addisababa": "565" }, "Merabete": { "Addisababa": "185" }, "Mertolemariam": { "Addisababa": "365" },
+    "Meskela": { "Addisababa": "240" }, "Metema": { "Addisababa": "920" }, "Metar": { "Addisababa": "890" },
+    "Metu": { "Addisababa": "545" }, "Mille": { "Addisababa": "520" }, "Mizan": { "Addisababa": "587" },
+    "Mizanaman": { "Addisababa": "560" }, "Modjo": { "Addisababa": "73" }, "Mojo": { "Addisababa": "73" },
+    "Motta": { "Addisababa": "370" }, "Mustahil": "1185", "Nazreth": { "Addisababa": "99" }, "Negeleborena": { "Addisababa": "595" },
+    "Nefasmewcha": { "Addisababa": "660" }, "Nekemte": { "Addisababa": "321" }, "Odabuldigilu": { "Addisababa": "715" },
+    "Pignudo": { "Addisababa": "850" }, "Robie": { "Addisababa": "430" }, "Sanja": { "Addisababa": "804" },
+    "Sawla": { "Addisababa": "475" }, "Sekota": { "Addisababa": "720" }, "Selekleka": { "Addisababa": "1045" },
+    "Semera": { "Addisababa": "592", "Mekele": "373" }, "Shambu": { "Addisababa": "315" }, "Shashemene": { "Addisababa": "250" },
+    "Sheraro": { "Addisababa": "1125" }, "Sherkole": { "Addisababa": "720" }, "Sherkolegambela": { "Addisababa": "825" },
+    "Shewarobit": { "Addisababa": "225" }, "Shilabo": { "Addisababa": "1030" }, "Shire": { "Addisababa": "1060" },
+    "Shishinda": { "Addisababa": "560" }, "Sodo": { "Addisababa": "330" }, "Tepi": { "Addisababa": "610" },
+    "Teru": { "Addisababa": "615" }, "Togwajale": { "Addisababa": "710" }, "Tongo": { "Addisababa": "755" },
+    "Turmi": { "Addisababa": "635" }, "Waliso": { "Addisababa": "110" }, "Wardher": { "Addisababa": "1025" },
+    "Wayu": { "Addisababa": "340" }, "Wegidi": { "Addisababa": "385" }, "Welayita": { "Addisababa": "330" },
+    "Welayatiatercha": { "Addisababa": "395" }, "Weldiya": { "Addisababa": "520", "Mekele": "260" },
+    "Wombera": { "Addisababa": "570" }, "Woreta": { "Addisababa": "539" }, "Woreilu": { "Addisababa": "285" },
+    "Wuchale": { "Addisababa": "461" }, "Wukro": { "Addisababa": "975" }, "Yabelo": { "Addisababa": "565" },
+    "Yallo": { "Addisababa": "560" }, "Yejube": { "Addisababa": "306" }, "Yirgalem": { "Addisababa": "320" },
+    "Yirgachefe": { "Addisababa": "400" }
+};
+
+function calculateKilo() {
+    const depSelect = document.getElementById("depcity");
+    const desSelect = document.getElementById("descity");
+    const kmInput = document.getElementById("km_input");
+
+    if (!depSelect || !desSelect || !kmInput) return;
+
+    // FIX: Pull data directly from the un-translated 'data-eng-name' attribute instead of text!
+    let depOpt = depSelect.options[depSelect.selectedIndex];
+    let desOpt = desSelect.options[desSelect.selectedIndex];
+
+    let depVal = depOpt ? depOpt.getAttribute("data-eng-name") : "";
+    let desVal = desOpt ? desOpt.getAttribute("data-eng-name") : "";
+
+    depVal = depVal ? depVal.trim().replace(/\s+/g, '') : "";
+    desVal = desVal ? desVal.trim().replace(/\s+/g, '') : "";
+
+    // Normalize keys to exact Camelcase matching
+    const formatCityKey = (str) => {
+        if (!str) return "";
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
+    const depCity = formatCityKey(depVal);
+    const desCity = formatCityKey(desVal);
+
+    // Empty validation logic
+    if (!depCity || !desCity) {
+        kmInput.placeholder = "Distance will clear/calculate automatically";
+        if (kmInput.value !== "") {
+            kmInput.value = "";
+        }
+        kmInput.readOnly = true; 
+        kmInput.required = true;
+        return;
+    }
+
+    // Exact match validation logic
+    if (depCity === desCity) {
+        if (kmInput.value !== "0") {
+            kmInput.value = "0";
+        }
+        kmInput.readOnly = true; 
+        kmInput.required = true;
+        return;
+    }
+
+    let targetDistance = "";
+    if (matrix[depCity] && matrix[depCity][desCity]) {
+        targetDistance = matrix[depCity][desCity];
+    } else if (matrix[desCity] && matrix[desCity][depCity]) {
+        targetDistance = matrix[desCity][depCity];
+    } else {
+        targetDistance = "Not Found";
+    }
+
+    // Presentation engine rendering states
+    if (targetDistance === "Not Found") {
+        if (kmInput.readOnly) {
+            kmInput.value = ""; 
+            kmInput.placeholder = "Enter custom distance *"; 
+            kmInput.readOnly = false; 
+            kmInput.required = true;  
+        }
+    } else {
+        if (kmInput.value !== targetDistance) {
+            kmInput.value = targetDistance;
+            kmInput.readOnly = true;  
+            kmInput.required = true;  
+            kmInput.placeholder = "Distance will clear/calculate automatically";
+        }
+    }
+}
+
+// Global UI observation interval cycle
+setInterval(calculateKilo, 300);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
 <div class="row mb-3">
     <div class="col-md-6">
         <label class="form-label">Departure <span class="text-danger">*</span></label>
@@ -310,183 +558,467 @@
 // Master Ethiopian National Transport Distance Matrix Map Data (Raw Numbers)
 // Optimized for Addis Ababa <-> Regional Capitals and key transit hubs
 const matrix = {
-    "Addisababa": { 
+    "Addisababa": {
+        "Abaala": "790",
+        "Abiyaddi": "985",
+        "Abobo": "810",
         "Adama": "99",
+        "Adet": "485",
+        "Addiszemen": "645",
         "Adigrat": "883",
+        "Adigudom": "895",
+        "Adiremets": "1110",
+        "Adwa": "960",
+        "Afrera": "785",
         "Agaro": "390",
+        "Akobo": "965",
+        "Axum": "1012",
+        "Alabakulito": "245",
         "Alamata": "600",
+        "Alamahal": "745",
         "Alemdegolowereilu": "295",
+        "Alemketema": "180",
+        "Aletawondo": "350",
+        "Ambo": "115",
         "Ameya": "145",
+        "Amibara": "295",
+        "Amstructural": "315",
         "Amuru": "380",
         "Anosire": "170",
         "Arbaminich": "435",
+        "Arere": "995",
         "Arjogudetu": "395",
+        "Asayita": "638",
+        "Asella": "165",
         "Asossa": "660",
-        "Aksum": "1012",
+        "Ataye": "270",
+        "Awash": "225",
+        "Awasharba": "240",
+        "Awbare": "705",
         "Ayira": "520",
-        "Bahirdar": "565", 
+        "Babillesomali": "590",
+        "Bahirdar": "565",
         "Bako": "250",
+        "Bambasi": "625",
+        "Bati": "414",
+        "Batu": "160",
         "Bedelle": "480",
+        "Bega": "590",
+        "Berhale": "810",
+        "Bichena": "260",
         "Birbir": "540",
+        "Bishoftu": "45",
         "Bonga": "450",
         "Bulehora": "465",
+        "Bullene": "620",
         "Bure": "411",
-        "Chagini": "505",
-        "Dangila": "485",
+        "Bureafar": "660",
+        "Buregambela": "635",
+        "Bureoromia": "440",
+        "Butajira": "135",
+        "Chagni": "515",
+        "Chagnimetekel": "515",
+        "Chencha": "445",
+        "Chena": "695",
+        "Chereti": "910",
+        "Chifra": "485",
+        "Chiro": "325",
+        "Dallol": "870",
+        "Dangila": "472",
+        "Dangur": "710",
+        "Danod": "1040",
+        "Dansha": "870",
         "Debark": "843",
-        "Debiretabor": "635",
-        "Debremarkos": "300",
+        "Debirebirhan": "129",
+        "Debremarkos": "298",
+        "Debiresina": "190",
+        "Debiretabor": "665",
+        "Debrezeitbenishangul": "580",
         "Dedu": "480",
-        "Dembecha": "345",
-        "Dembidollo": "645",
-        "Dessie": "401",
+        "Degehabur": "785",
+        "Dejen": "230",
+        "Dembecha": "346",
+        "Dembidollo": "650",
+        "Dera": "125",
+        "Dessie": "398",
+        "Dibate": "595",
         "Digotsion": "365",
+        "Dilla": "365",
+        "Dima": "835",
         "Diredawa": "515",
-        "Durame": "311",
+        "Ditre": "525",
+        "Dolloado": "980",
+        "Dufti": "575",
+        "Durame": "305",
+        "Durbete": "530",
+        "Elkere": "890",
+        "Endabaguna": "1080",
+        "Erebti": "690",
+        "Erer": "515",
         "Esite": "610",
+        "Fafan": "610",
+        "Feresbet": "398",
+        "Fiche": "112",
+        "Filtu": "720",
         "Finchawabereha": "410",
         "Finchawaketema": "420",
-        "Finoteselam": "377",
-        "Feresbet": "410",
+        "Finoteselam": "385",
+        "Galessa": "520",
+        "Gambela": "766",
+        "Gashamo": "935",
+        "Gawane": "365",
+        "Geladin": "1120",
         "Gera": "430",
         "Geregera": "485",
-        "Gimbi": "438", 
+        "Gewane": "365",
+        "Gidole": "485",
+        "Gilgelbeles": "676",
+        "Gimbi": "440",
         "Gimijabetazenayehu": "490",
         "Goba": "445",
-        "Gondar": "740",
-        "Gundewoin": "415",
-        "Hawassa": "275",
+        "Gode": "1045",
+        "Goderesomali": "1020",
+        "Gog": "845",
+        "Gonder": "740",
+        "Guba": "750",
+        "Gulen": "110",
+        "Gundewoin": "335",
+        "Hamusit": "595",
+        "Harar": "518",
+        "Hararroadmojo": "75",
+        "Hargelle": "965",
+        "Hawassa": "288",
+        "Hawzen": "925",
         "Hosaena": "230",
-        "Humera": "980",
+        "Humera": "1200",
+        "Idagamamus": "910",
+        "Imey": "880",
+        "Inango": "405",
+        "Injibara": "436",
+        "Itang": "795",
         "Jaragedo": "280",
+        "Jiga": "395",
         "Jigjiga": "630",
-        "Jimma": "346",
-        "Jinka": "575",
-	"Sawla": "515",
+        "Jimma": "350",
+        "Jinka": "525",
+        "Jikawo": "855",
         "Kake": "550",
+        "Kamashi": "623",
+        "Karati": "520",
+        "Kebribeyah": "680",
+        "Kebridahar": "915",
         "Kelala": "460",
-        "Kemissie": "325",
+        "Kelafo": "1125",
+        "Kemisie": "325",
+        "Kika": "820",
+        "Kobo": "570",
         "Kobodeder": "385",
-        "Kombolcha": "376",
-        "Kosober": "445",
-        "Lalibela": "645",
+        "Kombolcha": "375",
+        "Korem": "615",
+        "Kosober": "437",
+        "Kurmuk": "765",
+        "Lalibela": "700",
+        "Lare": "860",
         "Lera": "235",
         "Limu": "415",
+        "Logiya": "585",
         "Lumame": "270",
+        "Mankush": "740",
+        "Maokomo": "745",
+        "Maychew": "665",
+        "Maykadra": "1175",
+        "Mehoni": "660",
+        "Mekele": "932",
+        "Mendi": "530",
+        "Mendibenishangul": "565",
         "Merabete": "185",
-        "Mendi": "585",
-        "Mertolemariam": "361",
+        "Mertolemariam": "365",
+        "Meskela": "240",
         "Metema": "920",
+        "Metar": "890",
+        "Metu": "545",
+        "Mille": "520",
         "Mizan": "587",
-        "Mota": "375",
+        "Mizanaman": "560",
+        "Modjo": "73",
+        "Mojo": "73",
+        "Motta": "370",
+        "Mustahil": "1185",
+	"Nazreth": "99",
         "Negeleborena": "595",
-        "Nekemte": "328",
-        "Semera": "590",
+        "Nefasmewcha": "660",
+        "Nekemte": "321",
+        "Odabuldigilu": "715",
+        "Pignudo": "850",
+        "Robie": "430",
+        "Sanja": "804",
+        "Sawla": "475",
+        "Sekota": "720",
+        "Selekleka": "1045",
+        "Semera": "592",
         "Shambu": "315",
         "Shashemene": "250",
+        "Sheraro": "1125",
+        "Sherkole": "720",
+        "Sherkolegambela": "825",
+        "Shewarobit": "225",
+        "Shilabo": "1030",
+        "Shire": "1060",
         "Shishinda": "560",
-        "Tepi": "615",
-	"Gimjabet": "454",
+        "Sodo": "330",
+        "Tepi": "610",
+        "Teru": "615",
+        "Togwajale": "710",
+        "Tongo": "755",
+        "Turmi": "635",
+        "Waliso": "110",
+        "Wardher": "1025",
         "Wayu": "340",
         "Wegidi": "385",
         "Welayita": "330",
         "Welayatiatercha": "395",
-        "Weldiya": "521",
-        "Wereilu": "285",
-        "Wereta": "510",
+        "Weldiya": "520",
+        "Wombera": "570",
+        "Woreta": "539",
+        "Woreilu": "285",
         "Wuchale": "461",
-        "Yejube": "335",
-        "Yirgalem": "315",
+        "Wukro": "975",
+        "Yabelo": "565",
+        "Yallo": "560",
+        "Yejube": "306",
+        "Yirgalem": "320",
         "Yirgachefe": "400"
     },
+    "Abaala": { "Addisababa": "790" },
+    "Abiyaddi": { "Addisababa": "985" },
+    "Abobo": { "Addisababa": "810" },
     "Adama": { "Addisababa": "99" },
+    "Adet": { "Addisababa": "485" },
+    "Addiszemen": { "Addisababa": "645" },
     "Adigrat": { "Addisababa": "883" },
+    "Adigudom": { "Addisababa": "895" },
+    "Adiremets": { "Addisababa": "1110" },
+    "Adwa": { "Addisababa": "960" },
+    "Afrera": { "Addisababa": "785" },
     "Agaro": { "Addisababa": "390" },
+    "Akobo": { "Addisababa": "965" },
+    "Axum": { "Addisababa": "1012" },
+    "Alabakulito": { "Addisababa": "245" },
     "Alamata": { "Addisababa": "600" },
+    "Alamahal": { "Addisababa": "745" },
     "Alemdegolowereilu": { "Addisababa": "295" },
+    "Alemketema": { "Addisababa": "180" },
+    "Aletawondo": { "Addisababa": "350" },
+    "Ambo": { "Addisababa": "115" },
     "Ameya": { "Addisababa": "145" },
+    "Amibara": { "Addisababa": "295" },
+    "Amstructural": { "Addisababa": "315" },
     "Amuru": { "Addisababa": "380" },
     "Anosire": { "Addisababa": "170" },
     "Arbaminich": { "Addisababa": "435" },
+    "Arere": { "Addisababa": "995" },
     "Arjogudetu": { "Addisababa": "395" },
+    "Asayita": { "Addisababa": "638" },
+    "Asella": { "Addisababa": "165" },
     "Asossa": { "Addisababa": "660" },
-    "Akum": { "Addisababa": "1012" },
+    "Ataye": { "Addisababa": "270" },
+    "Awash": { "Addisababa": "225" },
+    "Awasharba": { "Addisababa": "240" },
+    "Awbare": { "Addisababa": "705" },
     "Ayira": { "Addisababa": "520" },
+    "Babillesomali": { "Addisababa": "590" },
     "Bahirdar": { "Addisababa": "565" },
     "Bako": { "Addisababa": "250" },
+    "Bambasi": { "Addisababa": "625" },
+    "Bati": { "Addisababa": "414" },
+    "Batu": { "Addisababa": "160" },
     "Bedelle": { "Addisababa": "480" },
+    "Bega": { "Addisababa": "590" },
+    "Berhale": { "Addisababa": "810" },
+    "Bichena": { "Addisababa": "260" },
     "Birbir": { "Addisababa": "540" },
+    "Bishoftu": { "Addisababa": "45" },
     "Bonga": { "Addisababa": "450" },
     "Bulehora": { "Addisababa": "465" },
+    "Bullene": { "Addisababa": "620" },
     "Bure": { "Addisababa": "411" },
-    "Chagini": { "Addisababa": "505" },
-    "Dangila": { "Addisababa": "485" },
+    "Bureafar": { "Addisababa": "660" },
+    "Buregambela": { "Addisababa": "635" },
+    "Bureoromia": { "Addisababa": "440" },
+    "Butajira": { "Addisababa": "135" },
+    "Chagni": { "Addisababa": "515" },
+    "Chagnimetekel": { "Addisababa": "515" },
+    "Chencha": { "Addisababa": "445" },
+    "Chena": { "Addisababa": "695" },
+    "Chereti": { "Addisababa": "910" },
+    "Chifra": { "Addisababa": "485" },
+    "Chiro": { "Addisababa": "325" },
+    "Dallol": { "Addisababa": "870" },
+    "Dangila": { "Addisababa": "472" },
+    "Dangur": { "Addisababa": "710" },
+    "Danod": { "Addisababa": "1040" },
+    "Dansha": { "Addisababa": "870" },
     "Debark": { "Addisababa": "843" },
-    "Debiretabor": { "Addisababa": "635" },
-    "Debremarkos": { "Addisababa": "300" },
+    "Debirebirhan": { "Addisababa": "129" },
+    "Debremarkos": { "Addisababa": "298" },
+    "Debiresina": { "Addisababa": "190" },
+    "Debiretabor": { "Addisababa": "665" },
+    "Debrezeitbenishangul": { "Addisababa": "580" },
     "Dedu": { "Addisababa": "480" },
-    "Dembecha": { "Addisababa": "345" },
-    "Dembidollo": { "Addisababa": "645" },
-    "Dessie": { "Addisababa": "401" },
+    "Degehabur": { "Addisababa": "785" },
+    "Dejen": { "Addisababa": "230" },
+    "Dembecha": { "Addisababa": "346" },
+    "Dembidollo": { "Addisababa": "650" },
+    "Dera": { "Addisababa": "125" },
+    "Dessie": { "Addisababa": "398" },
+    "Dibate": { "Addisababa": "595" },
     "Digotsion": { "Addisababa": "365" },
+    "Dilla": { "Addisababa": "365" },
+    "Dima": { "Addisababa": "835" },
     "Diredawa": { "Addisababa": "515" },
-    "Durame": { "Addisababa": "311" },
+    "Ditre": { "Addisababa": "525" },
+    "Dolloado": { "Addisababa": "980" },
+    "Dufti": { "Addisababa": "575" },
+    "Durame": { "Addisababa": "305" },
+    "Durbete": { "Addisababa": "530" },
+    "Elkere": { "Addisababa": "890" },
+    "Endabaguna": { "Addisababa": "1080" },
+    "Erebti": { "Addisababa": "690" },
+    "Erer": { "Addisababa": "515" },
     "Esite": { "Addisababa": "610" },
+    "Fafan": { "Addisababa": "610" },
+    "Feresbet": { "Addisababa": "398" },
+    "Fiche": { "Addisababa": "112" },
+    "Filtu": { "Addisababa": "720" },
     "Finchawabereha": { "Addisababa": "410" },
     "Finchawaketema": { "Addisababa": "420" },
-    "Finoteselam": { "Addisababa": "377" },
-    "Feresbet": { "Addisababa": "410" },
+    "Finoteselam": { "Addisababa": "385" },
+    "Galessa": { "Addisababa": "520" },
+    "Gambela": { "Addisababa": "766" },
+    "Gashamo": { "Addisababa": "935" },
+    "Gawane": { "Addisababa": "365" },
+    "Geladin": { "Addisababa": "1120" },
     "Gera": { "Addisababa": "430" },
     "Geregera": { "Addisababa": "485" },
-    "Gimbi": { "Addisababa": "438" },
+    "Gewane": { "Addisababa": "365" },
+    "Gidole": { "Addisababa": "485" },
+    "Gilgelbeles": { "Addisababa": "676" },
+    "Gimbi": { "Addisababa": "440" },
     "Gimijabetazenayehu": { "Addisababa": "490" },
     "Goba": { "Addisababa": "445" },
+    "Gode": { "Addisababa": "1045" },
+    "Goderesomali": { "Addisababa": "1020" },
+    "Gog": { "Addisababa": "845" },
     "Gonder": { "Addisababa": "740" },
-    "Gundewoin": { "Addisababa": "415" },
-    "Hawassa": { "Addisababa": "275" },
+    "Guba": { "Addisababa": "750" },
+    "Gulen": { "Addisababa": "110" },
+    "Gundewoin": { "Addisababa": "335" },
+    "Hamusit": { "Addisababa": "595" },
+    "Harar": { "Addisababa": "518" },
+    "Hararroadmojo": { "Addisababa": "75" },
+    "Hargelle": { "Addisababa": "965" },
+    "Hawassa": { "Addisababa": "288" },
+    "Hawzen": { "Addisababa": "925" },
     "Hosaena": { "Addisababa": "230" },
-    "Humera": { "Addisababa": "980" },
+    "Humera": { "Addisababa": "1200" },
+    "Idagamamus": { "Addisababa": "910" },
+    "Imey": { "Addisababa": "880" },
+    "Inango": { "Addisababa": "405" },
+    "Injibara": { "Addisababa": "436" },
+    "Itang": { "Addisababa": "795" },
     "Jaragedo": { "Addisababa": "280" },
+    "Jiga": { "Addisababa": "395" },
     "Jigjiga": { "Addisababa": "630" },
-    "Jimma": { "Addisababa": "346" },
-    "Jinka": { "Addisababa": "575" },
+    "Jimma": { "Addisababa": "350" },
+    "Jinka": { "Addisababa": "525" },
+    "Jikawo": { "Addisababa": "855" },
     "Kake": { "Addisababa": "550" },
+    "Kamashi": { "Addisababa": "623" },
+    "Karati": { "Addisababa": "520" },
+    "Kebribeyah": { "Addisababa": "680" },
+    "Kebridahar": { "Addisababa": "915" },
     "Kelala": { "Addisababa": "460" },
-    "Kemissie": { "Addisababa": "325" },
+    "Kelafo": { "Addisababa": "1125" },
+    "Kemisie": { "Addisababa": "325" },
+    "Kika": { "Addisababa": "820" },
+    "Kobo": { "Addisababa": "570" },
     "Kobodeder": { "Addisababa": "385" },
-    "Kombolcha": { "Addisababa": "376" },
-    "Kosober": { "Addisababa": "445" },
-    "Lalibela": { "Addisababa": "645" },
+    "Kombolcha": { "Addisababa": "375" },
+    "Korem": { "Addisababa": "615" },
+    "Kosober": { "Addisababa": "437" },
+    "Kurmuk": { "Addisababa": "765" },
+    "Lalibela": { "Addisababa": "700" },
+    "Lare": { "Addisababa": "860" },
     "Lera": { "Addisababa": "235" },
     "Limu": { "Addisababa": "415" },
+    "Logiya": { "Addisababa": "585" },
     "Lumame": { "Addisababa": "270" },
+    "Mankush": { "Addisababa": "740" },
+    "Maokomo": { "Addisababa": "745" },
+    "Maychew": { "Addisababa": "665" },
+    "Maykadra": { "Addisababa": "1175" },
+    "Mehoni": { "Addisababa": "660" },
+    "Mekele": { "Addisababa": "932" },
+    "Mendi": { "Addisababa": "530" },
+    "Mendibenishangul": { "Addisababa": "565" },
     "Merabete": { "Addisababa": "185" },
-    "Mendi": { "Addisababa": "585" },
-    "Mertolemariam": { "Addisababa": "361" },
+    "Mertolemariam": { "Addisababa": "365" },
+    "Meskela": { "Addisababa": "240" },
     "Metema": { "Addisababa": "920" },
+    "Metar": { "Addisababa": "890" },
+    "Metu": { "Addisababa": "545" },
+    "Mille": { "Addisababa": "520" },
     "Mizan": { "Addisababa": "587" },
-    "Mota": { "Addisababa": "375" },
-    "Mekele": { "Addisababa": "783", "Weldiya": "260", "Alamata": "180", "Dessie": "380", "Adigrat": "116", "Axum": "235", "Semera": "373" },
+    "Mizanaman": { "Addisababa": "560" },
+    "Modjo": { "Addisababa": "73" },
+    "Mojo": { "Addisababa": "73" },
+    "Motta": { "Addisababa": "370" },
+    "Mustahil": { "Addisababa": "1185" },
+    "Nazreth": { "Addisababa": "99" },
     "Negeleborena": { "Addisababa": "595" },
-    "Nekemte": { "Addisababa": "328" },
-    "Semera": { "Addisababa": "590", "Mekele": "373" },
+    "Nefasmewcha": { "Addisababa": "660" },
+    "Nekemte": { "Addisababa": "321" },
+    "Odabuldigilu": { "Addisababa": "715" },
+    "Pignudo": { "Addisababa": "850" },
+    "Robie": { "Addisababa": "430" },
+    "Sanja": { "Addisababa": "804" },
+    "Sawla": { "Addisababa": "475" },
+    "Sekota": { "Addisababa": "720" },
+    "Selekleka": { "Addisababa": "1045" },
+    "Semera": { "Addisababa": "592", "Mekele": "373" },
     "Shambu": { "Addisababa": "315" },
     "Shashemene": { "Addisababa": "250" },
+    "Sheraro": { "Addisababa": "1125" },
+    "Sherkole": { "Addisababa": "720" },
+    "Sherkolegambela": { "Addisababa": "825" },
+    "Shewarobit": { "Addisababa": "225" },
+    "Shilabo": { "Addisababa": "1030" },
+    "Shire": { "Addisababa": "1060" },
     "Shishinda": { "Addisababa": "560" },
-    "Tepi": { "Addisababa": "615" },
+    "Sodo": { "Addisababa": "330" },
+    "Tepi": { "Addisababa": "610" },
+    "Teru": { "Addisababa": "615" },
+    "Togwajale": { "Addisababa": "710" },
+    "Tongo": { "Addisababa": "755" },
+    "Turmi": { "Addisababa": "635" },
+    "Waliso": { "Addisababa": "110" },
+    "Wardher": { "Addisababa": "1025" },
     "Wayu": { "Addisababa": "340" },
     "Wegidi": { "Addisababa": "385" },
     "Welayita": { "Addisababa": "330" },
     "Welayatiatercha": { "Addisababa": "395" },
-    "Weldiya": { "Addisababa": "521", "Mekele": "260" },
-    "Wereilu": { "Addisababa": "285" },
-    "Wereta": { "Addisababa": "510" },
+    "Weldiya": { "Addisababa": "520", "Mekele": "260" },
+    "Wombera": { "Addisababa": "570" },
+    "Woreta": { "Addisababa": "539" },
+    "Woreilu": { "Addisababa": "285" },
     "Wuchale": { "Addisababa": "461" },
-    "Yejube": { "Addisababa": "335" },
-    "Yirgalem": { "Addisababa": "315" },
+    "Wukro": { "Addisababa": "975" },
+    "Yabelo": { "Addisababa": "565" },
+    "Yallo": { "Addisababa": "560" },
+    "Yejube": { "Addisababa": "306" },
+    "Yirgalem": { "Addisababa": "320" },
     "Yirgachefe": { "Addisababa": "400" }
 };
-
 function calculateKilo() {
     const depSelect = document.getElementById("depcity");
     const desSelect = document.getElementById("descity");
@@ -546,10 +1078,12 @@ function calculateKilo() {
         }
     }
 }
-
 // Global UI observer background monitoring daemon thread loops every 300ms
 setInterval(calculateKilo, 300);
 </script>
+-->
+
+
 
 
 
@@ -1319,7 +1853,7 @@ function syncPlateNo(val) {
         <select name="side_no" id="side-no-select" class="form-control form-control-modern" onchange="syncPlateNo(this.value)">
             <option value="">Side Number</option>
             {% for d in bus %}
-                <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}" data-name="{{ d.name }}" data-level="{{ d.level }}">{{ d.sideno }}</option>
+                <option value="{{ d.sideno }}" data-plate="{{ d.plate_no }}" data-name="{{ d.name }}" data-level="{{ d.level }}" class="notranslate" translate="no">{{ d.sideno }}</option>
             {% endfor %}
         </select>
     </div>

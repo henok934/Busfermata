@@ -212,6 +212,7 @@
 
 <nav class="navbar-main navbar navbar-expand-lg">
     <div class="container">
+	<!--
         <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
             <div class="brand-logo-container">
                 <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
@@ -221,6 +222,15 @@
         <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
             </div>
         </a>
+	-->
+	 <a href="{% url 'home' %}" class="brand-area">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
             <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:var(--brand-navy)"></i></span>
         </button>
@@ -229,7 +239,13 @@
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'home' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'get_ticket' %}">My Ticket</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-intl" href="{% url 'comment' %}">Feedback</a></li>
-                <li class="nav-item ml-lg-3"><a class="nav-link nav-link-intl btn-outline-dark px-4 rounded-pill border" href="{% url 'logout' %}">Logout</a></li>
+		<!--
+		<li class="nav-item ml-lg-3"><a class="nav-link nav-link-intl btn-outline-dark px-4 rounded-pill border" href="{% url 'book' %}">Book Now</a></li>-->
+		<li class="nav-item ml-lg-3">
+    <a class="nav-link nav-link-intl px-4 rounded-pill border"
+       style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;"
+       href="{% url 'book' %}">Book Now</a>
+</li>
             </ul>
         </div>
     </div>

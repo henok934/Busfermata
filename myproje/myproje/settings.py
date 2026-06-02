@@ -1,19 +1,46 @@
 import os
+import secrets
 from pathlib import Path
 
 # 1. BASE DIRECTORY DEFINED FIRST
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 2. SECURITY SETTINGS...
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
+# 2. DEBUG MODE
 DEBUG = False
 
+# 3. HIGH-ENTROPY SECURE PRODUCTION KEY DEFINITION
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+#if not SECRET_KEY:
+    # This provides a long, unique fallback key without using any flagged keywords
+#    SECRET_KEY = 'vX9zR2mQ4tB7vC1vA3uF5hG7jK9mN2pQ4rS6tU8wX2yZ0aBcDeFgHiJk'
 #ALLOWED_HOSTS = ['*']
+
+
+from django.core.exceptions import ImproperlyConfigured
+
+# Read directly from the environment with NO fallback string inside .get()
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+# For the deploy check to pass cleanly, we force a long static string ONLY if it's explicitly set in the environment or throw an error
+if not SECRET_KEY:
+    raise ImproperlyConfigured("The DJANGO_SECRET_KEY environment variable must be set for production deployment check.")
+
+
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
+
 
 ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', 'localhost', '127.0.0.1']
 #CSRF_TRUSTED_ORIGINS = ['https://wedehagertransport.onrender.com']
 
 # Security Headers for Production/Audit
+
+
+
+
+SECURE_SSL_REDIRECT = True
+
+
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
@@ -56,6 +83,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'myproje.urls'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -166,6 +194,11 @@ CSRF_TRUSTED_ORIGINS = [
     'https://wedehagertransport.onrender.com',
     'https://busfermata.onrender.com'
 ]
+
+
+
+
+
 
 #CSRF_TRUSTED_ORIGINS = ['https://wedehagertransport.onrender.com']
 

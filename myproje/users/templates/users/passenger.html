@@ -19,82 +19,67 @@
             --muted: #64748b;
         }
 
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-body); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-body); top: 0px !important; position: static !important; }
+        html { margin-top: 0px !important; }
 
-        /* --- YOUR NAVBAR STYLES --- */
+        /* --- NAVBAR STYLES --- */
         .navbar-main {
             background: white; padding: 12px 0; border-bottom: 5px solid var(--brand-gold);
             position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
-        .brand-logo { height: 70px !important; border-radius: 12px; border: 3px solid var(--brand-navy); }
+        .brand-logo { border: none !important; box-shadow: none !important; border-radius: 0; }
         .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 26px; text-transform: uppercase; line-height: 0.8; }
         .nav-link { color: var(--brand-navy) !important; font-weight: 700; text-transform: uppercase; font-size: 14px; }
         .btn-book-nav { background: var(--brand-gold); color: var(--brand-navy) !important; border-radius: 10px; font-weight: 800; }
 
-        /* --- TICKET CARD STYLES --- */
-        .ticket-card {
-            background: #fff; border-radius: 24px; overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06); max-width: 850px;
-            margin: 30px auto; border: 1px solid #e2e8f0;
-        }
-        .ticket-header { background: var(--brand-navy); color: #fff; padding: 25px 35px; display: flex; justify-content: space-between; align-items: center; }
-        .badge-level { background: var(--brand-gold); color: var(--brand-navy); padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; text-transform: uppercase; }
-        .ticket-content { display: flex; flex-wrap: wrap; padding: 35px; }
-        .main-info { flex: 2; border-right: 1px solid #f1f5f9; padding-right: 30px; }
-        .qr-area { flex: 1; text-align: center; padding-left: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        
-        .data-label { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
-        .data-value { font-size: 16px; font-weight: 700; color: var(--brand-navy); margin-bottom: 12px; }
-        .full-name-display { font-size: 22px; font-weight: 800; color: var(--brand-navy); border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 20px; display: block; }
-        .highlight-box { background: #f8fafc; border-radius: 16px; padding: 15px; display: flex; justify-content: space-around; margin-top: 15px; border: 1px solid #edf2f7; }
-
         /* --- UPDATE FORM SECTION --- */
         .update-panel {
             background: #fff; border-radius: 20px; padding: 30px;
-            max-width: 850px; margin: 0 auto 50px; border: 1px solid #e2e8f0;
+            max-width: 850px; margin: 30px auto 50px; border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
         }
         .form-control-custom {
             border: 2px solid #f1f5f9; border-radius: 12px; padding: 12px;
-            font-weight: 700; transition: 0.3s;
+            font-weight: 700; transition: 0.3s; height: auto;
         }
         .form-control-custom:focus { border-color: var(--brand-blue); box-shadow: none; }
         .btn-update-submit {
             background: var(--brand-navy); color: white; font-weight: 800;
             border-radius: 12px; padding: 12px 30px; width: 100%; border: none;
+            transition: background 0.2s ease-in-out;
+        }
+        .btn-update-submit:hover { background: #001a33; color: white; }
+        .data-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+
+        /* --- TOAST ENGINE NOTIFICATIONS --- */
+        .toast-progress {
+            position: absolute; bottom: 0; left: 0; height: 4px; width: 100%;
+            border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;
+        }
+        .intl-error-toast .toast-progress { background: #e74c3c; animation: toastProgressCountdown 5s linear forwards; }
+        .intl-success-toast .toast-progress { background: #2ecc71; animation: toastProgressCountdown 5s linear forwards; }
+
+        @keyframes toastProgressCountdown {
+            from { width: 100%; }
+            to { width: 0%; }
         }
 
-        @media (max-width: 768px) {
-            .main-info { border-right: none; padding-right: 0; padding-bottom: 25px; border-bottom: 1px solid #f1f5f9; }
-            .qr-area { padding-left: 0; padding-top: 25px; }
-        }
-        /* --- HIDE GOOGLE UI --- */ 
+        /* --- HIDE GOOGLE TRANSLATE FLOATING UI --- */ 
         .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
-        body { top: 0px !important; position: static !important; } 
-        html { margin-top: 0px !important; } 
         .goog-text-highlight { background: none !important; box-shadow: none !important; }
     </style>
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
 </head>
 <body>
 
+<!-- MAIN NAVIGATION -->
 <nav class="navbar navbar-expand-lg navbar-light navbar-main">
     <div class="container">
         <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
-	<!--
-            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo">
-            <span class="brand-text">Busfermata</span>
-	-->
-	 <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
-            <div>
-        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
-        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
-
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div class="ml-2">
+                <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78; font-weight:bold; margin:0; padding:0;">Digital Technology</h6>
+            </div>
         </a>
         <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
@@ -105,6 +90,8 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                
+                <!-- LOCALIZATION DROPDOWN -->
                 <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
                     <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
                         <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -118,7 +105,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
                         <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
-                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: #f8f9fa; background: #f8f9fa; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
                         <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
                         <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
                     </div>
@@ -133,124 +120,45 @@
 <div class="container py-4"> 
     <div id="ticket-container">
         {% if ticket %}
-        <div class="ticket-card">
-            <div class="ticket-header">
-                <div>
-                    <h1 class="m-0" style="font-size: 20px; font-weight: 800;">Busfermata Transport</h1>
-                    <span class="badge-level">LEVEL: {{ level|default:"Standard" }}</span>
+        
+        <!-- SYSTEM TOAST MESSAGES -->
+        {% if error %}
+        <div class="intl-toast intl-error-toast no-print" id="djangoError">
+            <div class="toast-content">
+                <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
+                <div class="toast-message">
+                    <span class="toast-title"></span>
+                    <span class="toast-desc" style="color: red !important;">{{ error }}</span>
                 </div>
-		 <div>
-                    <h1 class="m-0" style="font-size: 20px; font-weight: 800;">Operator Name</h1>
-                    <span class="badge-level">{{ name }}</span>
-                </div>
-                <div class="text-right">
-                    <p class="data-label m-0" style="color: var(--brand-gold);">BOOKING REF / PNR</p>
-                    <h2 class="m-0" style="font-size: 24px; font-weight: 900; color: var(--brand-gold);">{{ ticket.pnr }}</h2>
-                </div>
+                <button class="toast-close" onclick="closeNotification('djangoError')" style="color: red !important;"><i class="fas fa-times"></i></button>
             </div>
-            <div class="ticket-content">
-                <div class="main-info">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div style="flex: 1;">
-                            <p class="data-label">Passenger Name</p>
-                            <span class="full-name-display">{{ ticket.firstname }} {{ ticket.lastname }}</span>
-                        </div>
-                        <div class="text-right ml-3">
-                            <p class="data-label">Gender</p>
-                            <p class="data-value" style="font-size: 20px; color: var(--brand-blue);">{{ ticket.gender|upper }}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-6">
-                            <p class="data-label">From (መነሻ)</p>
-                            <p class="data-value">{{ ticket.depcity }}</p>
-                        </div>
-                        <div class="col-6">
-                            <p class="data-label">To (መድረሻ)</p>
-                            <p class="data-value">{{ ticket.descity }}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-4">
-                            <p class="data-label">Plate No</p>
-                            <p class="data-value">{{ ticket.plate_no }}</p>
-                        </div>
-                        <div class="col-4">
-                            <p class="data-label">Side No</p>
-                            <p class="data-value">{{ ticket.side_no }}</p>
-                        </div>
-                        <div class="col-4">
-                            <p class="data-label">Date</p>
-                            <p class="data-value text-danger">{{ ticket.date }}</p>
-                        </div>
-                    </div>
-
-                    <div class="mt-2 pt-3" style="border-top: 1px solid #f1f5f9;">
-                        <div class="row">
-                            <div class="col-7">
-                                <p class="data-label">Email Address</p>
-                                <p class="data-value" style="font-size: 13px; word-break: break-all;">{{ ticket.email|default:"Not Provided" }}</p>
-                            </div>
-                            <div class="col-5">
-                                <p class="data-label">Issuing Agent</p>
-                                <p class="data-value" style="font-size: 13px;">
-                                    {% if fname and fname != self %} 
-                                        {{ fname }} {{ lname }} 
-                                    {% else %} 
-                                        System / Online 
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="highlight-box">
-                        <div class="text-center">
-                            <p class="data-label">Seat No</p>
-                            <p class="m-0" style="font-size: 26px; font-weight: 900; color: var(--brand-blue);">{{ ticket.no_seat }}</p>
-                        </div>
-			<!--
-                        <div class="text-center">
-                            <p class="data-label">Total Fare</p>
-                            <p class="m-0" style="font-size: 22px; font-weight: 800; color: #15803d;">{{ ticket.price }} ETB</p>
-			</div>-->
-			<div class="text-center" style="padding: 10px; background-color: #f9fafb; border-radius: 12px;">
-    {% load currency_filters %}
-
-    <p class="data-label" style="font-size: 11px; color: #6b7280; margin-bottom: 2px; font-weight: 600;">TOTAL FARE</p>
-
-    <div style="display: flex; align-items: baseline; justify-content: center; gap: 8px;">
-        <!-- Large Bold Price -->
-        <p class="m-0" style="font-size: 32px; font-weight: 800; color: #15803d; line-height: 1;">
-            {{ ticket.price }}
-        </p>
-
-        <!-- Word representation in one line using () -->
-        <p class="m-0" style="font-size: 11px; font-weight: 700; color: #374151;">
-           ({{ ticket.price|price_to_words_intl }})
-        </p>
-    </div>
-</div>
-                    </div>
-                </div>
-
-                <div class="qr-area">
-                    <img src="{{ ticket.qr_code }}" alt="QR" style="width: 170px; height: 170px; border: 8px solid #f8fafc; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-                    <div class="mt-4">
-                        <p class="data-label">Ticket ID</p>
-                        <code style="background: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: var(--brand-navy);">{{ ticket.ticket_id }}</code>
-                    </div>
-                </div>
-            </div>
+            <div class="toast-progress"></div>
         </div>
+        {% endif %}
 
-	<!--
+        {% if success %}
+        <div class="intl-toast intl-success-toast no-print" id="djangoSuccess">
+            <div class="toast-content">
+                <div class="toast-icon"><i class="fas fa-circle-check"></i></div>
+                <div class="toast-message">
+                    <span class="toast-title" style="color: #2ecc71 !important;">Success Message</span>
+                    <span class="toast-desc" style="color: #2ecc71 !important;">{{ success }}</span>
+                </div>
+                <button class="toast-close" onclick="closeNotification('djangoSuccess')" style="color: red !important;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="toast-progress"></div>
+        </div>
+        {% endif %}
+
+        <!-- MANAGEMENT INTERFACE PANEL -->
         <div class="update-panel">
-            <h5 class="font-weight-bold mb-4" style="color: var(--brand-navy);"><i class="fas fa-user-edit mr-2"></i>Transfer to Another Person</h5>
+            <h5 class="font-weight-bold mb-4" style="color: var(--brand-navy);">
+                <i class="fas fa-user-edit mr-2"></i>Transfer to Another Person
+            </h5>
+            
             <form action="{% url 'passenger' %}" method="post">
                 {% csrf_token %}
+                <!-- Hidden security context keys -->
                 <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
                 <input type="hidden" name="descity" value="{{ ticket.descity }}">
                 <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
@@ -259,130 +167,98 @@
                 <input type="hidden" name="phone" value="{{ ticket.phone }}">
 
                 <div class="row">
-		<div class="col-md-6 mb-3">
-    <label class="data-label">First Name</label>
-    <input type="text"
-           name="new_firstname"
-           class="form-control form-control-custom"
-           placeholder="{{ ticket.firstname }}"
-           oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
-           required>
-</div>
-<div class="col-md-6 mb-3">
-    <label class="data-label">Last Name</label>
-    <input type="text"
-           name="new_lastname"
-           class="form-control form-control-custom"
-           placeholder="{{ ticket.lastname }}"
-           oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
-           required>
-</div>
+                    <!-- First Name -->
+                    <div class="col-md-6 mb-3">
+                        <label for="new_firstname" class="data-label">First Name</label>
+                        <input type="text"
+                               id="new_firstname"
+                               name="new_firstname"
+                               class="form-control form-control-custom"
+                               placeholder="{{ ticket.firstname }}"
+                               oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
+                               required>
+                    </div>
 
-<div class="row">
-    <div class="col-md-6 mb-3">
-        <label class="data-label">Gender</label>
-        <select name="new_gender" class="form-control form-control-intl" required>
-            <option value="" disabled selected>Select</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
-    </div>
-    <div class="col-md-6 mb-3">
-        <label class="data-label">Phone Number</label>
-        <input type="tel"
-               name="new_phone"
-               class="form-control form-control-custom"
-               placeholder="{{ ticket.phone }}"
-               maxlength="10"
-               required>
-    </div>
-</div>
-                    <div class="col-12">
-                        <button type="submit" class="btn-update-submit">UPDATE INFORMATION</button>
+                    <!-- Last Name -->
+                    <div class="col-md-6 mb-3">
+                        <label for="new_lastname" class="data-label">Father Name</label>
+                        <input type="text"
+                               id="new_lastname"
+                               name="new_lastname"
+                               class="form-control form-control-custom"
+                               placeholder="{{ ticket.lastname }}"
+                               oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
+                               required>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="col-md-6 mb-3">
+                        <label for="new_gender" class="data-label">Gender</label>
+                        <select id="new_gender" name="new_gender" class="form-control form-control-custom" style="height: calc(1.5em + .75rem + 11px);" required>
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="col-md-6 mb-3">
+                        <label for="new_phone" class="data-label">Phone Number</label>
+                        <input type="tel"
+                               id="new_phone"
+                               name="new_phone"
+                               class="form-control form-control-custom"
+                               placeholder="{{ ticket.phone }}"
+                               maxlength="10"
+                               required>
+                    </div>
+
+                    <!-- Submit action button -->
+                    <div class="col-12 mt-2">
+                        <button type="submit" class="btn-update-submit w-100">UPDATE INFORMATION</button>
                     </div>
                 </div>
             </form>
         </div>
-	-->
-<div class="update-panel">
-    <h5 class="font-weight-bold mb-4" style="color: var(--brand-navy);">
-        <i class="fas fa-user-edit mr-2"></i>Transfer to Another Person
-    </h5>
-    
-    <form action="{% url 'passenger' %}" method="post">
-        {% csrf_token %}
-        <!-- Hidden inputs for ticket identification -->
-        <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
-        <input type="hidden" name="descity" value="{{ ticket.descity }}">
-        <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
-        <input type="hidden" name="lastname" value="{{ ticket.lastname }}">
-        <input type="hidden" name="date" value="{{ ticket.date }}">
-        <input type="hidden" name="phone" value="{{ ticket.phone }}">
-
-        <div class="row">
-            <!-- First Name -->
-            <div class="col-md-6 mb-3">
-                <label for="new_firstname" class="data-label">First Name</label>
-                <input type="text"
-                       id="new_firstname"
-                       name="new_firstname"
-                       class="form-control form-control-custom"
-                       placeholder="{{ ticket.firstname }}"
-                       oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
-                       required>
-            </div>
-
-            <!-- Last Name -->
-            <div class="col-md-6 mb-3">
-                <label for="new_lastname" class="data-label">Last Name</label>
-                <input type="text"
-                       id="new_lastname"
-                       name="new_lastname"
-                       class="form-control form-control-custom"
-                       placeholder="{{ ticket.lastname }}"
-                       oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
-                       required>
-            </div>
-
-            <!-- Gender -->
-            <div class="col-md-6 mb-3">
-                <label for="new_gender" class="data-label">Gender</label>
-                <select id="new_gender" name="new_gender" class="form-control form-control-intl" required>
-                    <option value="" disabled selected>Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-
-            <!-- Phone Number -->
-            <div class="col-md-6 mb-3">
-                <label for="new_phone" class="data-label">Phone Number</label>
-                <input type="tel"
-                       id="new_phone"
-                       name="new_phone"
-                       class="form-control form-control-custom"
-                       placeholder="{{ ticket.phone }}"
-                       maxlength="10"
-                       required>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="col-12 mt-2">
-                <button type="submit" class="btn-update-submit w-100">UPDATE INFORMATION</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-
-
 
         {% endif %}
     </div>
 </div>
+
+<!-- FOOTER SYSTEM BLOCK -->
 <footer style="background:var(--brand-navy); color:white; padding:30px 0; text-align:center;">
-    <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technologynology. Ethiopia's Digital Standard.</p>
+    <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technology. Ethiopia's Digital Standard.</p>
 </footer>
 
-<div id="google_translate_element" style="display:none;"></div><script type="text/javascript">function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></body>
+<!-- TRANSLATE ELEMENT INTERFACE STUB -->
+<div id="google_translate_element" style="display:none;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+    function googleTranslateElementInit(){
+        new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")
+    }
+    function changeLanguage(l){
+        localStorage.setItem("userLanguage",l);
+        var s=document.querySelector("select.goog-te-combo");
+        if(s){
+            s.value=l;
+            s.dispatchEvent(new Event("change"))
+        }
+    }
+    function closeNotification(id) {
+        var el = document.getElementById(id);
+        if(el) { el.style.display = 'none'; }
+    }
+    window.addEventListener("load",function(){
+        const l=localStorage.getItem("userLanguage");
+        if(l&&l!=="en"){
+            setTimeout(()=>{changeLanguage(l)},1000)
+        }
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
 </html>

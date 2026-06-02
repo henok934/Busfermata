@@ -755,27 +755,16 @@ class SelectBusView(APIView):
 
 
 
-
-
-
-
-
-
-
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import render
 from drf_spectacular.utils import extend_schema
-
 from .models import Ticket, City, Bus
 from .serializers import TSerializer, ChangePassengerRequestSerializer
-
 @extend_schema(tags=['Booking & Tickets'])
 class Changepassenger(APIView):
     serializer_class = ChangePassengerRequestSerializer
-
     @extend_schema(summary="Get passenger change page")
     def get(self, request):
         des = City.objects.all()
@@ -886,54 +875,285 @@ class Changepassenger(APIView):
 
 
 
-
-
-
-
-
-
-
+"""
 import requests
+
 from rest_framework.views import APIView
+
 from rest_framework.response import Response
+
 from rest_framework import status
 from django.shortcuts import render
 from .models import Ticket # Ensure Ticket model is imported
 class CancelTicketView(APIView):
+
     def post(self, request):
+
         # 1. Retrieve data from form
+
         method = request.data.get('refund_method')
+
         account_number = request.data.get('refund_account')
+
         password = request.data.get('password')
-        
-        # Hidden ticket identifiers for deletion
+
+         # Hidden ticket identifiers for deletion
+
         firstname = request.data.get('firstname')
+
         lastname = request.data.get('lastname')
+
         plate_no = request.data.get('plate_no')
+
         side_no = request.data.get('side_no')
+
         price = request.data.get('price')
-        
+
+
+
         # Find the specific ticket to delete
+
         ticket_to_delete = Ticket.objects.filter(
+
         firstname=firstname,
+
         lastname=lastname,
+
         plate_no=plate_no,
+
         side_no=side_no
+
         ).first()
+
+        if ticket_to_delete:
+
+            ticket_to_delete.delete()
+
+            context = {
+
+                'success': 'Refund processed and ticket cancelled successfully.'
+
+                }
+
+            return render(request, 'users/index.html', context)
+
+        return render(request, 'users/index.html', {'error': 'Ticket not found or already cancelled.'
+
+})
+"""
+
+
+
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import render
+from django.contrib.auth.hashers import check_password
+from drf_spectacular.utils import extend_schema, OpenApiResponse
+from .models import Ticket
+from .serializers import CancelTicketRequestSerializer
+
+class CancelTicketView(APIView):
+    # INSA Security Requirement: Enforce that only registered users/operators can drop records
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        request=CancelTicketRequestSerializer,
+        responses={
+            200: OpenApiResponse(description="Ticket cancelled and refund processed successfully."),
+            400: OpenApiResponse(description="Invalid request parameter inputs or password authentication failure."),
+            404: OpenApiResponse(description="Target ticket record not found in system storage.")
+        },
+        summary="Secure Ticket Cancellation Engine",
+        description="Authenticates operator authorization credentials and performs transaction rollbacks."
+    )
+    def post(self, request):
+        # 1. Bind and validate input parameters using the API schema layer
+        serializer = CancelTicketRequestSerializer(data=request.data)
+        if not serializer.is_valid():
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', {'error': 'Invalid form parameters provided.'})
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # 2. Extract verified fields
+        password = serializer.validated_data.get('password')
+        firstname = serializer.validated_data.get('firstname')
+        lastname = serializer.validated_data.get('lastname')
+        plate_no = serializer.validated_data.get('plate_no')
+        side_no = serializer.validated_data.get('side_no')
+
+        # 3. INSA Compliance Check: Validate that the active operator's password matches
+        if not check_password(password, request.user.password):
+            context = {'error': 'Security Authorization Failure: Incorrect password confirmation.'}
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', context)
+            return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+
+        # 4. Filter target database object
+        ticket_to_delete = Ticket.objects.filter(
+            firstname=firstname,
+            lastname=lastname,
+            plate_no=plate_no,
+            side_no=side_no
+        ).first()
+
+        if ticket_to_delete:
+            # Execute business logic (e.g., balance updates would go here before delete)
+            ticket_to_delete.delete()
+
+            context = {'success': 'Refund processed and ticket cancelled successfully.'}
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', context)
+            return Response(context, status=status.HTTP_200_OK)
+
+        # Fallback if no matching ticket is mapped
+        context = {'error': 'Ticket tracking parameters not found or already processed.'}
+        if request.accepted_renderer.format == 'html':
+            return render(request, 'users/index.html', context)
+        return Response(context, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+"""
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny  # Changed to allow initial request routing
+from django.shortcuts import render
+from django.contrib.auth.hashers import check_password
+from drf_spectacular.utils import extend_schema, OpenApiResponse
+from .models import Ticket
+from .serializers import CancelTicketRequestSerializer
+
+class CancelTicketView(APIView):
+    # Allow requests to reach the view so we can gracefully handle both HTML forms and API clients
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        request=CancelTicketRequestSerializer,
+        responses={
+            200: OpenApiResponse(description="Ticket cancelled and refund processed successfully."),
+            401: OpenApiResponse(description="Authentication required or password verification failed."),
+            400: OpenApiResponse(description="Invalid request parameter inputs."),
+            404: OpenApiResponse(description="Target ticket record not found in system storage.")
+        },
+        summary="Secure Ticket Cancellation Engine",
+        description="Authenticates operator authorization credentials and performs transaction rollbacks."
+    )
+    def post(self, request):
+        # 1. Security Compliance Check: Verify user session/token is authenticated
+        if not request.user or not request.user.is_authenticated:
+            context = {'error': 'Access Denied: You must be logged in to cancel tickets.'}
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', context)
+            return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+
+        # 2. Bind and validate input parameters using the API schema layer
+        serializer = CancelTicketRequestSerializer(data=request.data)
+        if not serializer.is_valid():
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', {'error': 'Invalid form parameters provided.'})
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # 3. Extract verified fields
+        password = serializer.validated_data.get('password')
+        firstname = serializer.validated_data.get('firstname')
+        lastname = serializer.validated_data.get('lastname')
+        plate_no = serializer.validated_data.get('plate_no')
+        side_no = serializer.validated_data.get('side_no')
+
+        # 4. Security Password Check: Validate that the active operator's password matches
+        if not check_password(password, request.user.password):
+            context = {'error': 'Security Authorization Failure: Incorrect password confirmation.'}
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', context)
+            return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+
+        # 5. Filter target database object
+        ticket_to_delete = Ticket.objects.filter(
+            firstname=firstname,
+            lastname=lastname,
+            plate_no=plate_no,
+            side_no=side_no
+        ).first()
+
+        if ticket_to_delete:
+            # Execute deletion business logic
+            ticket_to_delete.delete()
+
+            context = {'success': 'Refund processed and ticket cancelled successfully.'}
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', context)
+            return Response(context, status=status.HTTP_200_OK)
+
+        # Fallback if no matching ticket is found
+        context = {'error': 'Ticket tracking parameters not found or already processed.'}
+        if request.accepted_renderer.format == 'html':
+            return render(request, 'users/index.html', context)
+        return Response(context, status=status.HTTP_404_NOT_FOUND)
+"""
+
+
+
+
+"""
+class CancelTicketView(APIView):
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        request=CancelTicketRequestSerializer,
+        responses={200: dict, 400: dict, 401: dict, 404: dict}
+    )
+    def post(self, request):
+        # REMOVED request.user.is_authenticated check so public forms can post data
+
+        # 1. Bind and validate input parameters using the API schema layer
+        serializer = CancelTicketRequestSerializer(data=request.data)
+        if not serializer.is_valid():
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', {'error': 'Invalid form parameters provided.'})
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # 2. Extract verified fields
+        password = serializer.validated_data.get('password')
+        firstname = serializer.validated_data.get('firstname')
+        lastname = serializer.validated_data.get('lastname')
+        plate_no = serializer.validated_data.get('plate_no')
+        side_no = serializer.validated_data.get('side_no')
+
+        # 3. Security Password Check: Validate that the ticket holder's confirmation matches
+        # Note: If request.user isn't logged in, change request.user.password to check against the ticket records if needed
+        if not check_password(password, request.user.password):
+            context = {'error': 'Security Authorization Failure: Incorrect password confirmation.'}
+            if request.accepted_renderer.format == 'html':
+                return render(request, 'users/index.html', context)
+            return Response(context, status=status.HTTP_401_UNAUTHORIZED)
+
+        # 4. Filter target database object
+        ticket_to_delete = Ticket.objects.filter(
+            firstname=firstname,
+            lastname=lastname,
+            plate_no=plate_no,
+            side_no=side_no
+        ).first()
+
         if ticket_to_delete:
             ticket_to_delete.delete()
-            context = {
-                'success': 'Refund processed and ticket cancelled successfully.'
-                }
+            context = {'success': 'Refund processed and ticket cancelled successfully.'}
             return render(request, 'users/index.html', context)
-        return render(request, 'users/index.html', {'error': 'Ticket not found or already cancelled.'
-        })
+
+        context = {'error': 'Ticket tracking parameters not found or already processed.'}
+        return render(request, 'users/index.html', context)
+"""
 
 
 
 
-
-
+"""
 from rest_framework.views import APIView
 from django.shortcuts import render
 from .models import Ticket
@@ -990,6 +1210,83 @@ class Recover_balanceView(APIView):
             'error': 'Ticket not found or already cancelled.'
         })
 
+"""
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import render
+from drf_spectacular.utils import extend_schema, OpenApiResponse
+
+# Ensure all structural backend modules are explicitly registered
+from .models import Ticket, Bus, Worker
+from .serializers import TSerializer, RecoverBalanceRequestSerializer
+
+class Recover_balanceView(APIView):
+    # INSA Security Requirement: Ensure only authorized operators can query financial/ticket details
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        request=RecoverBalanceRequestSerializer,
+        responses={
+            200: OpenApiResponse(description="Ticket ledger recovery evaluated successfully."),
+            400: OpenApiResponse(description="Malformed structural validation inputs."),
+            404: OpenApiResponse(description="Target ticket signature matching records not found.")
+        },
+        summary="Ticket Balance Recovery Audit Engine",
+        description="Inspects active data contexts to recover corrupted transactional ticket allocations."
+    )
+    def post(self, request):
+        # 1. Evaluate input attributes against the deserialization rules
+        serializer = RecoverBalanceRequestSerializer(data=request.data)
+        if not serializer.is_valid():
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                return render(request, 'users/index.html', {'error': 'Invalid validation parameters submitted.'})
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # 2. Extract validated data variables safely
+        firstname = serializer.validated_data.get('firstname')
+        lastname = serializer.validated_data.get('lastname')
+        depcity = serializer.validated_data.get('depcity')
+        descity = serializer.validated_data.get('descity')
+        date = serializer.validated_data.get('date')
+
+        # 3. Locate targeted data entry record allocations
+        ticket = Ticket.objects.filter(
+            firstname=firstname,
+            lastname=lastname,
+            depcity=depcity,
+            descity=descity,
+            date=date
+        ).first()
+
+        if ticket:
+            plate_no = ticket.plate_no
+            level = Bus.objects.filter(plate_no=plate_no).values_list('level', flat=True).first() if plate_no else None
+            name = Bus.objects.filter(plate_no=plate_no).values_list('name', flat=True).first() if plate_no else None
+
+            username = ticket.username
+            fname = Worker.objects.filter(username=username).values_list('fname', flat=True).first() if username else ""
+            lname = Worker.objects.filter(username=username).values_list('lname', flat=True).first() if username else ""
+
+            # Enforce clean international response formatting depending on consumer call type
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                return render(request, 'users/tickets.html', {
+                    'ticket': ticket,
+                    'level': level,
+                    'name': name,
+                    'fname': fname,
+                    'lname': lname,
+                })
+            else:
+                serialized_ticket = TSerializer(ticket)
+                return Response(serialized_ticket.data, status=status.HTTP_200_OK)
+
+        # Fallback tracking if object doesn't map cleanly
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/index.html', {'error': 'Ticket not found or already cancelled.'})
+        return Response({'error': 'Ticket reference not found.'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -1762,6 +2059,8 @@ class CancelTicketView(APIView):
 
 
 
+
+"""
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -1849,7 +2148,93 @@ class GetTicketViews(APIView):
                 })
             else:
                 return Response({'error': 'No booked tickets found for this travel'}, status=status.HTTP_404_NOT_FOUND)
+"""
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.shortcuts import render
+from .models import Ticket, City, Bus, Sc, Worker # Make sure Sc is imported here
+from .serializers import TSerializer, TicketSerializer
+from drf_spectacular.utils import extend_schema
+class GetTicketViews(APIView):
+    serializer_class = TicketSerializer  
+    
+    @extend_schema(responses=TicketSerializer(many=True))
+    def get(self, request):
+        des = City.objects.all()
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/getticket.html', {'des': des})
+        return Response({'des': [city.depcity for city in des]}, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        firstname = request.data.get('firstname')
+        lastname = request.data.get('lastname')
+        depcity = request.data.get('depcity')
+        descity = request.data.get('descity')
+        date = request.data.get('date')  
+        
+        if depcity == descity:
+            error_message = 'Departure and Destination cannot be the same!'
+        elif firstname == lastname:
+            error_message = 'Firstname and Lastname cannot be the same!'
+        else:
+            error_message = None
+
+        if error_message:
+            des = City.objects.all()
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                return render(request, 'users/getticket.html', {
+                    'error': error_message,
+                    'des': des
+                })
+            else:
+                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Retrieve the ticket
+        ticket = Ticket.objects.filter(
+            firstname=firstname,
+            lastname=lastname,
+            depcity=depcity,
+            descity=descity,
+            date=date
+        ).first()  
+
+        if ticket:
+            plate_no = ticket.plate_no
+            level = Bus.objects.filter(plate_no=plate_no).values_list('level', flat=True).first() if plate_no else None
+            name = Bus.objects.filter(plate_no=plate_no).values_list('name', flat=True).first() if plate_no else None
+
+            # --- DYNAMIC COMPANY LOGO ENGINE FULFILLMENT ---
+            # Finds the matching Share Company based on company name and bus tier level
+            sc_record = Sc.objects.filter(name=name, level=level).first()
+            company_logo = sc_record.logo.url if sc_record and sc_record.logo else None
+
+            username = ticket.username
+            fname = Worker.objects.filter(username=username).values_list('fname', flat=True).first() if username else ""
+            lname = Worker.objects.filter(username=username).values_list('lname', flat=True).first() if username else ""
+            
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                return render(request, 'users/tickets.html', {
+                    'ticket': ticket,
+                    'level': level,
+                    'name': name,
+                    'company_logo': company_logo, # Injected to your template engine
+                    'fname': fname,
+                    'lname': lname,
+                })
+            else:
+                serialized_ticket = TSerializer(ticket)
+                return Response(serialized_ticket.data, status=status.HTTP_200_OK)
+        else:
+            des = City.objects.all()
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                return render(request, 'users/getticket.html', {
+                    'error': 'No booked tickets for this travel',
+                    'des': des
+                })
+            else:
+                return Response({'error': 'No booked tickets found for this travel'}, status=status.HTTP_404_NOT_FOUND)
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
