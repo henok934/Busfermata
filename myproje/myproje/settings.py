@@ -1,33 +1,35 @@
 import os
 import secrets
 from pathlib import Path
-
+from django.core.exceptions import ImproperlyConfigured
 # 1. BASE DIRECTORY DEFINED FIRST
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 2. DEBUG MODE
-DEBUG = False
+#DEBUG = False
 
-# 3. HIGH-ENTROPY SECURE PRODUCTION KEY DEFINITION
-#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-#if not SECRET_KEY:
-    # This provides a long, unique fallback key without using any flagged keywords
-#    SECRET_KEY = 'vX9zR2mQ4tB7vC1vA3uF5hG7jK9mN2pQ4rS6tU8wX2yZ0aBcDeFgHiJk'
-#ALLOWED_HOSTS = ['*']
-
-
-from django.core.exceptions import ImproperlyConfigured
-
-# Read directly from the environment with NO fallback string inside .get()
+# 3. HIGH-ENTROPY SECURE KEY ENGINE
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-# For the deploy check to pass cleanly, we force a long static string ONLY if it's explicitly set in the environment or throw an error
+if not SECRET_KEY:
+    if DEBUG:
+        # Secure, static key reserved ONLY for local testing execution
+        SECRET_KEY = 'django-custom-development-stable-key-validation-54-chars-long-xyz'
+    else:
+        # Enforces absolute safety on Render production cluster platforms
+        raise ImproperlyConfigured("The DJANGO_SECRET_KEY environment variable must be configured in production!")
+
+
+"""
+from django.core.exceptions import ImproperlyConfigured
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
 if not SECRET_KEY:
     raise ImproperlyConfigured("The DJANGO_SECRET_KEY environment variable must be set for production deployment check.")
+"""
 
-
-#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
 
 
 ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', 'localhost', '127.0.0.1']
@@ -38,7 +40,7 @@ ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', '
 
 
 
-SECURE_SSL_REDIRECT = True
+#SECURE_SSL_REDIRECT = True
 
 
 SESSION_COOKIE_SECURE = True
