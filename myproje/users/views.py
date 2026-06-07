@@ -875,7 +875,8 @@ class Changepassenger(APIView):
 
 
 
-"""
+
+
 import requests
 
 from rest_framework.views import APIView
@@ -940,12 +941,12 @@ class CancelTicketView(APIView):
         return render(request, 'users/index.html', {'error': 'Ticket not found or already cancelled.'
 
 })
+
+
+
+
+
 """
-
-
-
-
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -1014,6 +1015,7 @@ class CancelTicketView(APIView):
         if request.accepted_renderer.format == 'html':
             return render(request, 'users/index.html', context)
         return Response(context, status=status.HTTP_404_NOT_FOUND)
+"""
 
 
 
@@ -1153,6 +1155,8 @@ class CancelTicketView(APIView):
 
 
 
+
+
 """
 from rest_framework.views import APIView
 from django.shortcuts import render
@@ -1211,6 +1215,7 @@ class Recover_balanceView(APIView):
         })
 
 """
+
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -5439,12 +5444,38 @@ class TicketBookingViews(APIView):
                         return Response({'error': error_msg}, status=400)
 
                     # --- VALIDATION: ALREADY BOOKED CHECK ---
+
+                    """
                     already_booked = Ticket.objects.filter(
                         firstname=firstnames[i],
                         lastname=lastnames[i],
                         depcity=dep,
                         descity=des
                     ).filter(Q(date=current_date) & Q(date=alt_date)).exists()
+
+                    if already_booked:
+                        error_msg = f"Person already booked: {firstnames[i]} {lastnames[i]} for {current_date}{f' or {alt_date}' if alt_date and alt_date != 'None' else ''}."
+
+                        """
+
+                    # 1. በአንደኛው ቀን ወይም በሌላኛው ቀን ትኬት መኖሩን ማረጋገጫ (OR)
+                    has_either_date = Ticket.objects.filter(
+                    firstname=firstnames[i],
+                    lastname=lastnames[i],
+                    depcity=dep,
+                    descity=des
+                    ).filter(Q(date=current_date) | Q(date=alt_date)).exists()
+
+                    # 2. በሁለቱም ቀናት ለየብቻ ትኬት ቆርጦ ከሆነ ማረጋገጫ (AND)
+                    # (ማሳሰቢያ፦ በአንድ Row ላይ date ሁለቱንም መሆን ስለማይችል፣ ሁለት ጊዜ ቼክ ይደረጋል)
+                    has_both_dates = Ticket.objects.filter(
+                    firstname=firstnames[i], lastname=lastnames[i], depcity=dep, descity=des, date=current_date
+                    ).exists() and Ticket.objects.filter(
+                    firstname=firstnames[i], lastname=lastnames[i], depcity=dep, descity=des, date=alt_date
+                    ).exists()
+
+                    # 3. ሁለቱንም ኦፕሬሽኖች በአንድ ላይ ማገናኘት (የፈለግከው ዋናው ሎጂክ)
+                    already_booked = has_either_date and has_both_dates
 
                     if already_booked:
                         error_msg = f"Person already booked: {firstnames[i]} {lastnames[i]} for {current_date}{f' or {alt_date}' if alt_date and alt_date != 'None' else ''}."
