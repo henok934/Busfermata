@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Update Fleet | Enterprise Transit</title>
+    <title>Update Bus | Enterprise Transit</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -145,7 +145,7 @@
                 <img src="{% static 'images/l.jpeg' %}" class="nav-logo">
                 <div class="ml-3">
                     <span class="brand-name-main">Busfermata</span><br>
-                    <span class="brand-subtext">{{ name }} Share Company FLEET</span>
+                    <span class="brand-subtext">{{ name }} Share Company BUS</span>
                 </div>
             </a>
 	-->
@@ -188,7 +188,7 @@
                     <select onchange="location.href = this.value;" class="intl-dropdown">
                         <option value="#" disabled selected>⚙️ OPERATIONS</option>
                         <option value="{% url 'myroute' %}">Active Routes</option>
-                        <option value="{% url 'mybus' %}">View Fleet</option>
+                        <option value="{% url 'mybus' %}">View Bus</option>
                     </select>
 
                     <select onchange="location.href = this.value;" class="intl-dropdown" style="border-color: var(--danger-red);">

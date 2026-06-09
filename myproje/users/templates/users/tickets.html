@@ -180,29 +180,21 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <nav class="navbar navbar-expand-lg navbar-light navbar-main">
-    <div class="container">
-        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
-
-	    <!--
-            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
-	    
-            <span class="brand-text">Busfermata</span>
-	    
-	    <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
-        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
-	    -->
-	     <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
-            <div>
-        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
-        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
-
+<div class="container">
+<a href="{% url 'home' %}" class="brand-area" style="display: flex !important; align-items: center !important; gap: 15px !important; text-decoration: none !important;">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important; margin: 0 !important;">
+            <div style="display: flex !important; flex-direction: column !important; justify-content: center !important;">
+                <h2 style="margin: 0 !important; padding: 0 !important; line-height: 1.2 !important;">
+                    <span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span>
+                </h2>
+                <h6 style="color:#007A78; font-weight: bold; margin: 0 !important; padding: 0 !important; line-height: 1.2 !important;">Digital Technology</h6>
+            </div>
         </a>
-        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainNav">
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="mainNav">
+	<div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav ml-auto align-items-center">
                 <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
@@ -233,25 +225,7 @@
     </div>
 </nav>
 
-
-
-
-
-
-<div class="container py-4"> 
-
-
-<!--
-<div class="d-flex justify-content-center mb-4 no-print" style="gap: 15px;">
-        <button onclick="downloadPDF()" class="btn btn-danger font-weight-bold px-4 py-2" style="border-radius: 10px;">
-            <i class="fas fa-file-pdf mr-2"></i> DOWNLOAD PDF
-        </button>
-        <button onclick="window.print()" class="btn btn-dark font-weight-bold px-4 py-2" style="border-radius: 10px;">
-            <i class="fas fa-print mr-2"></i> PRINT PASS
-        </button>
-    </div>
--->
-
+<div class="container py-4">
     {% if error %}
 <div class="intl-error-toast" id="djangoError">
     <div class="toast-content">
@@ -321,7 +295,6 @@
                         <span class="badge-level" style="background-color: #e2e8f0; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">LEVEL: {{ level|default:"Standard" }}</span>
                     </div>
                 </div>
-
                 <div class="operator-meta-print" style="text-align: left;">
                     <p class="data-label m-0" style="color: #6b7280;">OPERATOR NAME</p>
                     <h1 class="m-0 operator-title-print" style="font-size: 18px; font-weight: 800; color: #111827;">{{ name }}</h1>
@@ -334,7 +307,7 @@
             </div>
 
             <div class="booking-time-bar" style="display: flex; justify-content: space-between; padding: 8px 16px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 12px;">
-                <div><span style="font-weight: 600; color: #475569;">Status:</span> <span style="color: #16a34a; font-weight: 700;">CONFIRMED</span></div>
+                <div><span style="font-weight: 600; color: #475569;">Ticket Detail</span> <span style="color: #16a34a; font-weight: 700;"></span></div>
                 <div class="booked-time-display" style="color: #475569;"><span style="font-weight: 600;">Booked At:</span> {{ ticket.booked_time|date:"d M Y, h:i A" }}</div>
             </div>
 
@@ -1973,7 +1946,7 @@ function validateRefundForm() {
 </div>
 
 <footer style="background:var(--brand-navy); color:white; padding:30px 0; text-align:center;">
-    <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technologynology. Ethiopia's Digital Standard.</p>
+    <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technology. Ethiopia's Digital Standard.</p>
 </footer>
 
 <script>

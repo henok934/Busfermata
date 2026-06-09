@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Fleet Registry | Enterprise System</title>
+    <title>Bus Registry | Enterprise System</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -159,7 +159,7 @@
 <header>
     <div class="top-bar-mini">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <span><i class="fas fa-server mr-2 text-warning"></i> FLEET CONTROL CENTER</span>
+            <span><i class="fas fa-server mr-2 text-warning"></i> BUS CONTROL CENTER</span>
             <div class="d-flex align-items-center">
                 <a href="{% url 'logout' %}" class="btn btn-sm btn-danger py-1 px-3" style="font-size: 11px; font-weight: 700;">LOGOUT</a>
             </div>
@@ -172,7 +172,7 @@
                 <img src="{% static 'images/l.jpeg' %}" class="nav-logo">
                 <div class="ml-3">
                     <span class="brand-name-main">TRANSIT SYSTEM</span><br>
-                    <span class="brand-subtext">{{ name }} Share Company FLEET</span>
+                    <span class="brand-subtext">{{ name }} Share Company BUS</span>
                 </div>
             </a>
 
@@ -192,7 +192,7 @@
                     <select onchange="location.href = this.value;" class="intl-dropdown">
                         <option value="#" disabled selected>⚙️ OPERATIONS</option>
                         <option value="{% url 'myroute' %}">Active Routes</option>
-                        <option value="{% url 'mybus' %}">View Fleet</option>
+                        <option value="{% url 'mybus' %}">View Bus</option>
                     </select>
 
                     <select onchange="location.href = this.value;" class="intl-dropdown" style="border-color: var(--danger-red);">
@@ -265,7 +265,7 @@
         </table>
     </div>
 
-    <p class="mt-4 text-muted" style="font-size: 10px;">© 2026 Busfermata Digital Technologynology</p>
+    <p class="mt-4 text-muted" style="font-size: 10px;">© 2026 Busfermata Digital Technology</p>
 </main>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

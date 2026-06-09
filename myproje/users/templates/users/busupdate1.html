@@ -199,7 +199,7 @@
                     <select onchange="location.href = this.value;" class="mini-transit-select">
                         <option value="#" disabled selected>VIEW DATA</option>
                         <option value="{% url 'myroute' %}">Routes</option>
-                        <option value="{% url 'mybus' %}">Fleet</option>
+                        <option value="{% url 'mybus' %}">Bus</option>
                     </select>
 
                     <select onchange="location.href = this.value;" class="mini-transit-select delete-border">
@@ -256,7 +256,7 @@
                     <select onchange="location.href = this.value;" class="mini-transit-select">
                         <option value="#" disabled selected>VIEW DATA</option>
                         <option value="{% url 'myroute' %}">Routes</option>
-                        <option value="{% url 'mybus' %}">Fleet</option>
+                        <option value="{% url 'mybus' %}">Bus</option>
                     </select>
 
                     <select onchange="location.href = this.value;" class="mini-transit-select delete-border">
@@ -1101,7 +1101,7 @@
     <div class="dashboard-card">
         
         <div class="dashboard-header">
-            <h2><i class="fas fa-bus mr-2"></i> Bus Fleet Update</h2>
+            <h2><i class="fas fa-bus mr-2"></i> Bus Bus Update</h2>
             
             <form action="{% url 'specific' %}" method="post" class="search-inline">
                 {% csrf_token %}

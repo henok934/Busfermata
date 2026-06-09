@@ -5304,6 +5304,10 @@ class TicketBookingViews(APIView):
 
 
 
+
+
+
+"""
 import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -5445,37 +5449,37 @@ class TicketBookingViews(APIView):
 
                     # --- VALIDATION: ALREADY BOOKED CHECK ---
 
-                    """
+                    
                     already_booked = Ticket.objects.filter(
                         firstname=firstnames[i],
                         lastname=lastnames[i],
                         depcity=dep,
-                        descity=des
-                    ).filter(Q(date=current_date) & Q(date=alt_date)).exists()
+                        descity=des,
+                        date=dates[i] | date=da[i]).exists()
+                    #).filter(Q(date=dates[i]) | Q(date=da[i])).exists()
+                    
+                    in_current_batch = (firstname, lastname, current_date) in tracked_passengers or (alt_date and (p_first, p_last, alt_date) in tracked_passengers)
 
-                    if already_booked:
-                        error_msg = f"Person already booked: {firstnames[i]} {lastnames[i]} for {current_date}{f' or {alt_date}' if alt_date and alt_date != 'None' else ''}."
+                    # 2. Check the Database safely using properly structured Q objects
+                    if alt_date and alt_date != 'None':
+                        db_check = Ticket.objects.filter(
+                            Q(date=current_date) | Q(date=alt_date),
+                            firstname=firstname,
+                            lastname=lastname,
+                            depcity=dep,
+                            descity=des
+                        ).exists()
+                    else:
+                        db_check = Ticket.objects.filter(
+                            firstname=p_first,
+                            lastname=p_last,
+                            depcity=dep,
+                            descity=des,
+                            date=current_date
+                        ).exists()
 
-                        """
-
-                    # 1. በአንደኛው ቀን ወይም በሌላኛው ቀን ትኬት መኖሩን ማረጋገጫ (OR)
-                    has_either_date = Ticket.objects.filter(
-                    firstname=firstnames[i],
-                    lastname=lastnames[i],
-                    depcity=dep,
-                    descity=des
-                    ).filter(Q(date=current_date) | Q(date=alt_date)).exists()
-
-                    # 2. በሁለቱም ቀናት ለየብቻ ትኬት ቆርጦ ከሆነ ማረጋገጫ (AND)
-                    # (ማሳሰቢያ፦ በአንድ Row ላይ date ሁለቱንም መሆን ስለማይችል፣ ሁለት ጊዜ ቼክ ይደረጋል)
-                    has_both_dates = Ticket.objects.filter(
-                    firstname=firstnames[i], lastname=lastnames[i], depcity=dep, descity=des, date=current_date
-                    ).exists() and Ticket.objects.filter(
-                    firstname=firstnames[i], lastname=lastnames[i], depcity=dep, descity=des, date=alt_date
-                    ).exists()
-
-                    # 3. ሁለቱንም ኦፕሬሽኖች በአንድ ላይ ማገናኘት (የፈለግከው ዋናው ሎጂክ)
-                    already_booked = has_either_date and has_both_dates
+                    already_booked = in_current_batch or db_check
+            
 
                     if already_booked:
                         error_msg = f"Person already booked: {firstnames[i]} {lastnames[i]} for {current_date}{f' or {alt_date}' if alt_date and alt_date != 'None' else ''}."
@@ -5552,6 +5556,494 @@ class TicketBookingViews(APIView):
             return Response({'message': 'Booking successful.', 'tickets': serializer.data}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+"""
+
+
+
+
+
+import requests
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.shortcuts import render
+from django.db import transaction
+from django.db.models import Q, Sum, FloatField
+from django.db.models.functions import Cast
+from django.utils import timezone
+from django.conf import settings
+from drf_spectacular.utils import extend_schema
+from .models import Ticket, City, Bus, Route, Worker
+from .serializers import TicketSerializer, RouteSerializer
+@extend_schema(tags=['Booking & Tickets'])
+class TicketBookingViews(APIView):
+    serializer_class = TicketSerializer
+    def get_user_from_session(self, request):
+        user_id = request.session.get('worker_id')
+        if user_id:
+            try:
+                return Worker.objects.get(id=user_id)
+            except Worker.DoesNotExist:
+                return None
+        return None
+    def get_daily_total(self, username):
+        today = timezone.now().date()
+        total = Ticket.objects.filter(
+            username=username,
+            booked_time__date=today
+        ).annotate(
+            price_as_float=Cast('price', FloatField())
+        ).aggregate(total=Sum('price_as_float'))['total'] or 0
+        return total
+
+    def get(self, request):
+        des = City.objects.all()
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/ticket.html', {'des': des})
+        return Response({'cities': [city.depcity for city in des]})
+
+    def post(self, request):
+        # 1. Retrieve Data Lists
+        firstnames = request.data.getlist('firstname[]')
+        emails = request.data.getlist('email[]')
+        genders = request.data.getlist('gender[]')
+        passenger_types = request.data.getlist('passenger_type[]')
+        lastnames = request.data.getlist('lastname[]')
+        phones = request.data.getlist('phone[]')
+        prices = request.data.getlist('price[]')
+        side_nos = request.data.getlist('side_no[]')
+        plate_nos = request.data.getlist('plate_no[]')
+        usernames = request.data.getlist('username[]')
+        dates = request.data.getlist('date[]')
+        no_seats = request.data.getlist('no_seat[]')
+        depcitys = request.data.getlist('depcity[]')
+        descitys = request.data.getlist('descity[]')
+        prs = request.data.getlist('pr[]')
+        das = request.data.getlist('da[]')
+
+        # 2. Total Price & Recovery Calculation Adjustment
+        try:
+            total_price_base = sum(float(price) for price in prices if price)
+            total_prs = sum(float(p) for p in prs if p) if prs else 0.0
+
+            if total_prs > total_price_base:
+                # Scenario: Previous value is greater than new ticket cost -> Recovery Mode
+                total_price = total_prs - total_price_base
+                is_recovery = True
+            else:
+                # Scenario: Standard booking or paying remaining differences
+                total_price = total_price_base - total_prs
+                is_recovery = False
+        except (ValueError, TypeError):
+            total_price = 0
+            is_recovery = False
+
+        min_length = min(
+            len(firstnames), len(lastnames), len(emails), len(genders),
+            len(phones), len(prices), len(side_nos), len(plate_nos),
+            len(depcitys), len(descitys), len(dates), len(no_seats), len(passenger_types)
+        )
+
+        used_seats = set()
+        tickets = []
+        fname = ""
+        lname = ""
+        level = "Standard"
+        bus_name = "Operator Name"
+
+        try:
+            with transaction.atomic():
+                for i in range(min_length):
+                    current_seat = no_seats[i]
+                    current_date = dates[i]
+                    alt_date = das[i] if i < len(das) else None
+                    dep = depcitys[i]
+                    des = descitys[i]
+                    plate = plate_nos[i]
+                    current_user = usernames[i] if i < len(usernames) else ""
+
+                    # --- ROUTE & BUS VALIDATION ---
+                    routes = Route.objects.filter(depcity=dep, descity=des, date=current_date, plate_no=plate)
+                    bus = Bus.objects.filter(plate_no=plate).first()
+
+                    if not bus:
+                        return Response({'error': f'Bus {plate} not found'}, status=404)
+
+                    bus_name = bus.name if bus else "Operator Name"
+                    total_seats = int(bus.no_seats)
+                    booked_in_db = Ticket.objects.filter(depcity=dep, descity=des, date=current_date, plate_no=plate).values_list('no_seat', flat=True)
+                    booked_seats_list = list(set(int(s) for s in booked_in_db if s))
+                    unbooked_seats = [s for s in range(1, total_seats + 1) if s not in booked_seats_list]
+
+                    error_context = {
+                        'des': City.objects.all(),
+                        'routes': RouteSerializer(routes, many=True).data,
+                        'levels': bus.level,
+                        'remaining_seats': total_seats - len(booked_seats_list),
+                        'unbooked_seats': unbooked_seats,
+                        'booked_seats': booked_seats_list,
+                        'all_seats': list(range(1, total_seats + 1)),
+                    }
+                    # --- VALIDATION: SEAT SELECTION ---
+                    seat_is_taken = current_seat in used_seats or int(current_seat) in booked_seats_list
+
+                    if seat_is_taken:
+                        error_msg = f'Seat {current_seat} already selected.'
+                        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                            error_context['error'] = error_msg
+                            if current_user:
+                                error_context['username'] = current_user
+                                error_context['total_today'] = self.get_daily_total(current_user)
+                                return render(request, 'users/booker.html', error_context, status=400)
+                            else:
+                                return render(request, 'users/ticket.html', error_context, status=400)
+                        return Response({'error': error_msg}, status=400)
+                    passenger_query = Ticket.objects.filter(
+                    firstname=firstnames[i],
+                    lastname=lastnames[i],
+                    depcity=dep,
+                    descity=des
+                    )
+                    already_booked_both = passenger_query.filter(
+                    Q(date=current_date) & Q(date=alt_date)
+                    ).exists()
+                    already_booked_single = passenger_query.filter(
+                    Q(date=current_date)
+                    ).exists()
+                    if already_booked_both or already_booked_single:
+                        alt_date_str = f" and {alt_date}" if alt_date and alt_date != 'None' else ""
+                        error_msg = f"Person already booked: {firstnames[i]} {lastnames[i]} for {current_date}{alt_date_str}."
+                        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                            error_context['error'] = error_msg
+                            if current_user:
+                                error_context['username'] = current_user
+                                error_context['total_today'] = self.get_daily_total(current_user)
+                                return render(request, 'users/booker.html', error_context, status=400)
+                            else:
+                                return render(request, 'users/ticket.html', error_context, status=400)
+                        return Response({'error': error_msg}, status=400)
+                    used_seats.add(current_seat)
+                    level = bus.level if bus else "Standard"
+
+                    validated_data = {
+                        'firstname': firstnames[i],
+                        'lastname': lastnames[i],
+                        'phone': phones[i],
+                        'price': prices[i],
+                        'side_no': side_nos[i],
+                        'plate_no': plate,
+                        'date': current_date,
+                        'email': emails[i],
+                        'gender': genders[i],
+                        'passenger_type': passenger_types[i],
+                        'depcity': dep,
+                        'descity': des,
+                        'username': current_user,
+                        'no_seat': current_seat,
+                    }
+                    ticket_instance = Ticket.objects.create(**validated_data)
+                    tickets.append(ticket_instance)
+
+                    if current_user:
+                        worker = Worker.objects.filter(username=current_user).first()
+                        if worker:
+                            fname = worker.fname
+                            lname = worker.lname
+                if prs:
+                    for i in range(min_length):
+                        if i < len(das):
+                            Ticket.objects.filter(
+                                firstname=firstnames[i],
+                                lastname=lastnames[i],
+                                date=das[i],
+                                depcity=depcitys[i],
+                                descity=descitys[i]
+                            ).delete()
+
+            # --- RENDER DESK FOR WEB OR REST RESPONSE ---
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                context = {
+                    'success': 'Ticket(s) processed successfully!',
+                    'tickets': tickets,
+                    'total_price': total_price,
+                    'level': level,
+                    'name': bus_name,
+                    'fname': fname,
+                    'lname': lname
+                }
+                if is_recovery:
+                    return render(request, 'users/recover.html', context)
+                if not usernames or not usernames[0]:
+                    return render(request, 'users/payment.html', context)
+                else:
+                    return render(request, 'users/myticket.html', context)
+            serializer = TicketSerializer(tickets, many=True)
+            return Response({'message': 'Booking successful.', 'tickets': serializer.data}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+                    
+"""
+import requests
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.shortcuts import render
+from django.db import transaction
+from django.db.models import Q, Sum, FloatField
+from django.db.models.functions import Cast
+from django.utils import timezone
+from django.conf import settings
+from drf_spectacular.utils import extend_schema
+from .models import Ticket, City, Bus, Route, Worker
+from .serializers import TicketSerializer, RouteSerializer
+
+@extend_schema(tags=['Booking & Tickets'])
+class TicketBookingViews(APIView):
+    serializer_class = TicketSerializer
+
+    def get_user_from_session(self, request):
+        user_id = request.session.get('worker_id')
+        if user_id:
+            try:
+                return Worker.objects.get(id=user_id)
+            except Worker.DoesNotExist:
+                return None
+        return None
+
+    def get_daily_total(self, username):
+        today = timezone.now().date()
+        total = Ticket.objects.filter(
+            username=username,
+            booked_time__date=today
+        ).annotate(
+            price_as_float=Cast('price', FloatField())
+        ).aggregate(total=Sum('price_as_float'))['total'] or 0
+        return total
+
+    def get(self, request):
+        des = City.objects.all()
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            return render(request, 'users/ticket.html', {'des': des})
+        return Response({'cities': [city.depcity for city in des]})
+
+    def post(self, request):
+        # 1. Retrieve Data Lists
+        firstnames = request.data.getlist('firstname[]')
+        emails = request.data.getlist('email[]')
+        genders = request.data.getlist('gender[]')
+        passenger_types = request.data.getlist('passenger_type[]')
+        lastnames = request.data.getlist('lastname[]')
+        phones = request.data.getlist('phone[]')
+        prices = request.data.getlist('price[]')
+        side_nos = request.data.getlist('side_no[]')
+        plate_nos = request.data.getlist('plate_no[]')
+        usernames = request.data.getlist('username[]')
+        dates = request.data.getlist('date[]')
+        no_seats = request.data.getlist('no_seat[]')
+        depcitys = request.data.getlist('depcity[]')
+        descitys = request.data.getlist('descity[]')
+        prs = request.data.getlist('pr[]')
+        das = request.data.getlist('da[]')
+
+        # 2. Total Price & Recovery Calculation Adjustment
+        try:
+            total_price_base = sum(float(price) for price in prices if price)
+            total_prs = sum(float(p) for p in prs if p) if prs else 0.0
+
+            if total_prs > total_price_base:
+                # Scenario: Previous value is greater than new ticket cost -> Recovery Mode
+                total_price = total_prs - total_price_base
+                is_recovery = True
+            else:
+                # Scenario: Standard booking or paying remaining differences
+                total_price = total_price_base - total_prs
+                is_recovery = False
+        except (ValueError, TypeError):
+            total_price = 0
+            is_recovery = False
+
+        min_length = min(
+            len(firstnames), len(lastnames), len(emails), len(genders),
+            len(phones), len(prices), len(side_nos), len(plate_nos),
+            len(depcitys), len(descitys), len(dates), len(no_seats), len(passenger_types)
+        )
+
+        used_seats = set()
+        tracked_passengers = set()  # Tracks multi-seat selections within the same submission loop
+        tickets = []
+        fname = ""
+        lname = ""
+        level = "Standard"
+        bus_name = "Operator Name"
+
+        try:
+            with transaction.atomic():
+                for i in range(min_length):
+                    current_seat = no_seats[i]
+                    current_date = dates[i]
+                    alt_date = das[i] if i < len(das) else None
+                    dep = depcitys[i]
+                    des = descitys[i]
+                    plate = plate_nos[i]
+                    current_user = usernames[i] if i < len(usernames) else ""
+                    
+                    p_first = firstnames[i]
+                    p_last = lastnames[i]
+
+                    # --- ROUTE & BUS VALIDATION ---
+                    routes = Route.objects.filter(depcity=dep, descity=des, date=current_date, plate_no=plate)
+                    bus = Bus.objects.filter(plate_no=plate).first()
+
+                    if not bus:
+                        return Response({'error': f'Bus {plate} not found'}, status=404)
+
+                    bus_name = bus.name if bus else "Operator Name"
+                    total_seats = int(bus.no_seats)
+                    booked_in_db = Ticket.objects.filter(depcity=dep, descity=des, date=current_date, plate_no=plate).values_list('no_seat', flat=True)
+                    booked_seats_list = list(set(int(s) for s in booked_in_db if s))
+                    unbooked_seats = [s for s in range(1, total_seats + 1) if s not in booked_seats_list]
+
+                    error_context = {
+                        'des': City.objects.all(),
+                        'routes': RouteSerializer(routes, many=True).data,
+                        'levels': bus.level,
+                        'remaining_seats': total_seats - len(booked_seats_list),
+                        'unbooked_seats': unbooked_seats,
+                        'booked_seats': booked_seats_list,
+                        'all_seats': list(range(1, total_seats + 1)),
+                    }
+
+                    # --- VALIDATION: SEAT SELECTION ---
+                    seat_is_taken = current_seat in used_seats or int(current_seat) in booked_seats_list
+
+                    if seat_is_taken:
+                        error_msg = f'Seat {current_seat} already selected.'
+                        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                            error_context['error'] = error_msg
+                            if current_user:
+                                error_context['username'] = current_user
+                                error_context['total_today'] = self.get_daily_total(current_user)
+                                return render(request, 'users/booker.html', error_context, status=400)
+                            else:
+                                return render(request, 'users/ticket.html', error_context, status=400)
+                        return Response({'error': error_msg}, status=400)
+
+                    # --- VALIDATION: ALREADY BOOKED CHECK ---
+                    # 1. Check if they are duplicates within this incoming list batch
+                    in_current_batch = (p_first, p_last, current_date) in tracked_passengers or (alt_date and (p_first, p_last, alt_date) in tracked_passengers)
+
+                    # 2. Check the Database safely using properly structured Q objects
+                    if alt_date and alt_date != 'None':
+                        db_check = Ticket.objects.filter(
+                        (Q(date=current_date) & Q(date=alt_date)),
+                        firstname=p_first,
+                        lastname=p_last,
+                        depcity=dep,
+                        descity=des
+                        ).exists()
+                    else:
+                        db_check = Ticket.objects.filter(
+                            firstname=p_first,
+                            lastname=p_last,
+                            depcity=dep,
+                            descity=des,
+                            date=current_date
+                        ).exists()
+
+                    already_booked = in_current_batch or db_check or in_current_batch and db_check
+
+                    if already_booked:
+                        error_msg = f"Person already booked: {p_first} {p_last} for {current_date}{f' and {alt_date}' if alt_date and alt_date != 'None' else ''}."
+                        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                            error_context['error'] = error_msg
+                            if current_user:
+                                error_context['username'] = current_user
+                                error_context['total_today'] = self.get_daily_total(current_user)
+                                return render(request, 'users/booker.html', error_context, status=400)
+                            else:
+                                return render(request, 'users/ticket.html', error_context, status=400)
+                        return Response({'error': error_msg}, status=400)
+
+                    # --- SAVE TICKET ---
+                    used_seats.add(current_seat)
+                    
+                    # Store current user attributes inside loop tracking to block immediate form submission duplicates
+                    tracked_passengers.add((p_first, p_last, current_date))
+                    if alt_date and alt_date != 'None':
+                        tracked_passengers.add((p_first, p_last, alt_date))
+
+                    level = bus.level if bus else "Standard"
+                    validated_data = {
+                        'firstname': p_first,
+                        'lastname': p_last,
+                        'phone': phones[i],
+                        'price': prices[i],
+                        'side_no': side_nos[i],
+                        'plate_no': plate,
+                        'date': current_date,
+                        'email': emails[i],
+                        'gender': genders[i],
+                        'passenger_type': passenger_types[i],
+                        'depcity': dep,
+                        'descity': des,
+                        'username': current_user,
+                        'no_seat': current_seat,
+                    }
+                    ticket_instance = Ticket.objects.create(**validated_data)
+                    tickets.append(ticket_instance)
+
+                    if current_user:
+                        worker = Worker.objects.filter(username=current_user).first()
+                        if worker:
+                            fname = worker.fname
+                            lname = worker.lname
+
+                # --- RECOVERY DELETION LOGIC ---
+                if prs:
+                    for i in range(min_length):
+                        if i < len(das):
+                            Ticket.objects.filter(
+                                firstname=firstnames[i],
+                                lastname=lastnames[i],
+                                date=das[i],
+                                depcity=depcitys[i],
+                                descity=descitys[i]
+                            ).delete()
+
+            # --- RENDER DESK FOR WEB OR REST RESPONSE ---
+            if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+                context = {
+                    'success': 'Ticket(s) processed successfully!',
+                    'tickets': tickets,
+                    'total_price': total_price,
+                    'level': level,
+                    'name': bus_name,
+                    'fname': fname,
+                    'lname': lname
+                }
+                # Direct recovery routing logic
+                if is_recovery:
+                    return render(request, 'users/recover.html', context)
+                if not usernames or not usernames[0]:
+                    return render(request, 'users/payment.html', context)
+                else:
+                    return render(request, 'users/myticket.html', context)
+
+            serializer = TicketSerializer(tickets, many=True)
+            return Response({'message': 'Booking successful.', 'tickets': serializer.data}, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+"""
+
+
+
 
 
 

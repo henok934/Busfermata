@@ -132,32 +132,46 @@
                     <th class="text-center">ID</th>
                     <th>Route Map (Origin to Destination)</th>
                     <th>Schedule Details</th>
-                    <th>Company</th>
+		    <th>Travel Date</th>
+		    <th>Side number</th>
+		     <th>Plate number</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
-                {% for route in rou %}
+                      {% for route in routes %}
+
                 <tr>
                     <td class="text-center font-weight-bold text-muted">{{ forloop.counter }}</td>
                     <td>
                         <div class="route-path">
-                            {{ route.from_city }} <i class="fas fa-long-arrow-alt-right route-arrow"></i> {{ route.to_city }}
+                            {{ route.depcity }} <i class="fas fa-long-arrow-alt-right route-arrow"></i> {{ route.descity }}
                         </div>
                     </td>
                     <td>
                         <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.date|slice:10 }}</span>
                         <span class="badge-info-pill ml-1"><i class="far fa-clock mr-1"></i> {{ route.time }}</span>
                     </td>
+		    <td>
+                        <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.side_no|slice:10 }}</span>
+                        <span class="badge-info-pill ml-1"><i class="far fa-clock mr-1"></i></span>
+                    </td>
+		    <td>
+                        <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.plate_no|slice:10 }}</span>
+                        <span class="badge-info-pill ml-1"><i class="far fa-clock mr-1"></i> </span>
+                    </td>
+
+
                     <td class="font-weight-bold text-primary">{{ route.scname }}</td>
                     <td class="text-center">
                         <form action="{% url 'routedelete' %}" method="POST" onsubmit="return confirm('PERMANENT ACTION: Delete this route mapping?');">
                             {% csrf_token %}
                             <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="from_city" value="{{ route.from_city }}">
-                            <input type="hidden" name="to_city" value="{{ route.to_city }}">
+                            <input type="hidden" name="depcity" value="{{ route.depcity }}">
+                            <input type="hidden" name="descity" value="{{ route.descity }}">
                             <input type="hidden" name="date" value="{{ route.date }}">
-                            <input type="hidden" name="scname" value="{{ route.scname }}">
+                            <input type="hidden" name="plate_no" value="{{ route.plate_no }}">
+			    <input type="hidden" name="side_no" value="{{ route.side_no }}">
                             <button type="submit" class="btn-delete-circle"><i class="fas fa-trash-alt"></i></button>
                         </form>
                     </td>

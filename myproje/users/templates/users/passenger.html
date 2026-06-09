@@ -45,23 +45,31 @@
         .form-control-custom:focus { border-color: var(--brand-blue); box-shadow: none; }
         .btn-update-submit {
             background: var(--brand-navy); color: white; font-weight: 800;
-            border-radius: 12px; padding: 12px 30px; width: 100%; border: none;
-            transition: background 0.2s ease-in-out;
+            border-radius: 12px; padding: 16px 30px; width: 100%; border: none;
+            transition: all 0.2s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .btn-update-submit:hover { background: #001a33; color: white; }
-        .data-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .btn-update-submit:hover { background: #001a33; color: white; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,38,77,0.15); }
+        .data-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.3px; }
+
+        /* --- ITINERARY QUICK BADGE --- */
+        .itinerary-badge {
+            background: #f8fafc; 
+            border-radius: 14px; 
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .itinerary-badge:hover {
+            background: #f1f5f9;
+        }
 
         /* --- TOAST ENGINE NOTIFICATIONS --- */
-        .toast-progress {
-            position: absolute; bottom: 0; left: 0; height: 4px; width: 100%;
-            border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;
+        .toast-container-custom {
+            margin-bottom: 20px;
         }
-        .intl-error-toast .toast-progress { background: #e74c3c; animation: toastProgressCountdown 5s linear forwards; }
-        .intl-success-toast .toast-progress { background: #2ecc71; animation: toastProgressCountdown 5s linear forwards; }
-
-        @keyframes toastProgressCountdown {
-            from { width: 100%; }
-            to { width: 0%; }
+        .toast-error-custom {
+            background: #fff5f5; border-left: 5px solid #e74c3c; border-radius: 8px; padding: 15px 20px; color: #c0392b; font-weight: 700;
         }
 
         /* --- HIDE GOOGLE TRANSLATE FLOATING UI --- */ 
@@ -71,7 +79,6 @@
 </head>
 <body>
 
-<!-- MAIN NAVIGATION -->
 <nav class="navbar navbar-expand-lg navbar-light navbar-main">
     <div class="container">
         <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
@@ -91,7 +98,6 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
                 
-                <!-- LOCALIZATION DROPDOWN -->
                 <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
                     <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
                         <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -120,45 +126,57 @@
 <div class="container py-4"> 
     <div id="ticket-container">
         {% if ticket %}
-        
-        <!-- SYSTEM TOAST MESSAGES -->
+
         {% if error %}
-        <div class="intl-toast intl-error-toast no-print" id="djangoError">
-            <div class="toast-content">
-                <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
-                <div class="toast-message">
-                    <span class="toast-title"></span>
-                    <span class="toast-desc" style="color: red !important;">{{ error }}</span>
-                </div>
-                <button class="toast-close" onclick="closeNotification('djangoError')" style="color: red !important;"><i class="fas fa-times"></i></button>
+        <div class="toast-container-custom" id="djangoError">
+            <div class="toast-error-custom shadow-sm d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-exclamation-triangle mr-2"></i> {{ error }}</span>
+                <button type="button" class="close" onclick="closeNotification('djangoError')"><span>×</span></button>
             </div>
-            <div class="toast-progress"></div>
         </div>
         {% endif %}
 
-        {% if success %}
-        <div class="intl-toast intl-success-toast no-print" id="djangoSuccess">
-            <div class="toast-content">
-                <div class="toast-icon"><i class="fas fa-circle-check"></i></div>
-                <div class="toast-message">
-                    <span class="toast-title" style="color: #2ecc71 !important;">Success Message</span>
-                    <span class="toast-desc" style="color: #2ecc71 !important;">{{ success }}</span>
-                </div>
-                <button class="toast-close" onclick="closeNotification('djangoSuccess')" style="color: red !important;"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="toast-progress"></div>
-        </div>
-        {% endif %}
+        <div class="update-panel shadow-lg">
+            
+            <div class="p-3 itinerary-badge shadow-sm mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-4 d-flex align-items-center border-right mb-2 mb-md-0">
+                        <span class="p-2 bg-white rounded-circle mr-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="fas fa-calendar-alt text-primary" style="color: var(--brand-navy) !important;"></i>
+                        </span>
+                        <div>
+                            <span class="data-label mb-0">Departure Date</span>
+                            <strong style="color: var(--brand-navy); font-size: 15px; font-weight: 800;">
+                                {% if ticket.date|date:"d M, Y" %}{{ ticket.date|date:"d M, Y" }}{% else %}{{ ticket.date }}{% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5 d-flex align-items-center border-right mb-2 mb-md-0">
+                        <span class="p-2 bg-white rounded-circle mr-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="fas fa-route text-success"></i>
+                        </span>
+                        <div>
+                            <span class="data-label mb-0">Assigned Route Path</span>
+                            <strong style="color: var(--brand-navy); font-size: 14px; font-weight: 800; text-transform: uppercase;">
+                                {{ ticket.depcity }} <i class="fas fa-long-arrow-alt-right mx-1 text-muted"></i> {{ ticket.descity }}
+                            </strong>
+                        </div>
+                    </div>
 
-        <!-- MANAGEMENT INTERFACE PANEL -->
-        <div class="update-panel">
+                    <div class="col-md-3 text-md-right">
+                        <span class="data-label mb-0">Current Passenger</span>
+                        <strong style="color: #007A78; font-size: 13px; font-weight: 700;">{{ ticket.firstname }} {{ ticket.lastname }}</strong>
+                    </div>
+                </div>
+            </div>
+
             <h5 class="font-weight-bold mb-4" style="color: var(--brand-navy);">
                 <i class="fas fa-user-edit mr-2"></i>Transfer to Another Person
             </h5>
             
             <form action="{% url 'passenger' %}" method="post">
                 {% csrf_token %}
-                <!-- Hidden security context keys -->
                 <input type="hidden" name="depcity" value="{{ ticket.depcity }}">
                 <input type="hidden" name="descity" value="{{ ticket.descity }}">
                 <input type="hidden" name="firstname" value="{{ ticket.firstname }}">
@@ -167,31 +185,28 @@
                 <input type="hidden" name="phone" value="{{ ticket.phone }}">
 
                 <div class="row">
-                    <!-- First Name -->
                     <div class="col-md-6 mb-3">
                         <label for="new_firstname" class="data-label">First Name</label>
                         <input type="text"
                                id="new_firstname"
                                name="new_firstname"
                                class="form-control form-control-custom"
-                               placeholder="{{ ticket.firstname }}"
+                               placeholder="e.g., Abraham"
                                oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
                                required>
                     </div>
 
-                    <!-- Last Name -->
                     <div class="col-md-6 mb-3">
                         <label for="new_lastname" class="data-label">Father Name</label>
                         <input type="text"
                                id="new_lastname"
                                name="new_lastname"
                                class="form-control form-control-custom"
-                               placeholder="{{ ticket.lastname }}"
+                               placeholder="e.g., Bekele"
                                oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)"
                                required>
                     </div>
 
-                    <!-- Gender -->
                     <div class="col-md-6 mb-3">
                         <label for="new_gender" class="data-label">Gender</label>
                         <select id="new_gender" name="new_gender" class="form-control form-control-custom" style="height: calc(1.5em + .75rem + 11px);" required>
@@ -201,21 +216,23 @@
                         </select>
                     </div>
 
-                    <!-- Phone Number -->
                     <div class="col-md-6 mb-3">
                         <label for="new_phone" class="data-label">Phone Number</label>
                         <input type="tel"
                                id="new_phone"
                                name="new_phone"
                                class="form-control form-control-custom"
-                               placeholder="{{ ticket.phone }}"
+                               placeholder="e.g., 0912345678"
                                maxlength="10"
+                               pattern="^(09|07)\d{8}$"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                required>
                     </div>
 
-                    <!-- Submit action button -->
-                    <div class="col-12 mt-2">
-                        <button type="submit" class="btn-update-submit w-100">UPDATE INFORMATION</button>
+                    <div class="col-12 mt-3">
+                        <button type="submit" class="btn-update-submit w-100 shadow-sm">
+                            <i class="fas fa-exchange-alt mr-2"></i> Confirm Ticket Transfer
+                        </button>
                     </div>
                 </div>
             </form>
@@ -225,12 +242,10 @@
     </div>
 </div>
 
-<!-- FOOTER SYSTEM BLOCK -->
 <footer style="background:var(--brand-navy); color:white; padding:30px 0; text-align:center;">
     <p class="small opacity-50 mb-0">© 2026 Busfermata Digital Technology. Ethiopia's Digital Standard.</p>
 </footer>
 
-<!-- TRANSLATE ELEMENT INTERFACE STUB -->
 <div id="google_translate_element" style="display:none;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>

@@ -8,11 +8,6 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from django.contrib import admin  # ADD THIS LINE
 from django.urls import path
 urlpatterns = [
-    #path('admin/', admin.site.urls),
-    #path('', include('users.urls')), # This points to your massive urls.py file
-    #path('api/bus-changes/', views.BuschangeList.as_view()),
-    #path('api/service-fees/', views.ServiceFeeList.as_view()),
-    # Swagger UI requirements
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('about/', About.as_view(), name='about'),
@@ -22,8 +17,6 @@ urlpatterns = [
 
     path('api/about/', About.as_view(), name='api_about'),  # Updated to 'api/about/'
     path('Select/', SelectView.as_view(), name='Select'),
-    #path('Sel/', SelView.as_view(), name='Sel'),
-    #path('api/Sel/', SelView.as_view(), name='Sel_buses'),
     
     path('Sel/', SelView.as_view(), name='Sel'), # Unique name
     path('api/Sel/', SelView.as_view(), name='sel_api'), # Unique name

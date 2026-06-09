@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Busfermata | Delete Route</title>
+    <title>Busfermata | Delete Booker Agent</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -11,29 +11,30 @@
         :root { --brand-navy: #00264d; --brand-gold: #ffcc00; --brand-dark: #0f172a; --surface-gray: #f8fafc; --danger: #ef4444; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--surface-gray); margin: 0; color: #1e293b; }
 
-        /* Navigation */
+        /* Navigation same as above for consistency */
         .top-bar { background: var(--brand-dark); color: white; padding: 8px 0; font-size: 13px; }
         .navbar-main { background: #ffffff; padding: 12px 0; border-bottom: 5px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
         .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 20px; text-transform: uppercase; line-height: 1; display: block; }
         .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 9px; letter-spacing: 1px; display: block; }
-        .custom-nav-select { border: 2px solid #e2e8f0; font-size: 11px; font-weight: 800; border-radius: 8px; height: 38px; min-width: 145px; color: var(--brand-navy); text-transform: uppercase; margin: 3px; cursor: pointer; transition: 0.3s; }
-        
-        /* Table Content */
-        .page-container { padding: 40px 15px; max-width: 1100px; margin: 0 auto; }
+        .custom-nav-select { border: 2px solid #e2e8f0; font-size: 11px; font-weight: 800; border-radius: 8px; height: 38px; min-width: 145px; color: var(--brand-navy); text-transform: uppercase; margin: 3px; cursor: pointer; }
+
+        /* Table UI */
+        .page-container { padding: 40px 15px; max-width: 1000px; margin: 0 auto; }
         .content-card { background: white; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.06); overflow: hidden; border: 1px solid #e2e8f0; }
         .card-header-custom { background: #f8fafc; padding: 25px; border-bottom: 2px solid #e2e8f0; text-align: center; }
         
         .intl-table { width: 100%; border-collapse: collapse; }
         .intl-table thead tr { background-color: #10b981; color: white; }
-        .intl-table th { padding: 15px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .intl-table td { padding: 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-        
-        .route-path { font-weight: 800; color: var(--brand-navy); font-size: 14px; }
-        .route-arrow { color: var(--brand-gold); margin: 0 8px; }
-        .badge-info-pill { background: #f1f5f9; color: #475569; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+        .intl-table th { padding: 15px; font-size: 11px; text-transform: uppercase; }
+        .intl-table td { padding: 18px 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
 
-        .btn-delete-circle { width: 40px; height: 40px; border-radius: 10px; border: none; background: #fff1f2; color: var(--danger); transition: 0.3s; cursor: pointer; }
-        .btn-delete-circle:hover { background: var(--danger); color: white; transform: scale(1.1); }
+        .agent-name { color: #2563eb; font-weight: 800; font-size: 14px; display: block; }
+        .agent-company { color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .contact-box { font-size: 13px; font-weight: 500; color: #475569; }
+        .contact-box i { color: var(--brand-gold); width: 20px; }
+
+        .btn-delete-circle { width: 42px; height: 42px; border-radius: 10px; border: none; background: #fff1f2; color: var(--danger); transition: 0.3s; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+        .btn-delete-circle:hover { background: var(--danger); color: white; transform: rotate(15deg); }
 
         .footer-main { background: var(--brand-navy); color: rgba(255,255,255,0.7); padding: 40px 0; margin-top: 80px; border-top: 5px solid var(--brand-gold); text-align: center; }
         /* --- HIDE GOOGLE UI --- */ 
@@ -61,7 +62,7 @@
 
 <div class="top-bar">
     <div class="container d-flex justify-content-between align-items-center">
-        <span><i class="fas fa-map-marked-alt mr-2"></i> Route System Analytics Center | Support: <b>+251975143134</b></span>
+        <span><i class="fas fa-user-shield mr-2"></i> Human Resources Control | Support: <b>+251975143134</b></span>
         <a href="{% url 'logout' %}" class="text-danger font-weight-bold small text-decoration-none"><i class="fas fa-power-off mr-1"></i> LOGOUT</a>
     </div>
 </div>
@@ -111,8 +112,8 @@
                     <option value="{% url 'scdelete' %}">Remove Share Co.</option>
                     <option value="{% url 'citydelete' %}">Remove Terminal</option>
                     <option value="{% url 'commentdelete' %}">Delete Feedback</option>
-                    <option value="{% url 'routedelete' %}" selected>Delete Route</option>
-                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'workerdelete' %}" selected>Delete Booker Agent</option>
                     <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
                 </select>
             </div>
@@ -123,47 +124,44 @@
 <div class="page-container">
     <div class="content-card">
         <div class="card-header-custom">
-            <h5 class="m-0 font-weight-bold text-dark">Network Route Deletion</h5>
-            <small class="text-danger font-weight-bold">Warning: This action will cancel all active bookings for the selected route.</small>
+            <h5 class="m-0 font-weight-bold text-dark">Agent Termination Portal</h5>
+            <span style="background: #fee2e2; color: #dc2626; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px;">RESTRICTED ACCESS</span>
         </div>
         <table class="intl-table">
             <thead>
                 <tr>
-                    <th class="text-center">ID</th>
-                    <th>Route Map (Origin to Destination)</th>
-                    <th>Schedule Details</th>
-                    <th>Company</th>
+                    <th class="text-center" style="width: 60px;">Ref</th>
+                    <th>Agent Information</th>
+                    <th>Contact Details</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
-                {% for route in rou %}
+                    {% for wor in admins %}
                 <tr>
                     <td class="text-center font-weight-bold text-muted">{{ forloop.counter }}</td>
                     <td>
-                        <div class="route-path">
-                            {{ route.from_city }} <i class="fas fa-long-arrow-alt-right route-arrow"></i> {{ route.to_city }}
-                        </div>
+                        <span class="agent-name">{{ wor.city }}</span>
+                        <span class="agent-company">{{ wor.fname }}</span>
                     </td>
                     <td>
-                        <span class="badge-info-pill"><i class="far fa-calendar-alt mr-1"></i> {{ route.date|slice:10 }}</span>
-                        <span class="badge-info-pill ml-1"><i class="far fa-clock mr-1"></i> {{ route.time }}</span>
+                        <div class="contact-box"><i class="fas fa-envelope"></i> {{ wor.email }}</div>
+                        <div class="contact-box"><i class="fas fa-phone"></i> {{ wor.phone }}</div>
                     </td>
-                    <td class="font-weight-bold text-primary">{{ route.scname }}</td>
                     <td class="text-center">
-                        <form action="{% url 'routedelete' %}" method="POST" onsubmit="return confirm('PERMANENT ACTION: Delete this route mapping?');">
+                        <form action="{% url 'workerdelete' %}" method="POST" onsubmit="return confirm('CRITICAL: Terminate this agent? They will immediately lose system access.');">
                             {% csrf_token %}
                             <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="from_city" value="{{ route.from_city }}">
-                            <input type="hidden" name="to_city" value="{{ route.to_city }}">
-                            <input type="hidden" name="date" value="{{ route.date }}">
-                            <input type="hidden" name="scname" value="{{ route.scname }}">
-                            <button type="submit" class="btn-delete-circle"><i class="fas fa-trash-alt"></i></button>
+                            <input type="hidden" name="fname" value="{{ wor.fname }}">
+			    <input type="hidden" name="lname" value="{{ wor.lname }}">
+                            <input type="hidden" name="username" value="{{ wor.username }}">
+                            <input type="hidden" name="phone" value="{{ wor.phone }}">
+                            <button type="submit" class="btn-delete-circle" title="Delete Booker Agent"><i class="fas fa-user-slash fa-lg"></i></button>
                         </form>
                     </td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="5" class="text-center py-5 text-muted">No active routes found in the registry.</td></tr>
+                <tr><td colspan="4" class="text-center py-5 text-muted">No active ticket agents found.</td></tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -171,7 +169,7 @@
 </div>
 
 <footer class="footer-main">
-    <div class="container"><p class="small mb-0">&copy; 2026 Busfermata Digital Technology.</p></div>
+    <div class="container"><p class="small mb-0">&copy; 2026 Busfermata Digital Technology. Global System Configuration Standard.</p></div>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

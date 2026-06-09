@@ -97,7 +97,7 @@
                     <option value="#" selected disabled>Registry</option>
                     <option value="{% url 'sc' %}">Register Share Company</option>
                     <option value="{% url 'route' %}">Define New Route</option>
-                    <option value="{% url 'registor' %}">Add System Controller</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
                     <option value="{% url 'worker' %}">Register Ticket Agent</option>
                     <option value="{% url 'city' %}">Add Terminal Hub</option>
                     <option value="{% url 'service_fee' %}">Set Service Tariff</option>
@@ -105,7 +105,7 @@
 
                 <select onchange="location.href = this.value;" class="custom-nav-select">
                     <option value="#" selected disabled>System Configuration</option>
-                    <option value="{% url 'changebus' %}">Update Fleet (Bus)</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
                     <option value="{% url 'scupdate' %}">Edit Share Company</option>
                     <option value="{% url 'active' %}">Active Deployments</option>
                     <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
@@ -117,21 +117,21 @@
                     <option value="{% url 'users' %}">User Registry</option>
                     <option value="{% url 'totalballance' %}">Revenue Analytics</option>
                     <option value="{% url 'sce' %}" selected>View Share Companies</option>
-                    <option value="{% url 'buses' %}">View Fleet (Buses)</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
                     <option value="{% url 'comments' %}">Passenger Feedback</option>
                     <option value="{% url 'driver' %}">Booker Registry</option>
-                    <option value="{% url 'ticketinfo' %}">Transaction History</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
                 </select>
 
                 <select onchange="location.href = this.value;" class="custom-nav-select" style="color: red; border-color: #ffcccc;">
                     <option value="#" selected disabled>Data Control</option>
-                    <option value="{% url 'admindelete' %}">Remove Controller</option>
-                    <option value="{% url 'scdelete' %}">Decommission Share Co.</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
                     <option value="{% url 'citydelete' %}">Remove Terminal</option>
                     <option value="{% url 'commentdelete' %}">Delete Feedback</option>
                     <option value="{% url 'routedelete' %}">Delete Route</option>
-                    <option value="{% url 'workerdelete' %}">Terminate Agent</option>
-                    <option value="{% url 'delete_ticket' %}">Void Transaction</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
                 </select>
             </div>
         </div>
@@ -217,7 +217,7 @@
                 <ul class="footer-links">
                     <li><a href="{% url 'home' %}">Dashboard</a></li>
                     <li><a href="{% url 'users' %}">System Users</a></li>
-                    <li><a href="{% url 'buses' %}">Fleet View</a></li>
+                    <li><a href="{% url 'buses' %}">Bus View</a></li>
                     <li><a href="{% url 'routes' %}">Routes</a></li>
                 </ul>
             </div>
@@ -238,7 +238,7 @@
             </div>
         </div>
         <div class="footer-bottom text-center">
-            <p class="mb-0">&copy; 2026 Busfermata Digital Technologynology. All Rights Reserved.</p>
+            <p class="mb-0">&copy; 2026 Busfermata Digital Technology. All Rights Reserved.</p>
         </div>
     </div>
 </footer>

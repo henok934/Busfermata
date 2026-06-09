@@ -150,7 +150,16 @@ class Ticket(models.Model):
 
         # 3. Generate QR Code (only if not already there)
         if not self.qr_code:
-            qr_data = f"PNR: {self.pnr}\nPassenger: {self.firstname} {self.lastname}\nSeat: {self.no_seat}"
+            #qr_data = f"PNR: {self.pnr}\nPassenger: {self.firstname} {self.lastname}\nSeat: {self.no_seat}"
+            qr_data = (
+            f"--- BUSFERMATA DIGITAL TICKET ---\n"
+            f"PNR Reference: {self.pnr}\n"
+            f"Passenger: {self.firstname} {self.lastname}\n"
+            f"Route Path: {self.depcity.upper()} ➔ {self.descity.upper()}\n"
+            f"Departure Date: {self.date}\n"
+            f"Seat Allocation: {self.no_seat}\n"
+            f"---------------------------------"
+            )
             qr = qrcode.QRCode(version=1, box_size=5, border=2)
             qr.add_data(qr_data)
             qr.make(fit=True)
