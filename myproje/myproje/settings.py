@@ -75,16 +75,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myproje.wsgi.application'
 
 # 4. DATABASE (PostgreSQL)
-"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
 """
-
-
 import os
 import dj_database_url
 # Default fallback database setup for local testing on your computer
@@ -106,7 +106,7 @@ if os.environ.get('DATABASE_URL'):
         ssl_require=True
     )
 
-
+"""
 
 
 # 5. AUTHENTICATION & USERS
