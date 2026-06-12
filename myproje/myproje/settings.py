@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 2. SECURITY SETTINGS...
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
-DEBUG = False
+DEBUG = True
 
 #ALLOWED_HOSTS = ['*']
 
@@ -97,6 +97,32 @@ DATABASES = {
     }
 }
 """
+
+
+
+"""
+import dj_database_url
+
+# Default database for local development on your machine
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'my_app_db',
+        'USER': 'data',
+        'PASSWORD': 'Teklu@934',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+# Automatically switches to Render's database when deployed live
+if os.environ.get('DATABASE_URL'):
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600,
+        ssl_require=True
+    )
+"""
+
 import dj_database_url
 
 # Default database for local development on your machine
