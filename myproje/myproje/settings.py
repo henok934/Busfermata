@@ -2,16 +2,21 @@ import os
 from pathlib import Path
 import dj_database_url
 
-# 1. BASE DIRECTORY DEFINED FIRST
+# 1. BASE DIRECTORY
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 2. SECURITY SETTINGS...
+# 2. SECURITY CONFIGURATIONS
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
 DEBUG = True
 
-ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'busfermata.onrender.com', 
+    'wedehagertransport.onrender.com', 
+    'localhost', 
+    '127.0.0.1',
+    '.onrender.com'
+]
 
-# Security Headers for Production/Audit
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
@@ -21,7 +26,7 @@ SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
-# 3. APPLICATION DEFINITION
+# 3. INSTALLED APPLICATIONS
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -30,21 +35,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # Third Party Apps
+    # Third Party Packages
     'rest_framework',
     'drf_spectacular',
     'corsheaders',
     'axes',
     
-    # Your Apps
+    # Core Apps
     'users',
 ]
 
+# 4. MIDDLEWARE SETUP
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # For static files on Render
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # Placed before Common
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -73,8 +79,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproje.wsgi.application'
 
-# 4. DATABASE CONFIGURATION (PostgreSQL)
-# Default fallback database setup for local testing on your computer
+# 5. DATABASE DYNAMIC SETUP
+# Local development fallback
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -86,26 +92,25 @@ DATABASES = {
     }
 }
 
-# Dynamic live configuration override for Render Cloud environment
+# Production environment variable connection
 if os.environ.get('DATABASE_URL'):
     DATABASES['default'] = dj_database_url.config(
         conn_max_age=600,
         ssl_require=True
     )
 
-# 5. AUTHENTICATION & USERS
+# 6. USER MODEL & POLICIES
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesStandaloneBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
-AXES_ENABLED = False # Disable for local testing if needed
+AXES_ENABLED = False
 
-# Session cookie configuration
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 1209600  # Two weeks in seconds
+SESSION_COOKIE_AGE = 1209600
 
-# 6. EMAIL SETTINGS
+# 7. MAILING CONFIGURATION
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -114,7 +119,7 @@ EMAIL_HOST_USER = 'teklemariammossie1@gmail.com'
 EMAIL_HOST_PASSWORD = 'xbbdaymgoqapntds'
 DEFAULT_FROM_EMAIL = 'teklemariammossie697@gmail.com'
 
-# 7. STATIC & MEDIA FILES
+# 8. STATIC AND STATIC STORAGE
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'users/static')]
@@ -123,10 +128,12 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# 8. CORS & CSRF
+# 9. SECURITIES AND ORIGINS
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://busfermata.onrender.com",
+    "https://wedehagertransport.onrender.com"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -134,7 +141,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://busfermata.onrender.com'
 ]
 
-# 9. INTERNATIONALIZATION & SYSTEM SETTINGS
+# 10. REGIONAL AND ZONE SETTINGS
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
@@ -148,7 +155,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# 10. API DOCUMENTATION SETTINGS (DRF & Spectacular)
+# 11. REST FRAMEWORK & OPENAPI
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
