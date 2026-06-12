@@ -100,6 +100,7 @@ if os.environ.get('DATABASE_URL'):
     )
 
 # 6. USER MODEL & POLICIES
+# Explicit custom user initialization
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesStandaloneBackend',
