@@ -76,14 +76,13 @@ WSGI_APPLICATION = 'myproje.wsgi.application'
 
 # 4. DATABASE (PostgreSQL)
 
-"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-"""
+
 
 """
 DATABASES = {
@@ -123,6 +122,8 @@ if os.environ.get('DATABASE_URL'):
     )
 """
 
+
+"""
 import dj_database_url
 
 # Default database for local development on your machine
@@ -143,7 +144,7 @@ if os.environ.get('DATABASE_URL'):
         conn_max_age=600,
         ssl_require=True
     )
-
+"""
 # 5. AUTHENTICATION & USERS
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = [
