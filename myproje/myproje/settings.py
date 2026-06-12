@@ -75,19 +75,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myproje.wsgi.application'
 
 # 4. DATABASE (PostgreSQL)
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-"""
-
 import os
 import dj_database_url
 
-# 1. Fallback database for your local development computer
+# Default fallback database setup for local testing on your computer
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -99,7 +90,7 @@ DATABASES = {
     }
 }
 
-# 2. Production override for Render Cloud environment
+# Dynamic live configuration override for Render Cloud
 if os.environ.get('DATABASE_URL'):
     DATABASES['default'] = dj_database_url.config(
         conn_max_age=600,
