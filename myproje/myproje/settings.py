@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'axes',
-    'sslserver', 
+    #'sslserver', 
     # Your Apps
     'users',
 ]
