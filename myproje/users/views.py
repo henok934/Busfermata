@@ -873,76 +873,73 @@ class Changepassenger(APIView):
 
 
 
-
-
-
-
 import requests
-
 from rest_framework.views import APIView
-
 from rest_framework.response import Response
-
 from rest_framework import status
 from django.shortcuts import render
 from .models import Ticket # Ensure Ticket model is imported
+
+"""
 class CancelTicketView(APIView):
-
+    serializer_class = None  # 👈 ይህንን አንድ መስመር ብቻ እዚህ ላይ ጨምር
     def post(self, request):
-
         # 1. Retrieve data from form
-
         method = request.data.get('refund_method')
-
         account_number = request.data.get('refund_account')
-
         password = request.data.get('password')
-
          # Hidden ticket identifiers for deletion
-
         firstname = request.data.get('firstname')
-
         lastname = request.data.get('lastname')
-
         plate_no = request.data.get('plate_no')
-
         side_no = request.data.get('side_no')
-
         price = request.data.get('price')
-
-
-
         # Find the specific ticket to delete
-
         ticket_to_delete = Ticket.objects.filter(
-
         firstname=firstname,
-
         lastname=lastname,
-
         plate_no=plate_no,
-
         side_no=side_no
-
         ).first()
-
         if ticket_to_delete:
-
             ticket_to_delete.delete()
-
             context = {
-
                 'success': 'Refund processed and ticket cancelled successfully.'
 
                 }
-
             return render(request, 'users/index.html', context)
-
         return render(request, 'users/index.html', {'error': 'Ticket not found or already cancelled.'
-
 })
+"""
+class CancelTicketView(APIView):
+    serializer_class = None
+    def post(self, request):
+        # 1. ከፎርሙ የመጡትን መረጃዎች በሙሉ መቀበል
+        method = request.data.get('refund_method')
+        account_number = request.data.get('refund_account')
+        password = request.data.get('password')
 
+        firstname = request.data.get('firstname')
+        lastname = request.data.get('lastname')
+        plate_no = request.data.get('plate_no')
+        side_no = request.data.get('side_no')
+        price = request.data.get('price')
+        # 🔑 በ Hidden የመጣውን PNR እዚህ ጋ በትክክል እንቀበላለን
+        pnr_from_form = request.data.get('pnr')
 
+        # 2. 🛡️ የኢንሳ መከላከያ (BOLA/IDOR Fix)፦
+        # ሲስተሙ ቲኬቱን ለመሰረዝ በስም፣ በታርጋ እና በ PNR ቁጥሩ ጥምረት በጥብቅ ያጣራል
+        ticket_to_delete = Ticket.objects.filter(
+            firstname=firstname,
+            lastname=lastname,
+            plate_no=plate_no,
+            side_no=side_no,
+            pnr=pnr_from_form  # 👈 ካንተ ሞዴል 'pnr' ጋር በትክክል ይገናኛል
+        ).first()
+        if ticket_to_delete:
+            ticket_to_delete.delete()
+            return render(request, 'users/index.html', {'success': 'Refund processed and ticket cancelled successfully.'})
+        return render(request, 'users/index.html', {'error': 'Ticket not found or already cancelled.'})
 
 
 
@@ -956,7 +953,6 @@ from django.contrib.auth.hashers import check_password
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from .models import Ticket
 from .serializers import CancelTicketRequestSerializer
-
 class CancelTicketView(APIView):
     # INSA Security Requirement: Enforce that only registered users/operators can drop records
     permission_classes = [IsAuthenticated]

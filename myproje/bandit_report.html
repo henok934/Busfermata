@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    Bandit Report
+</title>
+
+<style>
+
+html * {
+    font-family: "Arial", sans-serif;
+}
+
+pre {
+    font-family: "Monaco", monospace;
+}
+
+.bordered-box {
+    border: 1px solid black;
+    padding-top:.5em;
+    padding-bottom:.5em;
+    padding-left:1em;
+}
+
+.metrics-box {
+    font-size: 1.1em;
+    line-height: 130%;
+}
+
+.metrics-title {
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: .25em;
+}
+
+.issue-description {
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+.candidate-issues {
+    margin-left: 2em;
+    border-left: solid 1px; LightGray;
+    padding-left: 5%;
+    margin-top: .2em;
+    margin-bottom: .2em;
+}
+
+.issue-block {
+    border: 1px solid LightGray;
+    padding-left: .5em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    margin-bottom: .5em;
+}
+
+.issue-sev-high {
+    background-color: Pink;
+}
+
+.issue-sev-medium {
+    background-color: NavajoWhite;
+}
+
+.issue-sev-low {
+    background-color: LightCyan;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="metrics">
+    <div class="metrics-box bordered-box">
+        <div class="metrics-title">
+            Metrics:<br>
+        </div>
+        Total lines of code: <span id="loc">12008</span><br>
+        Total lines skipped (#nosec): <span id="nosec">1</span>
+    </div>
+</div>
+
+
+
+
+<br>
+<div id="results">
+    
+<div id="issue-0">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/330.html" target="_blank">CWE-330</a><br>
+    <b>File: </b><a href="./blog/models.py" target="_blank">./blog/models.py</a><br>
+    <b>Line number: </b>278<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+277	    def generate_pnr(self):
+278	        return &#x27;&#x27;.join(random.choices(string.ascii_uppercase, k=6))
+279	
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-1">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'xbbdaymgoqapntds'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./myproje/settings.py" target="_blank">./myproje/settings.py</a><br>
+    <b>Line number: </b>145<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+144	EMAIL_HOST_USER = &#x27;teklemariammossie1@gmail.com&#x27;
+145	EMAIL_HOST_PASSWORD = &#x27;xbbdaymgoqapntds&#x27;
+146	DEFAULT_FROM_EMAIL = &#x27;teklemariammossie697@gmail.com&#x27;
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-2">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_funcarg: </b> Possible hardcoded password: 'Super_admin@934'<br>
+    <b>Test ID:</b> B106<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="./users/apps.py" target="_blank">./users/apps.py</a><br>
+    <b>Line number: </b>20<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b106_hardcoded_password_funcarg.html</a><br>
+
+<div class="code">
+<pre>
+19	            # instead of fname and lname
+20	            CustomUser.objects.create_superuser(
+21	                username=&#x27;henok&#x27;,
+22	                email=&#x27;henok@example.com&#x27;,
+23	                password=&#x27;Super_admin@934&#x27;,
+24	                phone=&#x27;0934567890&#x27;,
+25	                first_name=&#x27;Henok&#x27;,
+26	                last_name=&#x27;Mossie&#x27;,
+27	                #gender=&#x27;Male&#x27;
+28	
+29	            )
+30	            print(&quot;--- Default Superuser &#x27;henok&#x27; created successfully ---&quot;)
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-3">
+<div class="issue-block issue-sev-low">
+    <b>blacklist: </b> Standard pseudo-random generators are not suitable for security/cryptographic purposes.<br>
+    <b>Test ID:</b> B311<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>HIGH<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/330.html" target="_blank">CWE-330</a><br>
+    <b>File: </b><a href="./users/models.py" target="_blank">./users/models.py</a><br>
+    <b>Line number: </b>143<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random" target="_blank">https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random</a><br>
+
+<div class="code">
+<pre>
+142	            while True:
+143	                new_pnr = &#x27;&#x27;.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+144	                if not Ticket.objects.filter(pnr=new_pnr).exists():
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-4">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6430<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6429	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6430	            response = requests.post(url, json=payload, headers=headers)
+6431	            return response.json().get(&#x27;valid&#x27;, False) if response.status_code == 200 else False
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-5">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6439<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6438	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6439	            response = requests.post(url, json=payload, headers=headers)
+6440	            return float(response.json().get(&#x27;balance&#x27;, 0)) if response.status_code == 200 else None
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-6">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6448<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6447	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6448	            response = requests.post(url, json=payload, headers=headers)
+6449	            return response.json() if response.status_code == 200 else {&#x27;success&#x27;: False}
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-7">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6457<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6456	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6457	            response = requests.post(url, json=payload, headers=headers)
+6458	            return response.json() if response.status_code == 200 else {&#x27;success&#x27;: False}
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-8">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6592<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6591	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6592	            response = requests.post(url, json=payload, headers=headers)
+6593	            return response.json().get(&#x27;valid&#x27;, False) if response.status_code == 200 else False
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-9">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6601<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6600	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6601	            response = requests.post(url, json=payload, headers=headers)
+6602	            return float(response.json().get(&#x27;balance&#x27;, 0)) if response.status_code == 200 else None
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-10">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6610<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6609	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6610	            response = requests.post(url, json=payload, headers=headers)
+6611	            return response.json() if response.status_code == 200 else {&#x27;success&#x27;: False}
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-11">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6619<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6618	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6619	            response = requests.post(url, json=payload, headers=headers)
+6620	            return response.json() if response.status_code == 200 else {&#x27;success&#x27;: False}
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-12">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6751<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6750	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6751	            response = requests.post(url, json=payload, headers=headers)
+6752	            return response.json().get(&#x27;valid&#x27;, False) if response.status_code == 200 else False
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-13">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6760<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6759	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6760	            response = requests.post(url, json=payload, headers=headers)
+6761	            return float(response.json().get(&#x27;balance&#x27;, 0)) if response.status_code == 200 else None
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-14">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6769<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6768	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6769	            response = requests.post(url, json=payload, headers=headers)
+6770	            return response.json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-15">
+<div class="issue-block issue-sev-medium">
+    <b>request_without_timeout: </b> Call to requests without timeout<br>
+    <b>Test ID:</b> B113<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>LOW<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/400.html" target="_blank">CWE-400</a><br>
+    <b>File: </b><a href="./users/views.py" target="_blank">./users/views.py</a><br>
+    <b>Line number: </b>6778<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html" target="_blank">https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html</a><br>
+
+<div class="code">
+<pre>
+6777	            headers = {&#x27;Authorization&#x27;: &#x27;Bearer YOUR_API_KEY&#x27;, &#x27;Content-Type&#x27;: &#x27;application/json&#x27;}
+6778	            response = requests.post(url, json=payload, headers=headers)
+6779	            return response.json()
+</pre>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

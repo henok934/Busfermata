@@ -20,7 +20,7 @@ def create_default_user(sender, **kwargs):
             CustomUser.objects.create_superuser(
                 username='henok',
                 email='henok@example.com',
-                password='Super_admin@934',
+                password='Teklemariam@934',
                 phone='0934567890',
                 first_name='Henok',
                 last_name='Mossie',

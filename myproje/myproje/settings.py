@@ -5,8 +5,25 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 2. SECURITY SETTINGS...
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
-DEBUG = True
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh')
+
+
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+"""
+if not SECRET_KEY:
+    # በሰርቨር/በኢንሳ ፍተሻ ወቅት ቫሪያብሉ ካልተገኘ ሲስተሙ መቆም አለበት (ደህንነቱ የተጠበቀ አሰራር)
+    if os.environ.get('DJANGO_PRODUCTION') == 'True':
+        raise ImproperlyConfigured("The DJANGO_SECRET_KEY environment variable is missing on Production!")
+    
+    # ለኮምፒውተርህ (Development) ጊዜ ብቻ ይሄን ያዘጋጀኸውን ጠንካራ ነባሪ ቁልፍ ይወስዳል
+    SECRET_KEY = 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh'
+"""
+
+
+SECRET_KEY = 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh' # nosec
+DEBUG = False
 
 #ALLOWED_HOSTS = ['*']
 
@@ -14,6 +31,8 @@ ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', '
 #CSRF_TRUSTED_ORIGINS = ['https://wedehagertransport.onrender.com']
 
 # Security Headers for Production/Audit
+SECURE_SSL_REDIRECT = True
+
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
@@ -37,7 +56,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'axes',
-    
+    'sslserver', 
     # Your Apps
     'users',
 ]
