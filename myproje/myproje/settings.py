@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', '
 #CSRF_TRUSTED_ORIGINS = ['https://wedehagertransport.onrender.com']
 
 # Security Headers for Production/Audit
-SECURE_SSL_REDIRECT = True
+#SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -56,10 +56,23 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'axes',
-    #'sslserver', 
+    'turnstile', 
     # Your Apps
     'users',
 ]
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'hibir-auth-ratelimit-protector',
+    }
+}
+
+TURNSTILE_SITE_KEY = '0x4AAAAAAAM1_xxxxxxxxxxxx'       # Public HTML rendering key
+TURNSTILE_SECRET_KEY = '0x4AAAAAAAM1_xxxxxxxxxxxx'
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

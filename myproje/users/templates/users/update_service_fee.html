@@ -259,8 +259,85 @@
                                 <input type="text" name="service_fee" value="{{ route.service_fee }}" readonly class="input-read text-success">
                             </td>
                             <td>
-                                <input type="number" step="0.01" name="new_service_fee" class="input-edit" placeholder="0.00" required>
-                            </td>
+				<!--
+				<input type="number"
+                                           step="0.01"
+                                           name="new_service_fee"
+                                           class="input-edit"
+                                           placeholder="0.00"
+					   required>-->
+					   <!--<input type="number"
+       step="0.01"
+       min="0"
+       oninput="if(/^0/.test(this.value)) this.value = this.value.replace(/^0/, '');"
+       name="new_service_fee"
+       class="input-edit" maxlength="2"
+       placeholder="0.00"
+       required>
+	-->
+
+<!--
+<input type="number"
+       step="0.01"
+       min="1"
+       oninput="
+         if (this.value.startsWith('0')) this.value = this.value.replace(/^0+/, '');
+         if (this.value < 0) this.value = '';
+         if (this.value.length > 2) this.value = this.value.slice(0, 2);
+       "
+       name="new_service_fee"
+       class="input-edit"
+       placeholder="0.00"
+       required>
+-->
+<!--
+<input type="number"
+       step="0.01"
+       min="1"
+       onkeydown="if(event.key === '-' || event.key === 'e') event.preventDefault();"
+       oninput="
+         if (this.value.startsWith('0')) this.value = this.value.replace(/^0+/, '');
+         if (this.value.length > 2) this.value = this.value.slice(0, 2);
+       "
+       name="new_service_fee"
+       class="input-edit"
+       placeholder="0.00"
+       required>
+--> 
+
+
+<!--
+<input type="number"
+       step="0.01"
+       min="0.01"
+       onkeydown="if(event.key === '-' || event.key === 'e') event.preventDefault();"
+       oninput="
+         if (this.value === '0') return; 
+         if (this.value.startsWith('0') && !this.value.startsWith('0.')) {
+           this.value = this.value.replace(/^0+/, '');
+         }
+         if (this.value.length > 2) this.value = this.value.slice(0, 2);
+       "
+       name="new_service_fee"
+       class="input-edit"
+       placeholder="0.00"
+       required>
+-->
+<input type="number"
+       step="0.01"
+       min="5"
+       maxlength="2"
+       onkeydown="if(event.key === '-' || event.key === 'e' || (event.key === '0' && !this.value)) event.preventDefault();"
+       oninput="
+         if (this.value.startsWith('0')) this.value = this.value.replace(/^0+/, '');
+         if (this.value.length > 2) this.value = this.value.slice(0, 2);
+       "
+       name="new_service_fee"
+       class="input-edit"
+       placeholder="20"
+       required>
+			    </td>
+
                             <td style="text-align: right;">
                                 <button type="submit" class="btn-update">
                                     <i class="fas fa-sync-alt mr-1"></i> Update Tariff

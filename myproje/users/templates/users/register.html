@@ -205,6 +205,165 @@
     </div>
 </nav>
 
+
+
+
+<!--
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="admin-card">
+
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-shield" style="font-size: 40px; color: var(--brand-navy);"></i>
+                    <h4 class="font-weight-bold mt-3" style="color: var(--brand-navy);">System Admin Registry</h4>
+                    <p class="text-muted">Register a new administrative account for the platform</p>
+                </div>
+
+                <div id="response_message">
+                    {% if success %}
+                        <div class="alert alert-success text-center"><b>{{ success }}</b> ✔</div>
+                    {% endif %}
+                    {% if error %}
+                        <div class="alert alert-danger text-center"><b>{{ error }}</b></div>
+                    {% endif %}
+                </div>
+
+                <form id="reg_form" method="post" onsubmit="return validateRegForm(event)">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="fname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Father Name</label>
+                            <input type="text" name="lname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control form-control-modern" maxlength="30" required>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" id="regPassword" name="password" class="form-control form-control-modern" maxlength="30" oninput="checkStrictStrength(this.value)" required>
+
+                            <div class="mt-3 px-1">
+                                <div class="progress" style="height: 8px; background-color: #e9ecef; border-radius: 4px;">
+                                    <div id="strengthBar" class="progress-bar" role="progressbar" style="width: 0%; transition: width 0.3s ease;"></div>
+                                </div>
+                                <div id="strengthText" class="form-text font-weight-bold text-muted mt-2 small" style="letter-spacing: 0.5px;">
+                                    Strength: Enter a password
+                                </div>
+                                <div id="submitError" class="alert alert-danger p-2 mt-2 small font-weight-bold d-none" style="border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Gender</label>
+                            <select name="gender" class="form-control form-control-modern" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Phone (09xxxxxxxx)</label>
+                            <input type="text" id="phone" name="phone" class="form-control form-control-modern" maxlength="10" oninput="validatePhone(this)" required>
+                            <div id="phoneError" style="color: red; font-size: 11px; font-weight: bold; margin-top: 5px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control form-control-modern" oninput="validateEmail(this)" required placeholder="example@gmail.com">
+                        <div id="emailError" style="color: red; font-size: 11px; font-weight: bold; margin-top: 5px;"></div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-user-plus mr-2"></i> Finalize Admin Registration
+                    </button>
+                </form>
+
+            </div> </div> </div> </main>
+
+<script>
+// Live dynamic indicator calculations
+function checkStrictStrength(password) {
+    let strengthBar = document.getElementById('strengthBar');
+    let strengthText = document.getElementById('strengthText');
+    let errorBox = document.getElementById('submitError');
+
+    errorBox.classList.add('d-none');
+
+    if (password.length === 0) {
+        strengthBar.style.width = '0%';
+        strengthText.innerHTML = 'Strength: Enter a password';
+        strengthText.style.color = '#6c757d';
+        return;
+    }
+
+    let checks = {
+        length: password.length >= 8,
+        capital: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    let passedCount = Object.values(checks).filter(Boolean).length;
+
+    if (passedCount === 4) {
+        strengthBar.style.width = '100%';
+        strengthBar.style.backgroundColor = '#28a745';
+        strengthText.innerHTML = 'Strength: Strong (Valid)';
+        strengthText.style.color = '#28a745';
+    } else if (passedCount === 3) {
+        strengthBar.style.width = '75%';
+        strengthBar.style.backgroundColor = '#ffc107';
+        strengthText.innerHTML = 'Strength: Medium (Cannot register yet)';
+        strengthText.style.color = '#ffc107';
+    } else {
+        strengthBar.style.width = '33%';
+        strengthBar.style.backgroundColor = '#dc3545';
+        strengthText.innerHTML = 'Strength: Weak';
+        strengthText.style.color = '#dc3545';
+    }
+}
+
+// Client-side form interception rules engine
+function validateRegForm(event) {
+    let passwordInput = document.getElementById('regPassword').value;
+    let errorBox = document.getElementById('submitError');
+
+    let hasLength = passwordInput.length >= 8;
+    let hasCapital = /[A-Z]/.test(passwordInput);
+    let hasNumber = /[0-9]/.test(passwordInput);
+    let hasSpecial = /[^A-Za-z0-9]/.test(passwordInput);
+
+    if (!hasLength || !hasCapital || !hasNumber || !hasSpecial) {
+        errorBox.innerHTML = "<i class='fas fa-exclamation-circle mr-1'></i> Registration Blocked: Password must be Strong. Requirements: Minimum 8 characters, 1 capital letter, 1 number, and 1 special symbol character.";
+        errorBox.classList.remove('d-none');
+
+        document.getElementById('regPassword').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+    }
+    return true;
+}
+
+// Validation function stubs
+function validateName(input) {}
+function validatePhone(input) {}
+function validateEmail(input) {}
+</script>
+-->
+
+<!--
 <main class="container">
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -214,7 +373,6 @@
                     <h4 class="font-weight-bold mt-3" style="color: var(--brand-navy);">System Admin Registry</h4>
                     <p class="text-muted">Register a new administrative account for the platform</p>
                 </div>
-
                 <div id="response_message">
                     {% if success %}
                     <div class="alert alert-success text-center"><b>{{ success }}</b> ✔</div>
@@ -222,9 +380,12 @@
                     {% if error %}
                     <div class="alert alert-danger text-center"><b>{{ error }}</b></div>
                     {% endif %}
-                </div>
+		</div>        
+-->
 
-                <form id="reg_form" method="post">
+
+<!--
+		<form id="reg_form" method="post">
                     {% csrf_token %}
                     
                     <div class="row">
@@ -275,11 +436,305 @@
                         <i class="fas fa-user-plus mr-2"></i> Finalize Admin Registration
                     </button>
                 </form>
+-->
+
+<!--
+<form id="reg_form" method="post" onsubmit="return validateRegForm(event)">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" name="fname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="form-label">Father Name</label>
+            <input type="text" name="lname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 form-group mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control form-control-modern" maxlength="30" required>
+        </div>
+        <div class="col-md-6 form-group mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" id="regPassword" name="password" class="form-control form-control-modern" maxlength="30" oninput="checkStrictStrength(this.value)" required>
+
+            <div class="mt-3 px-1">
+                <div class="progress" style="height: 8px; background-color: #e9ecef; border-radius: 4px;">
+                    <div id="strengthBar" class="progress-bar" role="progressbar" style="width: 0%; transition: width 0.3s ease;"></div>
+                </div>
+                <div id="strengthText" class="form-text font-weight-bold text-muted mt-2 small" style="letter-spacing: 0.5px;">
+                    Strength: Enter a password
+                </div>
+
+                <div id="submitError" class="alert alert-danger p-2 mt-2 small font-weight-bold d-none" style="border-radius: 4px;">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label class="form-label">Gender</label>
+            <select name="gender" class="form-control form-control-modern" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="form-label">Phone (09xxxxxxxx)</label>
+            <input type="text" id="phone" name="phone" class="form-control form-control-modern" maxlength="10" oninput="validatePhone(this)" required>
+            <div id="phoneError" style="color: red; font-size: 11px; font-weight: bold; margin-top: 5px;"></div>
+        </div>
+    </div>
+
+    <div class="form-group mb-4">
+        <label class="form-label">Email Address</label>
+        <input type="email" id="email" name="email" class="form-control form-control-modern" oninput="validateEmail(this)" required placeholder="example@gmail.com">
+        <div id="emailError" style="color: red; font-size: 11px; font-weight: bold; margin-top: 5px;"></div>
+    </div>
+
+    <button type="submit" class="btn-submit">
+        <i class="fas fa-user-plus mr-2"></i> Finalize Admin Registration
+    </button>
+</form>
+	
+<script>
+// Dynamic indicator bar changes
+function checkStrictStrength(password) {
+    let strengthBar = document.getElementById('strengthBar');
+    let strengthText = document.getElementById('strengthText');
+    let errorBox = document.getElementById('submitError');
+
+    errorBox.classList.add('d-none'); // Hide the error element while typing
+
+    if (password.length === 0) {
+        strengthBar.style.width = '0%';
+        strengthText.innerHTML = 'Strength: Enter a password';
+        strengthText.style.color = '#6c757d';
+        return;
+    }
+
+    let checks = {
+        length: password.length >= 8,
+        capital: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    let passedCount = Object.values(checks).filter(Boolean).length;
+
+    if (passedCount === 4) {
+        strengthBar.style.width = '100%';
+        strengthBar.style.backgroundColor = '#28a745'; // Green
+        strengthText.innerHTML = 'Strength: Strong (Valid)';
+        strengthText.style.color = '#28a745';
+    } else if (passedCount === 3) {
+        strengthBar.style.width = '75%';
+        strengthBar.style.backgroundColor = '#ffc107'; // Yellow
+        strengthText.innerHTML = 'Strength: Medium (Cannot register yet)';
+        strengthText.style.color = '#ffc107';
+    } else {
+        strengthBar.style.width = '33%';
+        strengthBar.style.backgroundColor = '#dc3545'; // Red
+        strengthText.innerHTML = 'Strength: Weak';
+        strengthText.style.color = '#dc3545';
+    }
+}
+
+// Intercept execution state on submission intent
+function validateRegForm(event) {
+    let passwordInput = document.getElementById('regPassword').value;
+    let errorBox = document.getElementById('submitError');
+
+    let hasLength = passwordInput.length >= 8;
+    let hasCapital = /[A-Z]/.test(passwordInput);
+    let hasNumber = /[0-9]/.test(passwordInput);
+    let hasSpecial = /[^A-Za-z0-9]/.test(passwordInput);
+
+    if (!hasLength || !hasCapital || !hasNumber || !hasSpecial) {
+        errorBox.innerHTML = "<i class='fas fa-exclamation-circle mr-1'></i> Registration Blocked: Password must be Strong. Requirements: Minimum 8 characters, 1 capital letter, 1 number, and 1 special symbol character.";
+        errorBox.classList.remove('d-none');
+
+        document.getElementById('regPassword').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false; // Blocks actual server side request execution
+    }
+    return true; // Execution cleared to safely register admin
+}
+
+// Placeholders for your custom utility callbacks
+function validateName(input) {}
+function validatePhone(input) {}
+function validateEmail(input) {}
+</script>
             </div>
         </div>
     </div>
 </main>
+-->
 
+
+
+<main class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="admin-card">
+
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-shield" style="font-size: 40px; color: var(--brand-navy);"></i>
+                    <h4 class="font-weight-bold mt-3" style="color: var(--brand-navy);">System Admin Registry</h4>
+                    <p class="text-muted">Register a new administrative account for the platform</p>
+                </div>
+
+                <div id="response_message">
+                    {% if success %}
+                        <div class="alert alert-success text-center"><b>{{ success }}</b> ✔</div>
+                    {% endif %}
+                    {% if error %}
+                        <div class="alert alert-danger text-center"><b>{{ error }}</b></div>
+                    {% endif %}
+                </div>
+
+                <form id="reg_form" method="post" onsubmit="return validateRegForm(event)">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="fname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Father Name</label>
+                            <input type="text" name="lname" class="form-control form-control-modern" maxlength="15" oninput="validateName(this)" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control form-control-modern" maxlength="30" required>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" id="regPassword" name="password" class="form-control form-control-modern" maxlength="30" oninput="checkStrictStrength(this.value)" required>
+
+                            <div class="mt-3 px-1">
+                                <div class="progress" style="height: 8px; background-color: #e9ecef; border-radius: 4px;">
+                                    <div id="strengthBar" class="progress-bar" role="progressbar" style="width: 0%; transition: width 0.3s ease;"></div>
+                                </div>
+                                <div id="strengthText" class="form-text font-weight-bold text-muted mt-2 small" style="letter-spacing: 0.5px;">
+                                    Strength: Enter a password
+                                </div>
+                                <div id="submitError" class="alert alert-danger p-2 mt-2 small font-weight-bold d-none" style="border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Gender</label>
+                            <select name="gender" class="form-control form-control-modern" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="form-label">Phone (09xxxxxxxx)</label>
+                            <input type="text" id="phone" name="phone" class="form-control form-control-modern" maxlength="10" oninput="validatePhone(this)" required>
+                            <div id="phoneError" style="color: red; font-size: 11px; font-weight: bold; margin-top: 5px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control form-control-modern" oninput="validateEmail(this)" required placeholder="example@gmail.com">
+                        <div id="emailError" style="color: red; font-size: 11px; font-weight: bold; margin-top: 5px;"></div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-user-plus mr-2"></i> Finalize Admin Registration
+                    </button>
+                </form>
+
+            </div> </div> </div> </main>
+
+<script>
+// Live dynamic indicator calculations
+function checkStrictStrength(password) {
+    let strengthBar = document.getElementById('strengthBar');
+    let strengthText = document.getElementById('strengthText');
+    let errorBox = document.getElementById('submitError');
+
+    errorBox.classList.add('d-none');
+    errorBox.textContent = ""; // Completely clear previous text nodes
+
+    if (password.length === 0) {
+        strengthBar.style.width = '0%';
+        strengthText.innerHTML = 'Strength: Enter a password';
+        strengthText.style.color = '#6c757d';
+        return;
+    }
+
+    let checks = {
+        length: password.length >= 8,
+        capital: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    let passedCount = Object.values(checks).filter(Boolean).length;
+
+    if (passedCount === 4) {
+        strengthBar.style.width = '100%';
+        strengthBar.style.backgroundColor = '#28a745';
+        strengthText.innerHTML = 'Strength: Strong (Valid)';
+        strengthText.style.color = '#28a745';
+    } else if (passedCount === 3) {
+        strengthBar.style.width = '75%';
+        strengthBar.style.backgroundColor = '#ffc107';
+        strengthText.innerHTML = 'Strength: Medium (Cannot register yet)';
+        strengthText.style.color = '#ffc107';
+    } else {
+        strengthBar.style.width = '33%';
+        strengthBar.style.backgroundColor = '#dc3545';
+        strengthText.innerHTML = 'Strength: Weak';
+        strengthText.style.color = '#dc3545';
+    }
+}
+
+// Client-side form interception rules engine
+function validateRegForm(event) {
+    let passwordInput = document.getElementById('regPassword').value;
+    let errorBox = document.getElementById('submitError');
+
+    let hasLength = passwordInput.length >= 8;
+    let hasCapital = /[A-Z]/.test(passwordInput);
+    let hasNumber = /[0-9]/.test(passwordInput);
+    let hasSpecial = /[^A-Za-z0-9]/.test(passwordInput);
+
+    if (!hasLength || !hasCapital || !hasNumber || !hasSpecial) {
+        // Fix: Explicit string HTML format to stop [object Object] rendering
+        let warningTemplate = "<i class='fas fa-exclamation-circle mr-1'></i> Registration Blocked: Password must be Strong. Requirements: Minimum 8 characters, 1 capital letter, 1 number, and 1 special symbol character.";
+
+        errorBox.innerHTML = warningTemplate;
+        errorBox.classList.remove('d-none');
+
+        document.getElementById('regPassword').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+    }
+    return true;
+}
+
+// Validation function stubs - make sure your working versions do not return HTML node objects
+function validateName(input) {}
+function validatePhone(input) {}
+function validateEmail(input) {}
+</script>
 <footer class="footer-main">
     <div class="container">
         <h3 class="mb-2" style="font-weight: 800;">Busfermata Digital Technology</h3>
