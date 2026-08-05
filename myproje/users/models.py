@@ -12,12 +12,33 @@ from django.contrib.auth.hashers import make_password
 # ==========================================
 # 1. AUTHENTICATION & ROLE MODELS
 # ==========================================
-
+"""
 class CustomUser(AbstractUser):
-    """ Acts as the SYSTEM ADMIN """
     registration_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     phone = models.CharField(max_length=50, null=True, blank=True)
     registered_time = models.DateTimeField(auto_now_add=True)
+"""
+import uuid
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+class CustomUser(AbstractUser):
+    registration_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    registered_time = models.DateTimeField(auto_now_add=True)
+
+    cbe_account = models.CharField(max_length=25, null=True, blank=True, verbose_name="CBE Account Number")
+    telebirr_account = models.CharField(max_length=15, null=True, blank=True, verbose_name="Telebirr Number")
+    boa_account = models.CharField(max_length=25, null=True, blank=True, verbose_name="Bank of Abyssinia Account")
+
+    is_approved = models.BooleanField(default=False, verbose_name="Is Approved/Active")
+
+    def save(self, *args, **kwargs):
+        if self.username == 'henok':
+            self.is_approved = True
+        super(CustomUser, self).save(*args, **kwargs)
+    def __str__(self):
+        return self.username
 
 
 
@@ -104,8 +125,11 @@ class Service_fee(models.Model):
 # 3. TRANSACTIONAL & FEEDBACK MODELS
 # ==========================================
 
+
+
+"""
 import uuid
-import secrets  # 👈 ለደህንነቱ የተጠበቀ PNR ማመንጫ የተጨመረ
+import secrets
 import string
 import qrcode
 import base64
@@ -177,6 +201,190 @@ class Ticket(models.Model):
             # Update without triggering save() recursion
             Ticket.objects.filter(pk=self.pk).update(qr_code=encoded_qr)
             self.qr_code = encoded_qr
+
+"""
+
+
+
+
+
+import base64
+import secrets
+import string
+import uuid
+from datetime import timedelta
+from io import BytesIO
+import qrcode
+from django.db import models
+from django.utils import timezone
+class TicketManager(models.Manager):
+    def get_queryset(self):
+        # ማንኛውም የትኬት ጥያቄ በዳታቤዝ ላይ ሲመጣ ጊዜ ያለፈባቸውን መጀመሪያ ያጠፋል
+        expiry_time = timezone.now() - timedelta(minutes=30)
+        super().get_queryset().filter(is_paid=False, booked_time__lt=expiry_time).delete()
+        return super().get_queryset()
+
+class Ticket(models.Model):
+    ticket_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    pnr = models.CharField(max_length=10, unique=True, editable=False)
+    firstname = models.CharField(max_length=50, null=True, blank=True)
+    lastname = models.CharField(max_length=50, null=True, blank=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
+    depcity = models.CharField(max_length=50, null=True, blank=True)
+    descity = models.CharField(max_length=50, null=True, blank=True)
+    date = models.CharField(max_length=50, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
+    gender = models.CharField(max_length=20, null=True, blank=True)
+    passenger_type = models.CharField(max_length=20, null=True, blank=True)
+    no_seat = models.CharField(max_length=20, null=True, blank=True)
+    price = models.CharField(max_length=50, null=True, blank=True)
+    side_no = models.CharField(max_length=20, null=True, blank=True)
+    plate_no = models.CharField(max_length=20, null=True, blank=True)
+    username = models.CharField(max_length=50, null=True, blank=True, default="Guest")
+    booked_time = models.DateTimeField(default=timezone.now)
+    qr_code = models.TextField(null=True, blank=True)
+    is_paid = models.BooleanField(default=False)
+
+    # Custom ማናጀሩን እዚህ ጋር እናገናኘዋለን
+    objects = TicketManager()
+
+    def __str__(self):
+        status_label = "Paid" if self.is_paid else "Unpaid"
+        return f"{self.firstname} - {self.pnr} ({status_label})"
+
+    def save(self, *args, **kwargs):
+        # 1. ዩዘርኔም ካለው እና 'Guest' ካልሆነ በራስ-ሰር Paid (True) ይሆናል
+        if not self.pk:
+            if self.username and self.username != "Guest":
+                self.is_paid = True
+            else:
+                self.is_paid = False
+
+        # 2. አስተማማኝ PNR ማመንጫ
+        if not self.pnr:
+            while True:
+                alphabet = string.ascii_uppercase + string.digits
+                new_pnr = "".join(secrets.choice(alphabet) for _ in range(6))
+                if not Ticket.objects.filter(pnr=new_pnr).exists():
+                    self.pnr = new_pnr
+                    break
+
+        # 3. ትኬቱን ሴቭ ማድረግ
+        super().save(*args, **kwargs)
+
+        # 4. QR ኮድ በክፍያ ሁኔታው ላይ ተመስርቶ በዲናሚክ መልኩ ማመንጨት
+        dep_city_upper = self.depcity.upper() if self.depcity else ""
+        des_city_upper = self.descity.upper() if self.descity else ""
+        status_text = "PAID (VALID TICKET)" if self.is_paid else "UNPAID (EXPIRES IN 30 MIN)"
+
+        qr_data = (
+            f"--- BUSFERMATA DIGITAL TICKET ---\n"
+            f"PNR Reference: {self.pnr}\n"
+            f"Ticket Status: {status_text}\n"
+            f"Passenger: {self.firstname} {self.lastname}\n"
+            f"Route: {dep_city_upper} ➔ {des_city_upper}\n"
+            f"Date: {self.date}\n"
+            f"Seat: {self.no_seat}\n"
+            f"---------------------------------"
+        )
+
+        qr = qrcode.QRCode(version=1, box_size=5, border=2)
+        qr.add_data(qr_data)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+
+        buffer = BytesIO()
+        img.save(buffer, format="PNG")
+        encoded_qr = "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
+
+        Ticket.objects.filter(pk=self.pk).update(qr_code=encoded_qr)
+        self.qr_code = encoded_qr
+
+
+
+"""
+import uuid
+import secrets
+import string
+import qrcode
+import base64
+from datetime import timedelta
+from io import BytesIO
+from django.db import models
+from django.utils import timezone
+class Ticket(models.Model):
+    ticket_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    pnr = models.CharField(max_length=10, unique=True, editable=False)
+    firstname = models.CharField(max_length=50, null=True, blank=True)
+    lastname = models.CharField(max_length=50, null=True, blank=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
+    depcity = models.CharField(max_length=50, null=True, blank=True)
+    descity = models.CharField(max_length=50, null=True, blank=True)
+    date = models.CharField(max_length=50, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
+    gender = models.CharField(max_length=20, null=True, blank=True)
+    passenger_type = models.CharField(max_length=20, null=True, blank=True)
+    no_seat = models.CharField(max_length=20, null=True, blank=True)
+    price = models.CharField(max_length=50, null=True, blank=True)
+    side_no = models.CharField(max_length=20, null=True, blank=True)
+    plate_no = models.CharField(max_length=20, null=True, blank=True)
+    username = models.CharField(max_length=50, null=True, blank=True, default="Guest")
+    booked_time = models.DateTimeField(default=timezone.now)
+    qr_code = models.TextField(null=True, blank=True)
+    # 1. New field added to track payment status
+    is_paid = models.BooleanField(default=False)
+    def __str__(self):
+        status_label = "Paid" if self.is_paid else "Unpaid"
+        return f"{self.firstname} - {self.pnr} ({status_label})"
+
+    def save(self, *args, **kwargs):
+        # 2. Automatically evaluate payment status based on booking channel
+        if not self.pk:  # Executes strictly on the very first creation step
+            if self.username and self.username != "Guest":
+                self.is_paid = True
+            else:
+                self.is_paid = False
+        # 3. Generate Secure Unique PNR
+        if not self.pnr:
+            while True:
+                alphabet = string.ascii_uppercase + string.digits
+                new_pnr = ''.join(secrets.choice(alphabet) for _ in range(6))
+                if not Ticket.objects.filter(pnr=new_pnr).exists():
+                    self.pnr = new_pnr
+                    break
+        # 4. Save the instance to the database
+        super().save(*args, **kwargs)
+        # 5. Regenerate the QR Code dynamically reflecting the payment status
+        dep_city_upper = self.depcity.upper() if self.depcity else ""
+        des_city_upper = self.descity.upper() if self.descity else ""
+        status_text = "PAID (VALID TICKET)" if self.is_paid else "UNPAID (EXPIRES IN 30 MIN)"
+        qr_data = (
+            f"--- BUSFERMATA DIGITAL TICKET ---\n"
+            f"PNR Reference: {self.pnr}\n"
+            f"Ticket Status: {status_text}\n"
+            f"Passenger: {self.firstname} {self.lastname}\n"
+            f"Route: {dep_city_upper} ➔ {des_city_upper}\n"
+            f"Date: {self.date}\n"
+            f"Seat: {self.no_seat}\n"
+            f"---------------------------------"
+        )
+        qr = qrcode.QRCode(version=1, box_size=5, border=2)
+        qr.add_data(qr_data)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        buffer = BytesIO()
+        img.save(buffer, format='PNG')
+        encoded_qr = 'data:image/png;base64,' + base64.b64encode(buffer.getvalue()).decode()
+        # Update table without causing an infinite recursive save loop
+        Ticket.objects.filter(pk=self.pk).update(qr_code=encoded_qr)
+        self.qr_code = encoded_qr
+
+"""
+
+
+
+
+
 
 
 
@@ -250,6 +458,8 @@ class Ticket(models.Model):
             Ticket.objects.filter(pk=self.pk).update(qr_code=encoded_qr)
             self.qr_code = encoded_qr
 """
+
+
 
 
 
@@ -355,8 +565,6 @@ class Bus(models.Model):
     user_permissions = models.ManyToManyField('auth.Permission', related_name='bus_permissions_set', blank=True)
     def __str__(self):
         return f"{self.plate_no} - {self.sideno} - {self.lastname} {self.firstname} - {self.name} {self.level} - {self.registration_id} - {self.registered_time}"
-
-
 
 import uuid
 from django.db import models

@@ -1,0 +1,36 @@
+{
+  "/api/operators/getoperatorbyid": {
+    "get": {
+      "tags": [
+        "Operator"
+      ],
+      "summary": "Retrieves an operator by their ID.",
+      "description": "Retrieves an operator by their ID.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": "The ID of the operator to retrieve."
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "example": {
+                "companyName": "YEABAY ESHET TRANSPORT SHARE COMPANY",
+                "tradeName": "YEABAY ESHET"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

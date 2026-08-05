@@ -1,0 +1,61 @@
+{
+  "/api/vehicles/getvehiclebyid": {
+    "get": {
+      "tags": [
+        "Vehicle"
+      ],
+      "summary": "Retrieves vehicle details by ID.",
+      "description": "Retrieves vehicle details by ID.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "query",
+          "required": true,
+          "description": "The ID of the vehicle.",
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "example": {
+                "id": 1,
+                "plateNumber": "A30262",
+                "chassisNumber": "LL3AHCDK9RA032522",
+                "engineNumber": "93221965",
+                "sideNumber": 201,
+                "noOfSeat": 51,
+                "yearOfMake": 2023,
+                "isActive": true,
+                "imageUrl": null,
+                "remark": null,
+                "companyName": "FELEGE GHION TRADING P.L.C",
+                "tradeName": "FELEGE GHION BUS TRANSPORT ",
+                "regionCodeDesc": "ET",
+                "plateCodeDesc": "3",
+                "manufacturerName": "Golden Dragon",
+                "modelName": "XML6122J35Y",
+                "colorName": "White",
+                "fuelTypeDesc": "Desel",
+                "amenities": [
+                  "Confy chair",
+                  "WIFI",
+                  "TV",
+                  "Charger",
+                  "Snack",
+                  "Bottled water",
+                  "Air conditioner"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
