@@ -6,12 +6,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 2. SECURITY CONFIGURATIONS
-#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh')
-SECRET_KEY = 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh' # nosec
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh')
+#SECRET_KEY = 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh' # nosec
 
-#DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-DEBUG = False
+#DEBUG = False
 
 """ALLOWED_HOSTS = os.environ.get(
     'ALLOWED_HOSTS',
@@ -22,12 +22,12 @@ ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', '
 
 # HTTPS & Cookie Security Options
 
-"""
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
+
 """
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -37,6 +37,7 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+"""
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = False
