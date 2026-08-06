@@ -7831,8 +7831,6 @@ from drf_spectacular.utils import extend_schema
 
 from .serializers import TelebirrInitiateSerializer
 from .services.telebirr_service import CreateOrderService
-
-
 @extend_schema(tags=['Payment Auth'])
 class TelebirrPaymentView(APIView):
     serializer_class = TelebirrInitiateSerializer
@@ -7917,6 +7915,8 @@ class TelebirrPaymentView(APIView):
         if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
             return render(request, 'users/tele.html', context, status=status.HTTP_400_BAD_REQUEST)
         return Response(context, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 

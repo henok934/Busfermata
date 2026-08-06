@@ -1,28 +1,45 @@
 import os
 from pathlib import Path
-import dj_database_url
+#import dj_database_url
 
 # 1. BASE DIRECTORY
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 2. SECURITY CONFIGURATIONS
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh')
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh')
+SECRET_KEY = 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh' # nosec
 
-ALLOWED_HOSTS = os.environ.get(
+#DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+
+DEBUG = False
+
+"""ALLOWED_HOSTS = os.environ.get(
     'ALLOWED_HOSTS',
     'busfermata.onrender.com,wedehagertransport.onrender.com,localhost,127.0.0.1'
 ).split(',')
+"""
+ALLOWED_HOSTS = ['busfermata.onrender.com', 'wedehagertransport.onrender.com', 'localhost', '127.0.0.1']
 
 # HTTPS & Cookie Security Options
+
+"""
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
+"""
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+    SECURE_SSL_REDIRECT = False
     SECURE_HSTS_SECONDS = 31536000  # 1 year
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
@@ -47,6 +64,8 @@ INSTALLED_APPS = [
     'users',
 ]
 
+
+"""
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -59,8 +78,41 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'axes.middleware.AxesMiddleware',
 ]
+"""
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # For static files on Render
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # Placed before Common
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
+]
+
 
 ROOT_URLCONF = 'myproje.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'users/templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+"""
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',  # እዚህ ጋር በትክክል ተጻፉን ያረጋግጡ
@@ -76,6 +128,7 @@ TEMPLATES = [
         },
     },
 ]
+"""
 
 """
 TEMPLATES = [
@@ -99,6 +152,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myproje.wsgi.application'
 
 # 4. DATABASE CONFIGURATION
+
+"""
 DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
@@ -106,6 +161,15 @@ DATABASES = {
         ssl_require=not DEBUG
     )
 }
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 
 # 5. AUTHENTICATION & USERS
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -114,7 +178,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-AXES_ENABLED = os.environ.get('AXES_ENABLED', 'False') == 'True'
+#AXES_ENABLED = os.environ.get('AXES_ENABLED', 'False') == 'True'
+AXES_ENABLED = False # Disable for local testing if needed
 
 CACHES = {
     'default': {
@@ -123,10 +188,14 @@ CACHES = {
     }
 }
 
-TURNSTILE_SITE_KEY = os.environ.get('TURNSTILE_SITE_KEY', '0x4AAAAAAAM1_xxxxxxxxxxxx')
-TURNSTILE_SECRET_KEY = os.environ.get('TURNSTILE_SECRET_KEY', '0x4AAAAAAAM1_xxxxxxxxxxxx')
+#TURNSTILE_SITE_KEY = os.environ.get('TURNSTILE_SITE_KEY', '0x4AAAAAAAM1_xxxxxxxxxxxx')
+#TURNSTILE_SECRET_KEY = os.environ.get('TURNSTILE_SECRET_KEY', '0x4AAAAAAAM1_xxxxxxxxxxxx')
+
+TURNSTILE_SITE_KEY = '0x4AAAAAAAM1_xxxxxxxxxxxx'       # Public HTML rendering key
+TURNSTILE_SECRET_KEY = '0x4AAAAAAAM1_xxxxxxxxxxxx'
 
 # 6. EMAIL SETTINGS
+"""
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -145,6 +214,24 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+"""
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'teklemariammossie1@gmail.com'
+EMAIL_HOST_PASSWORD = 'xbbdaymgoqapntds'
+DEFAULT_FROM_EMAIL = 'teklemariammossie697@gmail.com'
+
+# 7. STATIC & MEDIA FILES (Critical for QR Codes)
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'users/static')]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 8. CORS & CSRF CONFIGURATIONS
 CORS_ALLOW_ALL_ORIGINS = True
