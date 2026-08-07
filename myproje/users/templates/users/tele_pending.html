@@ -1,0 +1,325 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Payment Pending</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --error-red: #dc2626;
+            --accent-green: #007A78;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            color: var(--text-main);
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        /* --- NAVIGATION --- */
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+        .brand-logo { 
+            height: 70px !important; 
+            width: auto; 
+            margin-right: 15px; 
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0;
+        }
+        .brand-text { font-weight: 800; color: #0A3977; font-size: 26px; text-transform: uppercase; line-height: 0.8; }
+
+        .nav-link { 
+            color: var(--brand-navy) !important; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 14px; 
+            transition: 0.3s;
+        }
+        .nav-link:hover { color: #cc0000 !important; }
+
+        /* --- PAYMENT PENDING CARD --- */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 15px;
+        }
+
+        .pending-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 38, 77, 0.15);
+            border: none;
+            max-width: 520px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            background: var(--brand-navy);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--brand-gold);
+        }
+
+        .card-header-custom i {
+            font-size: 42px;
+            color: var(--brand-gold);
+            margin-bottom: 12px;
+        }
+
+        .detail-box {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 15px 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #64748b;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            font-weight: 800;
+            color: var(--brand-navy);
+            font-size: 15px;
+        }
+
+        .btn-telebirr {
+            background: var(--brand-navy);
+            color: white !important;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,38,77,0.2);
+        }
+
+        .btn-telebirr:hover {
+            background: #001a35;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,38,77,0.3);
+        }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0; text-align: center; margin-top: auto; }
+
+        /* Hide Google Translate elements */
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Transport Standards</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1"></i> STAFF LOGIN PORTAL</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+                <h2><span class="brand-text">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78; font-weight:bold; margin:0; padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+
+                <li class="nav-item dropdown" style="list-style: none; margin: 0 10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="langDrop" data-toggle="dropdown" style="display: flex; align-items: center; color: #333; font-weight: 600; text-decoration: none; padding: 8px 12px;">
+                        <div style="width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column; margin-right: 10px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div style="flex: 1; background-color: #009739;"></div>
+                            <div style="flex: 1; background-color: #FEDD00; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <div style="width: 6px; height: 6px; background-color: #0039A6; border-radius: 50%;"></div>
+                            </div>
+                            <div style="flex: 1; background-color: #EF3340;"></div>
+                        </div>
+                        Language
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg" style="border: none; border-radius: 12px; padding: 12px; min-width: 210px; margin-top: 10px; background-color: #ffffff;">
+                        <button class="dropdown-item" onclick="changeLanguage('en')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>English</span><small style="color: #b2bec3;">EN</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('am')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>አማርኛ</span><small style="color: #009739;">AM</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('om')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>Afaan Oromoo</span><small style="color: #b2bec3;">OR</small></button>
+                        <button class="dropdown-item" onclick="changeLanguage('ti')" style="display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 10px 15px; border: none; background: transparent; width: 100%; text-align: left; cursor: pointer;"><span>ትግርኛ</span><small style="color: #b2bec3;">TI</small></button>
+                    </div>
+                </li>
+                <li class="nav-item ml-lg-3"><a class="btn px-4" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; border-radius:10px;" href="{% url 'book' %}">BOOK NOW</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-wrapper">
+    <div class="pending-card">
+        <div class="card-header-custom">
+            <i class="fas fa-spinner fa-spin"></i>
+            <h4 class="mb-0" style="font-weight: 800;">{{ message|default:"Payment Request Initiated" }}</h4>
+        </div>
+        
+        <div class="card-body p-4">
+            <p class="text-center text-muted mb-4" style="font-weight: 600;">
+                Redirecting to Telebirr Payment Gateway... Please wait a moment.
+            </p>
+
+            <div class="detail-box mb-4">
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-ticket-alt mr-2" style="color: var(--brand-navy);"></i>PNR Reference:</span>
+                    <span class="detail-value" style="color: var(--accent-green);">{{ pnr }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-money-bill-wave mr-2" style="color: var(--brand-navy);"></i>Total Price:</span>
+                    <span class="detail-value">{{ price }} ETB</span>
+                </div>
+                {% if out_trade_no %}
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-barcode mr-2" style="color: var(--brand-navy);"></i>Transaction No:</span>
+                    <span class="detail-value">{{ out_trade_no }}</span>
+                </div>
+                {% endif %}
+                {% if customer_phone %}
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-phone mr-2" style="color: var(--brand-navy);"></i>Customer Phone:</span>
+                    <span class="detail-value">{{ customer_phone }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if checkout_url %}
+            <div class="text-center">
+                <a href="{{ checkout_url }}" id="pay-btn" class="btn btn-telebirr">
+                    <i class="fas fa-external-link-alt mr-2"></i> PROCEED TO TELEBIRR PAYMENT
+                </a>
+            </div>
+            {% else %}
+            <div class="alert alert-warning text-center font-weight-bold" role="alert">
+                Unable to load checkout URL. Please try again.
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="card-footer bg-white text-center py-3 border-0">
+            <small class="text-muted font-weight-bold">Busfermata Digital Technology &copy; Safe & Secure Gateway</small>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p class="opacity-50">© 2026 Busfermata • National Travel Solutions</p>
+        <div class="mt-4">
+            <i class="fab fa-facebook mx-2"></i><i class="fab fa-telegram mx-2"></i><i class="fab fa-instagram mx-2"></i>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: "en", 
+            includedLanguages: "en,am,om,ti", 
+            autoDisplay: false
+        }, "google_translate_element");
+    }
+
+    function changeLanguage(l) {
+        localStorage.setItem("userLanguage", l);
+        var s = document.querySelector("select.goog-te-combo");
+        if (s) {
+            s.value = l;
+            s.dispatchEvent(new Event("change"));
+        }
+    }
+
+    window.addEventListener("load", function() {
+        const l = localStorage.getItem("userLanguage");
+        if (l && l !== "en") {
+            setTimeout(() => { changeLanguage(l) }, 1000);
+        }
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- AUTO REDIRECT SCRIPT -->
+{% if checkout_url %}
+<script>
+    setTimeout(function() {
+        window.location.href = "{{ checkout_url }}";
+    }, 3000);
+</script>
+{% endif %}
+
+</body>
+</html>

@@ -11,6 +11,7 @@ class YourAppConfig(AppConfig):
 
 
 
+
 def create_default_user(sender, **kwargs):
     from .models import CustomUser
     try:
@@ -20,83 +21,19 @@ def create_default_user(sender, **kwargs):
             CustomUser.objects.create_superuser(
                 username='henok',
                 email='henok@example.com',
-                password='Teklemariam@934',
+                password='Super_admin@934',
                 phone='0934567890',
                 first_name='Henok',
                 last_name='Mossie',
-                #gender='Male'
+                city='Addis Ababa',
 
+                # ---- ነባሪ የክፍያ አካውንት መረጃዎች ----
+                cbe_account='1000123456789',        # የኢትዮጵያ ንግድ ባንክ አካውንት ቁጥር
+                telebirr_account='0934567890',      # የቴሌብር ቁጥር (ብዙውን ጊዜ ከስልክ ቁጥር ጋር አንድ ነው)
+                boa_account='45678912',             # የአቢሲኒያ ባንክ አካውንት ቁጥር
             )
-            print("--- Default Superuser 'henok' created successfully ---")
+            print("--- Default Superuser 'henok' with Payment Accounts created successfully ---")
     except Exception as e:
         print(f"--- Note: Admin auto-creation skipped: {e} ---")
-"""
-def create_default_user(sender, **kwargs):
-    from .models import CustomUser  
-    try:
-        # Check if the user already exists to avoid duplicates
-        if not CustomUser.objects.filter(username='henok').exists():
-            # Use create_superuser so you have full admin access
-            CustomUser.objects.create_superuser(
-                username='henok',
-                email='henok@example.com',
-                password='12341234',
-                phone='0934567890',
-                fname='Default',
-                lname='User',
-                gender='Other' 
 
-                # DO NOT add fname, lname, or gender here. They are not in CustomUser anymore.
-            )
-            print("--- Default Superuser 'henok' created successfully ---")
-    except Exception as e:
-        # This prevents the migrate command from crashing if there's a small issue
-        print(f"--- Note: Admin auto-creation skipped: {e} ---")
-"""
 
-"""
-from django.apps import AppConfig
-from django.db.utils import OperationalError
-from django.db.models.signals import post_migrate
-from django.apps import AppConfig
-from django.contrib.auth.hashers import make_password
-class YourAppConfig(AppConfig):
-    name = 'users'  # Your app name
-    def ready(self):
-        from .models import CustomUser  # Import inside the ready method
-        post_migrate.connect(create_default_user)
-
-def create_default_user(sender, **kwargs):
-    from .models import CustomUser  # Import here to avoid AppRegistryNotReady
-    try:
-        if not CustomUser.objects.filter(username='henok').exists():
-            CustomUser.objects.create_user(
-                username='henok',
-                email='defaultuser@example.com',
-                password='12341234',
-                phone='0934567890',
-                fname='Default',
-                lname='User',
-                gender='Other'  # Adjust as needed
-            )
-    except OperationalError:
-        pass
-"""
-
-"""
-def create_default_user(sender, **kwargs):
-    from .models import CustomUser  # Import here to avoid AppRegistryNotReady
-    try:
-        if not CustomUser.objects.filter(username='henok').exists():
-            CustomUser.objects.create_user(
-                username='henok',
-                email='defaultuser@example.com',
-                password=make_password('12341234'),  # Ensure password is hashed
-                phone='0934567890',
-                fname='Default',
-                lname='User',
-                gender='Other'  # Adjust as needed
-            )
-    except OperationalError:
-        pass
-"""

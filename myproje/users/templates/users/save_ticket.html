@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Issue & Save Ticket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root { --brand-navy: #00264d; --brand-gold: #ffcc00; --brand-dark: #0f172a; --surface-gray: #f8fafc; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--surface-gray); margin: 0; }
+        
+        .top-bar { background: var(--brand-dark); color: white; padding: 8px 0; font-size: 13px; }
+        .navbar-main { background: #ffffff; padding: 12px 0; border-bottom: 5px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 22px; text-transform: uppercase; line-height: 1; }
+        .custom-nav-select { border: 2px solid #e2e8f0; background-color: #ffffff; font-size: 11px; font-weight: 800; border-radius: 8px; height: 38px; min-width: 160px; color: var(--brand-navy); text-transform: uppercase; cursor: pointer; }
+
+        .table-container-fixed { max-width: 900px; margin: 40px auto; padding: 0 15px; }
+        .content-card { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 30px; border-top: 5px solid var(--brand-navy); }
+        .footer-main { background: var(--brand-navy); color: white; padding: 30px 0; text-align: center; margin-top: 50px; border-top: 5px solid var(--brand-gold); }
+        .brand-logo { border: none !important; box-shadow: none !important; border-radius: 0; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-headset mr-2"></i> Support: <b>+251907252775</b></span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold text-decoration-none small"><i class="fas fa-power-off mr-1"></i> LOGOUT</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+                <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#adminNavbar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNavbar">
+            <div class="navbar-nav ml-auto">
+                <select onchange="if(this.value && this.value !== '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                    <option value="{% url 'save_ticket' %}">Save Ticket</option>
+                </select>
+
+                <select onchange="if(this.value && this.value !== '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+
+                <select onchange="if(this.value && this.value !== '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'pickup_locations' %}">Pickup Locations</option>
+                    <option value="{% url 'route_schedules' %}">Route Schedules</option>
+                    <option value="{% url 'route_schedules_operator' %}">Schedules By Operator</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'alloperators' %}">All Operators</option>
+                    <option value="{% url 'operator_detail' %}">Search operator by code</option>
+                    <option value="{% url 'operator_detail_by_id' %}">Search operator by ID</option>
+                    <option value="{% url 'image_viewer_page' %}">View FTP Image</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                    <option value="{% url 'ticket_history_by_phone' %}">Ticket History By Phone</option>
+                </select>
+
+                <select onchange="if(this.value && this.value !== '#') location.href = this.value;" class="custom-nav-select mx-xl-1" style="color: red;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="table-container-fixed">
+    <div class="content-card">
+        <h4 class="font-weight-bold mb-3 border-bottom pb-2" style="color: var(--brand-navy);">
+            <i class="fas fa-ticket-alt text-warning mr-2"></i>Save Ticket Details
+        </h4>
+
+        {% if success %}
+            <div class="alert alert-success font-weight-bold text-center mb-4">
+                <i class="fas fa-check-circle mr-2"></i>{{ success }}
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-danger font-weight-bold text-center mb-4">
+                <i class="fas fa-exclamation-triangle mr-2"></i>{{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'save_ticket' %}">
+            {% csrf_token %}
+            <h6 class="font-weight-bold text-muted mb-3"><i class="fas fa-bus mr-1"></i> Schedule & Operator Info</h6>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Operator ID</label>
+                    <input type="number" name="operator" class="form-control" placeholder="e.g. 1" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Route Schedule ID</label>
+                    <input type="number" name="routeSchedule" class="form-control" placeholder="e.g. 102" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Schedule Date</label>
+                    <input type="date" name="routeScheduleDate" class="form-control" required>
+                </div>
+            </div>
+            <h6 class="font-weight-bold text-muted mb-3 mt-2"><i class="fas fa-user mr-1"></i> Passenger Details</h6>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Passenger Name</label>
+                    <input type="text" name="passengerName" class="form-control" placeholder="Full Name" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Phone Number</label>
+                    <input type="text" name="passengerPhone" class="form-control" placeholder="0907252775" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Seat Number</label>
+                    <input type="text" name="seatNumber" class="form-control" placeholder="e.g. 12" required>
+                </div>
+            </div>
+            <h6 class="font-weight-bold text-muted mb-3 mt-2"><i class="fas fa-credit-card mr-1"></i> Payment & System</h6>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Payment Amount (ETB)</label>
+                    <input type="number" step="0.01" name="paymentAmount" class="form-control" placeholder="0.00" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Payment Ref Number</label>
+                    <input type="text" name="paymentRefNumber" class="form-control" placeholder="TXN Ref No.">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="small font-weight-bold">Payer Name</label>
+                    <input type="text" name="payer" class="form-control" placeholder="Payer Name">
+                </div>
+            </div>
+            <button type="submit" class="btn font-weight-bold text-white btn-block mt-3" style="background-color: var(--brand-navy);">
+                <i class="fas fa-save mr-1"></i> Save Ticket
+            </button>
+        </form>
+    </div>
+</div>
+<footer class="footer-main">
+    <div class="container">
+        <p class="small mb-0">© 2026 Busfermata Digital Technology • National Travel Solutions</p>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

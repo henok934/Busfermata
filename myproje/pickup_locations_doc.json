@@ -1,0 +1,44 @@
+{
+  "/api/routes/getpickuplocationsbyroute": {
+    "get": {
+      "tags": [
+        "Route"
+      ],
+      "summary": "Retrieves pickup locations for a specific route.",
+      "description": "Retrieves pickup locations for a specific route.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": "The ID of the route."
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful response.",
+          "content": {
+            "application/json": {
+              "example": [
+                {
+                  "id": 12,
+                  "route": 20,
+                  "pickupLocation1": "Lambert",
+                  "note": null,
+                  "arrivalTime": "11:00:00",
+                  "latitude": 9.016730937403223,
+                  "longitude": 38.780871056452064,
+                  "remark": null
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

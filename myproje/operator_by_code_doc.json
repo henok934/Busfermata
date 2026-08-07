@@ -1,0 +1,62 @@
+{
+  "/api/operators/getoperatorbycode": {
+    "get": {
+      "tags": [
+        "Operator"
+      ],
+      "summary": "Retrieves an operator by their code.",
+      "description": "Retrieves an operator by their code.",
+      "parameters": [
+        {
+          "name": "code",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "The code of the operator to retrieve."
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "example": {
+                "id": 2,
+                "code": "SHC-00000001",
+                "tradeName": "YEABAY ESHET",
+                "companyName": "YEABAY ESHET TRANSPORT SHARE COMPANY",
+                "tin": "0090076104",
+                "note": null,
+                "establishmentDate": "2024-08-15T00:00:00",
+                "numberOfShareHolders": 191,
+                "sideNumStart": 7000,
+                "sideNumEnds": 7299,
+                "phoneNumber": "0911887071",
+                "email": null,
+                "website": null,
+                "woreda": "08",
+                "houseNum": "711/712",
+                "specificAddress": "Addis Ketema main bus station",
+                "longitude": null,
+                "latitude": null,
+                "imgUrl": "http://196.189.126.8:8008/image?imageUrl=ftp://192.168.251.217:21/Attachment/Operator/0090076104/CompanyProfile/Logo.pdf",
+                "countryName": "Ethiopia",
+                "countryPoliticalName": "Federal Democratic Republic of Ethiopia",
+                "cityName": "Addis Ababa",
+                "cityAlternativeName": "Addis Ababa City Administration",
+                "regionName": "Addis Ababa",
+                "regionAlternativeName": null,
+                "subCityName": "Addis Ketema",
+                "subCityAlternativeName": "",
+                "companyTypeDesc": "Share company",
+                "serviceLevelDesc": "Level 1"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

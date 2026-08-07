@@ -1,0 +1,373 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Pickup Locations</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root { --brand-navy: #00264d; --brand-gold: #ffcc00; --brand-dark: #0f172a; --surface-gray: #f8fafc; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--surface-gray); margin: 0; }
+        
+        .top-bar { background: var(--brand-dark); color: white; padding: 8px 0; font-size: 13px; }
+        
+        /* Navigation Bar Styling */
+        .navbar-main { background: #ffffff; padding: 12px 0; border-bottom: 5px solid var(--brand-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; }
+        .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 22px; text-transform: uppercase; line-height: 1; }
+        
+        /* Custom Select Navigation Items */
+        .custom-nav-select { border: 2px solid #e2e8f0; background-color: #ffffff; font-size: 11px; font-weight: 800; border-radius: 8px; height: 38px; min-width: 160px; color: var(--brand-navy); text-transform: uppercase; cursor: pointer; }
+
+        /* WIDTH CONTROL SECTION */
+        .table-container-fixed { 
+            max-width: 1100px; 
+            margin: 40px auto; 
+            padding: 0 15px;
+        }
+
+        .content-card { 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            padding: 25px; 
+            border-top: 5px solid var(--brand-navy); 
+        }
+
+        /* Table Formatting */
+        .styled-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        .styled-table th { 
+            background: #f1f5f9; 
+            padding: 12px; 
+            font-size: 10px; 
+            text-transform: uppercase; 
+            font-weight: 800; 
+            color: #64748b; 
+            text-align: center; 
+            border: none;
+        }
+        .styled-table td { 
+            padding: 12px; 
+            background: #ffffff; 
+            border-top: 1px solid #edf2f7; 
+            border-bottom: 1px solid #edf2f7; 
+            vertical-align: middle; 
+            text-align: center; 
+            font-weight: 600; 
+            color: var(--brand-navy);
+            font-size: 13px;
+        }
+        .styled-table tr:hover td { background-color: #fdfdfd; }
+        
+        .plate-badge { background: #e2e8f0; padding: 4px 8px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px; border: 1px solid #cbd5e1; }
+        .time-badge { background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 6px; font-weight: 700; font-size: 12px; }
+        .coords-badge { background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 4px; font-size: 11px; text-decoration: none; }
+        .coords-badge:hover { text-decoration: underline; color: #78350f; }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 30px 0; text-align: center; margin-top: 50px; border-top: 5px solid var(--brand-gold); }
+        .brand-logo { border: none !important; box-shadow: none !important; border-radius: 0; }
+        
+        /* HIDE GOOGLE UI */ 
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
+        body { top: 0px !important; position: static !important; } 
+        html { margin-top: 0px !important; } 
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-headset mr-2"></i> Support: <b>+251907252775</b></span>
+        <a href="{% url 'logout' %}" class="text-danger font-weight-bold text-decoration-none small"><i class="fas fa-power-off mr-1"></i> LOGOUT</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-xl navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center text-decoration-none">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo mr-3" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+                <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#adminNavbar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNavbar">
+            <div class="navbar-nav ml-auto">
+                <select onchange="if(this.value && this.value !== '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>Registry</option>
+                    <option value="{% url 'sc' %}">Register Share Company</option>
+                    <option value="{% url 'route' %}">Define New Route</option>
+                    <option value="{% url 'registor' %}">Add System Admin</option>
+                    <option value="{% url 'worker' %}">Register Ticket Agent</option>
+                    <option value="{% url 'city' %}">Add Terminal Hub</option>
+                    <option value="{% url 'service_fee' %}">Set Service Tariff</option>
+                </select>
+
+                <select onchange="if(this.value && this.value !== '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Configuration</option>
+                    <option value="{% url 'changebus' %}">Update Bus (Bus)</option>
+                    <option value="{% url 'scupdate' %}">Edit Share Company</option>
+                    <option value="{% url 'active' %}">Active Deployments</option>
+                    <option value="{% url 'serviceupdate' %}">Tariff Adjustment</option>
+                </select>
+
+                <select onchange="if(this.value && this.value !== '#') location.href = this.value;" class="custom-nav-select mx-xl-1">
+                    <option value="#" selected disabled>System Analytics</option>
+                    <option value="{% url 'routes' %}">Route Mapping</option>
+                    <option value="{% url 'users' %}">User Registry</option>
+                    <option value="{% url 'totalballance' %}">Revenue Analytics</option>
+                    <option value="{% url 'alloperators' %}">All Operators</option>
+                    <option value="{% url 'buses' %}">View Buses</option>
+                    <option value="{% url 'comments' %}">Passenger Feedback</option>
+                    <option value="{% url 'driver' %}">Booker Registry</option>
+                    <option value="{% url 'ticketinfo' %}">Booked Tickets</option>
+                </select>
+
+                <select onchange="if(this.value && this.value !== '#') location.href = this.value;" class="custom-nav-select mx-xl-1" style="color: red;">
+                    <option value="#" selected disabled>Data Control</option>
+                    <option value="{% url 'admindelete' %}">Remove Admin</option>
+                    <option value="{% url 'scdelete' %}">Remove Share Co.</option>
+                    <option value="{% url 'citydelete' %}">Remove Terminal</option>
+                    <option value="{% url 'commentdelete' %}">Delete Feedback</option>
+                    <option value="{% url 'routedelete' %}">Delete Route</option>
+                    <option value="{% url 'workerdelete' %}">Delete Booker Agent</option>
+                    <option value="{% url 'delete_ticket' %}">Delete Ticket</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<!--
+<div class="table-container-fixed">
+    <div class="content-card">
+        <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+            <div>
+                <h4 class="font-weight-bold mb-1" style="color: var(--brand-navy);">
+                    <i class="fas fa-map-marker-alt text-warning mr-2"></i>Route Pickup Locations
+                </h4>
+                <p class="text-muted small mb-0">Boarding points and schedule for selected route</p>
+            </div>
+            {% if route_id %}
+            <span class="badge badge-navy p-2 text-white font-weight-bold" style="background: var(--brand-navy); font-size: 13px;">
+                Active Route ID: #{{ route_id }}
+            </span>
+            {% endif %}
+        </div>
+        <form method="GET" action="{% url 'pickup_locations' %}" class="mb-4">
+            <div class="input-group" style="max-width: 450px; margin: 0 auto;">
+                <input type="number" 
+                       name="id" 
+                       class="form-control font-weight-bold" 
+                       placeholder="Enter Route ID (e.g. 20)..." 
+                       value="{{ route_id|default:'' }}" 
+                       required>
+                <div class="input-group-append">
+                    <button class="btn font-weight-bold text-white" 
+                            type="submit" 
+                            style="background-color: var(--brand-navy);">
+                        <i class="fas fa-search mr-1"></i> Fetch Locations
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        {% if error %}
+            <div class="alert alert-danger font-weight-bold text-center mb-4">
+                <i class="fas fa-exclamation-triangle mr-2"></i>{{ error }}
+            </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">No.</th>
+                        <th>ID</th>
+                        <th>Pickup Point (የመጫኛ ቦታ)</th>
+                        <th>Arrival Time</th>
+                        <th>GPS Coordinates</th>
+                        <th>Remark / Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loc in pickup_locations %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><span class="plate-badge">#{{ loc.id }}</span></td>
+                        <td class="font-weight-bold text-primary">{{ loc.location_name }}</td>
+                        <td><span class="time-badge"><i class="far fa-clock mr-1"></i>{{ loc.arrival_time }}</span></td>
+                        <td>
+                            {% if loc.latitude and loc.longitude %}
+                                <a href="https://maps.google.com/?q={{ loc.latitude }},{{ loc.longitude }}" target="_blank" class="coords-badge">
+                                    <i class="fas fa-map-pin mr-1"></i>Map View
+                                </a>
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td class="small text-muted">{{ loc.remark }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-muted font-weight-bold">
+                            <i class="fas fa-info-circle mr-2"></i> 
+                            {% if route_id %}
+                                ለቀረበው Route ID (#{{ route_id }}) የተመዘገበ መጫኛ ቦታ (Pickup Location) አልተገኘም።
+                            {% else %}
+                                እባክዎን የ Route ID በማስገባት "Fetch Locations" የሚለውን ቁልፍ ይጫኑ።
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+-->
+<div class="table-container-fixed">
+    <div class="content-card">
+        <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+            <div>
+                <h4 class="font-weight-bold mb-1" style="color: var(--brand-navy);">
+                    <i class="fas fa-map-marker-alt text-warning mr-2"></i>Route Pickup Locations
+                </h4>
+                <p class="text-muted small mb-0">Boarding points and schedule for selected route</p>
+            </div>
+            {% if route_id %}
+            <span class="badge badge-navy p-2 text-white font-weight-bold" style="background: var(--brand-navy); font-size: 13px;">
+                Active Route ID: #{{ route_id }}
+            </span>
+            {% endif %}
+        </div>
+
+        <!-- ROUTE ID SEARCH FORM -->
+        <form method="GET" action="{% url 'pickup_locations' %}" class="mb-4">
+            <div class="input-group" style="max-width: 450px; margin: 0 auto;">
+                <input type="number" 
+                       name="id" 
+                       class="form-control font-weight-bold" 
+                       placeholder="Enter Route ID (e.g. 20)..." 
+                       value="{{ route_id|default:'' }}" 
+                       required>
+                <div class="input-group-append">
+                    <button class="btn font-weight-bold text-white" 
+                            type="submit" 
+                            style="background-color: var(--brand-navy);">
+                        <i class="fas fa-search mr-1"></i> Fetch Locations
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- ROUTE DETAILS SUMMARY CARD -->
+        {% if route_info %}
+        <div class="card mb-4 border-0 shadow-sm" style="background-color: #f8fafc; border-left: 4px solid var(--brand-navy) !important;">
+            <div class="card-body py-3">
+                <div class="row align-items-center text-center text-md-left">
+                    <div class="col-md-4 mb-2 mb-md-0">
+                        <small class="text-muted d-block text-uppercase font-weight-bold">Route Corridor</small>
+                        <span class="h6 font-weight-bold text-dark mb-0">
+                            {{ route_info.originTerminalName }} 
+                            <i class="fas fa-arrow-right mx-1 text-primary"></i> 
+                            {{ route_info.destinationCityName }}
+                        </span>
+                    </div>
+                    <div class="col-md-3 mb-2 mb-md-0">
+                        <small class="text-muted d-block text-uppercase font-weight-bold">Via / Route Group</small>
+                        <span class="font-weight-bold text-navy">
+                            {{ route_info.viaName|default:"Direct" }} 
+                            <small class="text-muted">({{ route_info.routeGroupDesc }})</small>
+                        </span>
+                    </div>
+                    <div class="col-md-3 mb-2 mb-md-0">
+                        <small class="text-muted d-block text-uppercase font-weight-bold">Terminal Destination</small>
+                        <span class="font-weight-bold text-dark">{{ route_info.destinationTerminalName }}</span>
+                    </div>
+                    <div class="col-md-2 text-md-right">
+                        <small class="text-muted d-block text-uppercase font-weight-bold">Distance</small>
+                        <span class="badge badge-warning font-weight-bold px-2 py-1">{{ route_info.distance }} KM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-danger font-weight-bold text-center mb-4">
+                <i class="fas fa-exclamation-triangle mr-2"></i>{{ error }}
+            </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">No.</th>
+                        <th>ID</th>
+                        <th>Pickup Point</th>
+                        <th>Arrival Time</th>
+                        <th>GPS Coordinates</th>
+                        <th>Remark / Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loc in pickup_locations %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><span class="plate-badge">#{{ loc.id }}</span></td>
+                        <td class="font-weight-bold text-primary">{{ loc.location_name }}</td>
+                        <td><span class="time-badge"><i class="far fa-clock mr-1"></i>{{ loc.arrival_time }}</span></td>
+                        <td>
+                            {% if loc.latitude and loc.longitude %}
+                                <a href="https://maps.google.com/?q={{ loc.latitude }},{{ loc.longitude }}" target="_blank" class="coords-badge">
+                                    <i class="fas fa-map-pin mr-1"></i>Map View
+                                </a>
+                            {% else %}
+                                <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td class="small text-muted">{{ loc.remark }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-muted font-weight-bold">
+                            <i class="fas fa-info-circle mr-2"></i> 
+                            {% if route_id %}
+                                ለቀረበው Route ID (#{{ route_id }}) የተመዘገበ መጫኛ ቦታ (Pickup Location) አልተገኘም።
+                            {% else %}
+                                እባክዎን የ Route ID በማስገባት "Fetch Locations" የሚለውን ቁልፍ ይጫኑ።
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<footer class="footer-main">
+    <div class="container">
+        <p class="small mb-0">© 2026 Busfermata Digital Technology • National Travel Solutions</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

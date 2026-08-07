@@ -15,235 +15,107 @@
             --brand-gold: #ffcc00;
             --brand-dark: #0f172a;
             --primary: #0052cc;
-            --booked: #dfe1e6;
+            --booked: #f1f5f9;
             --selected: #36b37e;
         }
 
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; margin: 0; }
 
-        /* --- ATTRACTIVE LOGO & NAV --- */
         .navbar-main {
             background: #ffffff; padding: 10px 0; border-bottom: 5px solid var(--brand-gold);
             box-shadow: 0 8px 25px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
         }
-        .brand-logo-box {
-            background: white; padding: 4px; border-radius: 10px; border: 2.5px solid var(--brand-navy);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .brand-logo { height: 50px !important; width: auto; border-radius: 5px; }
-        .brand-text-main { font-weight: 800; color: var(--brand-navy); font-size: 22px; text-transform: uppercase; line-height: 1; margin-left: 10px; }
-        .brand-tag { color: var(--brand-gold); font-weight: 800; font-size: 9px; letter-spacing: 1.2px; display: block; margin-left: 10px; }
+        .brand-logo { border: none !important; box-shadow: none !important; border-radius: 0; width: 150px !important; height: 100px !important; object-fit: contain !important; }
         
         .nav-link-custom {
             color: var(--brand-navy) !important; font-weight: 700; font-size: 13px; text-transform: uppercase;
             padding: 10px 15px !important; transition: 0.3s;
         }
         .nav-link-custom:hover { color: var(--primary) !important; }
-        .login-pill { background: var(--brand-navy); color: white !important; border-radius: 8px; padding: 8px 20px !important; }
 
-        /* --- TRIP SUMMARY --- */
         .trip-summary { background: var(--brand-navy); color: white; padding: 18px; border-radius: 12px; margin-bottom: 25px; }
 
-        /* --- FORM --- */
         .passenger-card { background: #fff; border-radius: 15px; padding: 25px; margin-bottom: 20px; border: 1px solid #e2e8f0; position: relative; }
         .form-control-intl { height: 48px; border-radius: 10px; font-weight: 600; border: 2px solid #e2e8f0; background: #f8fafc; }
         .cap-input { text-transform: capitalize; }
         .remove-x { position: absolute; top: 15px; right: 20px; color: #ef4444; cursor: pointer; border: none; background: none; font-size: 20px; }
 
-        /* --- SCROLLABLE SEAT MODAL --- */
+        /* --- DYNAMIC SEAT GRID MODAL --- */
         .seat-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
         .modal-content-custom { 
-            background: white; margin: 3vh auto; padding: 20px; width: 95%; max-width: 440px; 
+            background: white; margin: 3vh auto; padding: 20px; width: 95%; max-width: 480px; 
             border-radius: 20px; max-height: 94vh; display: flex; flex-direction: column; 
         }
         .seat-scroll-area { overflow-y: auto; flex-grow: 1; padding: 10px 5px; }
-        .seat-grid { display: grid; grid-template-columns: repeat(3, 1fr) 15px repeat(2, 1fr); gap: 7px; }
-        .seat-rect { 
-            height: 42px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; 
+        
+        .seat-grid { 
+            display: grid; 
+            grid-template-columns: repeat(6, 1fr); 
+            gap: 6px; 
         }
-        .seat-rect i { font-size: 14px; color: #94a3b8; }
-        .seat-rect.selected { background: var(--selected); color: white; border-color: var(--selected); }
-        .seat-rect.booked { background: #f1f5f9; cursor: not-allowed; opacity: 0.5; border: none; color: #ef4444; }
+        
+        .seat-cell { 
+            height: 42px; border: 2px solid #e2e8f0; border-radius: 8px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            font-size: 9px; font-weight: 800; background: #fff;
+        }
+        .seat-cell.seat { cursor: pointer; border-color: #cbd5e1; }
+        .seat-cell.seat:hover { border-color: var(--primary); background: #f1f5f9; }
+        .seat-cell.seat.selected { background: var(--selected); color: white; border-color: var(--selected); }
+        .seat-cell.booked { background: #f1f5f9; cursor: not-allowed; opacity: 0.4; color: #ef4444; border: none; }
+        .seat-cell.driver-seat { background: #e2e8f0; color: #475569; border: none; cursor: default; }
+        .seat-cell.aile, .seat-cell.stair-case { background: transparent; border: none; cursor: default; }
+        .seat-cell i { font-size: 13px; color: #64748b; margin-bottom: 2px; }
+        .seat-cell.selected i { color: white; }
 
         .footer-dark { background: var(--brand-navy); color: white; padding: 40px 0; text-align: center; }
-        /* --- HIDE GOOGLE UI --- */ 
-        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
-        body { top: 0px !important; position: static !important; } 
-        html { margin-top: 0px !important; } 
-        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
+        .intl-error-toast { position: fixed; top: 20px; right: 20px; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.15); border-left: 5px solid #e74c3c; z-index: 9999; min-width: 300px; }
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt { display: none !important; visibility: hidden !important; }
+        body { top: 0px !important; position: static !important; }
     </style>
-    <style>
-        /* Toast Container */
-        .intl-error-toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #fff;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            border-left: 5px solid #e74c3c;
-            z-index: 9999; /* Higher z-index to stay on top */
-            min-width: 300px;
-            animation: slideIn 0.3s ease-out;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        /* Content Layout */
-        .toast-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .toast-icon {
-            color: #e74c3c;
-            font-size: 24px;
-        }
-
-        .toast-message {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .toast-title {
-            font-weight: 700;
-            color: #333;
-            font-size: 14px;
-            margin: 0;
-        }
-
-        .toast-desc {
-            color: #666;
-            font-size: 13px;
-            margin-top: 2px;
-        }
-
-        .toast-close {
-            background: none;
-            border: none;
-            color: #ccc;
-            cursor: pointer;
-            font-size: 18px;
-            margin-left: auto;
-            padding: 0;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toast-close:hover { color: #333; }
-
-        /* Progress Bar Animation */
-        .toast-progress {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 3px;
-            width: 100%;
-            background: #eee;
-            border-bottom-right-radius: 8px;
-            overflow: hidden;
-        }
-
-        .toast-progress::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #e74c3c;
-            animation: progress 5s linear forwards;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes progress {
-            from { width: 100%; }
-            to { width: 0%; }
-        }
-        /* --- HIDE GOOGLE UI --- */ 
-        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
-        body { top: 0px !important; position: static !important; } 
-        html { margin-top: 0px !important; } 
-        .goog-text-highlight { background: none !important; box-shadow: none !important; }
-    </style>
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
 </head>
 <body>
+
 <script>
 function closeError() {
     const errorToast = document.getElementById('djangoError');
     if (errorToast) {
-        // Smooth fade out
         errorToast.style.opacity = '0';
-        errorToast.style.transform = 'translateX(20px)';
         errorToast.style.transition = '0.3s all ease';
-        
-        // Remove from layout after animation
-        setTimeout(() => {
-            errorToast.style.display = 'none';
-        }, 300);
+        setTimeout(() => errorToast.style.display = 'none', 300);
     }
 }
-
-// Auto-close logic
 document.addEventListener('DOMContentLoaded', function() {
     const toast = document.getElementById('djangoError');
-    if (toast) {
-        // Automatically close after 5 seconds
-        setTimeout(closeError, 5000);
-    }
+    if (toast) setTimeout(closeError, 5000);
 });
 </script>
 
+<!--
 {% if error %}
 <div class="intl-error-toast show" id="djangoError">
-    <div class="toast-content">
-        <div class="toast-icon"><i class="fas fa-circle-exclamation"></i></div>
-        <div class="toast-message">
-            <span class="toast-title">System Message</span>
-            <span class="toast-desc">{{ error }}</span>
+    <div class="d-flex align-items-center">
+        <div class="text-danger mr-3" style="font-size:24px;"><i class="fas fa-circle-exclamation"></i></div>
+        <div>
+            <span class="font-weight-bold text-dark d-block" style="font-size:14px;">System Message</span>
+            <span class="text-muted" style="font-size:13px;">{{ error }}</span>
         </div>
-        <button class="toast-close" onclick="closeError()"><i class="fas fa-times"></i></button>
+        <button class="btn btn-sm ml-auto text-dark" onclick="closeError()"><i class="fas fa-times"></i></button>
     </div>
-    <div class="toast-progress"></div>
 </div>
 {% endif %}
+-->
 
 <nav class="navbar-main navbar navbar-expand-lg">
     <div class="container">
- <a href="{% url 'home' %}" class="brand-area">
-            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-decoration-none">
+            <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo">
             <div>
-        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
-        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+                <h2><span style="color: #0A3977 !important; font-weight: bold !important; font-size:20px;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78; font-weight:bold; margin:0; padding:0; font-size:11px;">Digital Technology</h6>
             </div>
         </a>
-	<!--    
-        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration:none">
-            <div class="brand-logo-box">
-                <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
-            </div>
-            <div>
-                <span class="brand-text-main">Busfermata</span>
-                <span class="brand-tag">TRANSPORT TECHNOLOGY</span>
-            </div>
-        </a>
-	-->
-
-
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar">
             <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:var(--brand-navy)"></i></span>
         </button>
@@ -253,68 +125,83 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'login' %}">Login</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'get_ticket' %}">My Ticket</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'about' %}">About Us</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Feedback</a></li>
-		<!-- <li class="nav-item ml-lg-3"><a class="nav-link nav-link-custom login-pill" href="{% url 'login' %}">Login</a></li>-->
-		<li class="nav-item ml-lg-3">
-    <a class="nav-link nav-link-intl px-4 rounded-pill border"
-       style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;"
-       href="{% url 'book' %}">Book Now</a>
-
+                <li class="nav-item ml-lg-3">
+                    <a class="nav-link px-4 rounded-pill border" style="background-color: var(--brand-gold) !important; color: var(--brand-navy) !important; font-weight: 800;" href="{% url 'book' %}">Book Now</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
 <div class="container my-5">
-    {% for route in routes %}
     <div class="trip-summary shadow d-flex justify-content-between align-items-center">
         <div>
-            <small class="text-warning font-weight-bold d-block">DEPARTURE</small>
-            <span class="h5 mb-0 font-weight-bold">{{ route.depcity }}</span>
+            <small class="text-warning font-weight-bold d-block">ROUTE ID</small>
+            <span class="h5 mb-0 font-weight-bold">{{ request.GET.route|default:"20" }}</span>
         </div>
         <i class="fas fa-chevron-right text-white-50"></i>
         <div>
-            <small class="text-warning font-weight-bold d-block">DESTINATION</small>
-            <span class="h5 mb-0 font-weight-bold">{{ route.descity }}</span>
+            <small class="text-warning font-weight-bold d-block">VEHICLE ID</small>
+            <span class="h5 mb-0 font-weight-bold">{{ request.GET.vehicle|default:"340" }}</span>
         </div>
         <div class="d-none d-md-block text-right">
             <small class="text-warning font-weight-bold d-block">TRAVEL DATE</small>
-            <span class="h5 mb-0 font-weight-bold">{{ route.date }}</span>
+            <span class="h5 mb-0 font-weight-bold">{{ request.GET.date|default:"2026-08-02" }}</span>
         </div>
     </div>
 
-    <form action="{% url 'ticket' %}" method="post" id="search_form_1">
+    <!-- SaveTicketRequest Schema Fields Mapping Form -->
+    <form action="{% url 'ticket' %}" method="post" id="saveTicketForm" onsubmit="prepareTicketData(event)">
         {% csrf_token %}
+        
+        <!-- SaveTicketRequest Direct Payload Hidden Fields (Dynamic from URL/Booking) -->
+        <input type="hidden" name="operator" id="req_operator" value="{{ request.GET.operator|default:32 }}">
+        <input type="hidden" name="agent" id="req_agent" value="">
+        <input type="hidden" name="routeSchedule" id="req_routeSchedule" value="{{ request.GET.route|default:20 }}">
+        <input type="hidden" name="routeScheduleDate" id="req_routeScheduleDate" value="{{ request.GET.date|default:'2026-08-02' }}">
+        <input type="hidden" name="paymentMethod" id="req_paymentMethod" value="1">
+        <input type="hidden" name="period" id="req_period" value="">
+        <input type="hidden" name="paymentProcessor" id="req_paymentProcessor" value="1">
+        <input type="hidden" name="payer" id="req_payer" value="{{ username|default:'' }}">
+        <input type="hidden" name="paymentRefNumber" id="req_paymentRefNumber" value="">
+        <input type="hidden" name="paymentAmount" id="req_paymentAmount" value="{{ request.GET.tariff|default:70.0 }}">
+        <input type="hidden" name="maturityDate" id="req_maturityDate" value="{{ request.GET.date|default:'2026-08-02' }}">
+        <input type="hidden" name="paymentIssueDate" id="req_paymentIssueDate" value="{{ request.GET.date|default:'2026-08-02' }}">
+        <input type="hidden" name="paymentStatus" id="req_paymentStatus" value="1">
+        <input type="hidden" name="ipAddress" id="req_ipAddress" value="">
+        <input type="hidden" name="platform" id="req_platform" value="Web">
+        <input type="hidden" name="latitude" id="req_latitude" value="">
+        <input type="hidden" name="longitude" id="req_longitude" value="">
+        <input type="hidden" name="appId" id="req_appId" value="1">
+
+        <!-- Serialized ticketDetail payload container -->
+        <input type="hidden" name="ticketDetail" id="ticketDetailJson">
+
         <div id="passenger-container">
             <div class="passenger-card shadow-sm border-0">
                 <h6 class="font-weight-bold mb-4" style="color:var(--brand-navy)"><i class="fas fa-user-circle mr-2"></i>PASSENGER DETAILS</h6>
-                <input type="hidden" name="price[]" class="individual-price" value="{{ route.price|default:'0' }}">
-                <input type="hidden" name="side_no[]" value="{{ route.side_no }}">
-                <input type="hidden" name="plate_no[]" value="{{ route.plate_no }}">
-                <input type="hidden" name="date[]" value="{{ route.date }}">
-                <input type="hidden" name="depcity[]" value="{{ route.depcity }}">
-                <input type="hidden" name="descity[]" value="{{ route.descity }}">
-                <input type="hidden" name="username[]" value="{{ username }}">
+                
+                <input type="hidden" class="individual-price" value="{{ request.GET.tariff|default:'70.0' }}">
                 
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="small font-weight-bold">First Name <span class="text-danger">*</span></label>
-                        <input type="text" name="firstname[]" class="form-control form-control-intl cap-input" oninput="handleNameInput(this)" required>
+                        <input type="text" class="form-control form-control-intl cap-input p-firstname" oninput="handleNameInput(this)" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="small font-weight-bold">Father Name <span class="text-danger">*</span></label>
-                        <input type="text" name="lastname[]" class="form-control form-control-intl cap-input" oninput="handleNameInput(this)" required>
+                        <input type="text" class="form-control form-control-intl cap-input p-lastname" oninput="handleNameInput(this)" required>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="small font-weight-bold">Phone Number <span class="text-danger">*</span></label>
-                        <input type="tel" name="phone[]" class="form-control form-control-intl" maxlength="10" placeholder="09..." required>
+                        <input type="tel" class="form-control form-control-intl p-phone" maxlength="10" placeholder="09..." required>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="small font-weight-bold">Gender <span class="text-danger">*</span></label>
-                        <select name="gender[]" class="form-control form-control-intl" required>
+                        <select class="form-control form-control-intl p-gender" required>
                             <option value="" disabled selected>Select</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -322,21 +209,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="small font-weight-bold">Passenger Type <span class="text-danger">*</span></label>
-                        <select name="passenger_type[]" class="form-control form-control-intl" required>
+                        <select class="form-control form-control-intl p-type" required>
                             <option value="" disabled selected>Select type</option>
-                            <option value="adult">Adult</option>
-                            <option value="child">Child</option>
+                            <option value="1">Adult</option>
+                            <option value="2">Child</option>
                         </select>
                     </div>
                 </div>
-               <div class="row">
+
+                <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="small font-weight-bold">Email Address <span class="text-danger">*</span></label>
-                        <input type="email" name="email[]" class="form-control form-control-intl" required>
+                        <input type="email" class="form-control form-control-intl p-email" required>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="small font-weight-bold">Choose Seat <span class="text-danger">*</span></label>
-                        <select name="no_seat[]" class="form-control form-control-intl seat-trigger" onmousedown="event.preventDefault(); openSeatModal(this);" required>
+                        <select class="form-control form-control-intl seat-trigger p-seat" onmousedown="event.preventDefault(); openSeatModal(this);" required>
                             <option value="" disabled selected>Select seat from map...</option>
                         </select>
                     </div>
@@ -348,31 +236,23 @@ document.addEventListener('DOMContentLoaded', function() {
             <button type="button" id="addBtn" class="btn btn-outline-dark font-weight-bold">+ ADD PASSENGER</button>
             <div class="text-right">
                 <span class="d-block small font-weight-bold text-muted">TOTAL AMOUNT</span>
-                <h3 class="font-weight-bold text-primary mb-2"><span id="totalDisplay">{{ route.price }}</span> ETB</h3>
-                <button type="submit" class="btn btn-lg px-5 font-weight-bold" style="background:var(--brand-gold); color:var(--brand-navy); border-radius:10px;">PROCEED TO BOOK</button>
+                <h3 class="font-weight-bold text-primary mb-2"><span id="totalDisplay">{{ request.GET.tariff|default:"70.0" }}</span> ETB</h3>
+                <button type="submit" class="btn btn-lg px-5 font-weight-bold" style="background:var(--brand-gold); color:var(--brand-navy); border-radius:10px;">PROCEED TO BOOK & PAY</button>
             </div>
         </div>
     </form>
-    {% endfor %}
 </div>
 
+<!-- DYNAMIC SEAT LAYOUT MODAL -->
 <div id="seatModal" class="seat-modal">
     <div class="modal-content-custom shadow-lg">
         <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-            <h6 class="font-weight-bold mb-0"><i class="fas fa-bus mr-2"></i>BUS SEAT PLAN</h6>
+            <h6 class="font-weight-bold mb-0"><i class="fas fa-bus mr-2"></i>BUS SEAT PLAN (51 Seats Max)</h6>
             <button type="button" class="close" onclick="closeModal()">&times;</button>
         </div>
         
         <div class="seat-scroll-area">
-            <div class="seat-grid">
-                {% for seat in all_seats %}
-                    <div class="seat-rect {% if seat in booked_seats %}booked{% endif %}" data-id="{{ seat }}" onclick="confirmSeat(this)">
-                        <i class="fas fa-chair"></i>
-                        <span>{{ seat }}</span>
-                    </div>
-                    {% if forloop.counter|add:"-3"|divisibleby:5 %}<div style="width:15px;"></div>{% endif %}
-                {% endfor %}
-            </div>
+            <div class="seat-grid" id="dynamicSeatGrid"></div>
         </div>
         <button type="button" class="btn btn-dark btn-block mt-3" onclick="closeModal()">CLOSE MAP</button>
     </div>
@@ -390,6 +270,105 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
     let activeSelect = null;
+    
+    // የተሰጠው የባስ መቀመጫ ጂኦሜትሪ ናሙና
+    const seatData = {
+        'id': 20,
+        'maxX': 6,
+        'maxY': 15,
+        'seats': [
+            {'id': 1966, 'name': '', 'type': 'driver seat', 'x': 1, 'y': 1},
+            {'id': 1967, 'name': '', 'type': 'aile', 'x': 2, 'y': 1},
+            {'id': 1968, 'name': '', 'type': 'aile', 'x': 3, 'y': 1},
+            {'id': 1969, 'name': '', 'type': 'aile', 'x': 4, 'y': 1},
+            {'id': 1970, 'name': '', 'type': 'aile', 'x': 5, 'y': 1},
+            {'id': 1971, 'name': '', 'type': 'aile', 'x': 6, 'y': 1},
+            {'id': 1972, 'name': '', 'type': 'aile', 'x': 1, 'y': 2},
+            {'id': 1973, 'name': '', 'type': 'aile', 'x': 2, 'y': 2},
+            {'id': 1974, 'name': '', 'type': 'aile', 'x': 3, 'y': 2},
+            {'id': 1975, 'name': '', 'type': 'aile', 'x': 4, 'y': 2},
+            {'id': 1976, 'name': '1', 'type': 'seat', 'x': 5, 'y': 2},
+            {'id': 1977, 'name': '2', 'type': 'seat', 'x': 6, 'y': 2},
+            {'id': 1978, 'name': '3', 'type': 'seat', 'x': 1, 'y': 3},
+            {'id': 1979, 'name': '4', 'type': 'seat', 'x': 2, 'y': 3},
+            {'id': 1980, 'name': '5', 'type': 'seat', 'x': 3, 'y': 3},
+            {'id': 1981, 'name': '', 'type': 'aile', 'x': 4, 'y': 3},
+            {'id': 1982, 'name': '', 'type': 'stair case', 'x': 5, 'y': 3},
+            {'id': 1983, 'name': '6', 'type': 'seat', 'x': 6, 'y': 3},
+            {'id': 1984, 'name': '7', 'type': 'seat', 'x': 1, 'y': 4},
+            {'id': 1985, 'name': '8', 'type': 'seat', 'x': 2, 'y': 4},
+            {'id': 1986, 'name': '9', 'type': 'seat', 'x': 3, 'y': 4},
+            {'id': 1987, 'name': '', 'type': 'aile', 'x': 4, 'y': 4},
+            {'id': 1988, 'name': '', 'type': 'stair case', 'x': 5, 'y': 4},
+            {'id': 1989, 'name': '', 'type': 'stair case', 'x': 6, 'y': 4},
+            {'id': 1990, 'name': '10', 'type': 'seat', 'x': 1, 'y': 5},
+            {'id': 1991, 'name': '11', 'type': 'seat', 'x': 2, 'y': 5},
+            {'id': 1992, 'name': '12', 'type': 'seat', 'x': 3, 'y': 5},
+            {'id': 1993, 'name': '', 'type': 'aile', 'x': 4, 'y': 5},
+            {'id': 1994, 'name': '13', 'type': 'seat', 'x': 5, 'y': 5},
+            {'id': 1995, 'name': '14', 'type': 'seat', 'x': 6, 'y': 5},
+            {'id': 1996, 'name': '15', 'type': 'seat', 'x': 1, 'y': 6},
+            {'id': 1997, 'name': '16', 'type': 'seat', 'x': 2, 'y': 6},
+            {'id': 1998, 'name': '17', 'type': 'seat', 'x': 3, 'y': 6},
+            {'id': 1999, 'name': '', 'type': 'aile', 'x': 4, 'y': 6},
+            {'id': 2000, 'name': '18', 'type': 'seat', 'x': 5, 'y': 6},
+            {'id': 2001, 'name': '19', 'type': 'seat', 'x': 6, 'y': 6},
+            {'id': 2002, 'name': '20', 'type': 'seat', 'x': 1, 'y': 7},
+            {'id': 2003, 'name': '21', 'type': 'seat', 'x': 2, 'y': 7},
+            {'id': 2004, 'name': '22', 'type': 'seat', 'x': 3, 'y': 7},
+            {'id': 2005, 'name': '', 'type': 'aile', 'x': 4, 'y': 7},
+            {'id': 2006, 'name': '23', 'type': 'seat', 'x': 5, 'y': 7},
+            {'id': 2007, 'name': '24', 'type': 'seat', 'x': 6, 'y': 7},
+            {'id': 2008, 'name': '25', 'type': 'seat', 'x': 1, 'y': 8},
+            {'id': 2009, 'name': '26', 'type': 'seat', 'x': 2, 'y': 8},
+            {'id': 2010, 'name': '27', 'type': 'seat', 'x': 3, 'y': 8},
+            {'id': 2011, 'name': '', 'type': 'aile', 'x': 4, 'y': 8},
+            {'id': 2012, 'name': '28', 'type': 'seat', 'x': 5, 'y': 8},
+            {'id': 2013, 'name': '29', 'type': 'seat', 'x': 6, 'y': 8},
+            {'id': 2014, 'name': '30', 'type': 'seat', 'x': 1, 'y': 9},
+            {'id': 2015, 'name': '31', 'type': 'seat', 'x': 2, 'y': 9},
+            {'id': 2016, 'name': '32', 'type': 'seat', 'x': 3, 'y': 9},
+            {'id': 2017, 'name': '', 'type': 'aile', 'x': 4, 'y': 9},
+            {'id': 2018, 'name': '33', 'type': 'seat', 'x': 5, 'y': 9},
+            {'id': 2019, 'name': '34', 'type': 'seat', 'x': 6, 'y': 9},
+            {'id': 2020, 'name': '35', 'type': 'seat', 'x': 1, 'y': 10},
+            {'id': 2021, 'name': '36', 'type': 'seat', 'x': 2, 'y': 10},
+            {'id': 2022, 'name': '37', 'type': 'seat', 'x': 3, 'y': 10},
+            {'id': 2023, 'name': '', 'type': 'aile', 'x': 4, 'y': 10},
+            {'id': 2024, 'name': '38', 'type': 'seat', 'x': 5, 'y': 10},
+            {'id': 2025, 'name': '39', 'type': 'seat', 'x': 6, 'y': 10},
+            {'id': 2026, 'name': '40', 'type': 'seat', 'x': 1, 'y': 11},
+            {'id': 2027, 'name': '41', 'type': 'seat', 'x': 2, 'y': 11},
+            {'id': 2028, 'name': '42', 'type': 'seat', 'x': 3, 'y': 11},
+            {'id': 2029, 'name': '', 'type': 'aile', 'x': 4, 'y': 11},
+            {'id': 2030, 'name': '43', 'type': 'seat', 'x': 5, 'y': 11},
+            {'id': 2031, 'name': '44', 'type': 'seat', 'x': 6, 'y': 11},
+            {'id': 2032, 'name': '45', 'type': 'seat', 'x': 1, 'y': 12},
+            {'id': 2033, 'name': '46', 'type': 'seat', 'x': 2, 'y': 12},
+            {'id': 2034, 'name': '47', 'type': 'seat', 'x': 3, 'y': 12},
+            {'id': 2035, 'name': '', 'type': 'aile', 'x': 4, 'y': 12},
+            {'id': 2036, 'name': '48', 'type': 'seat', 'x': 5, 'y': 12},
+            {'id': 2037, 'name': '49', 'type': 'seat', 'x': 6, 'y': 12},
+            {'id': 2038, 'name': '50', 'type': 'seat', 'x': 1, 'y': 13},
+            {'id': 2039, 'name': '51', 'type': 'seat', 'x': 2, 'y': 13},
+            {'id': 2040, 'name': '', 'type': 'aile', 'x': 3, 'y': 13},
+            {'id': 2041, 'name': '', 'type': 'aile', 'x': 4, 'y': 13},
+            {'id': 2042, 'name': '', 'type': 'stair case', 'x': 5, 'y': 13},
+            {'id': 2043, 'name': '52', 'type': 'seat', 'x': 6, 'y': 13},
+            {'id': 2044, 'name': '53', 'type': 'seat', 'x': 1, 'y': 14},
+            {'id': 2045, 'name': '54', 'type': 'seat', 'x': 2, 'y': 14},
+            {'id': 2046, 'name': '', 'type': 'aile', 'x': 3, 'y': 14},
+            {'id': 2047, 'name': '', 'type': 'aile', 'x': 4, 'y': 14},
+            {'id': 2048, 'name': '', 'type': 'stair case', 'x': 5, 'y': 14},
+            {'id': 2049, 'name': '', 'type': 'stair case', 'x': 6, 'y': 14},
+            {'id': 2050, 'name': '55', 'type': 'seat', 'x': 1, 'y': 15},
+            {'id': 2051, 'name': '56', 'type': 'seat', 'x': 2, 'y': 15},
+            {'id': 2052, 'name': '57', 'type': 'seat', 'x': 3, 'y': 15},
+            {'id': 2053, 'name': '58', 'type': 'seat', 'x': 4, 'y': 15},
+            {'id': 2054, 'name': '59', 'type': 'seat', 'x': 5, 'y': 15},
+            {'id': 2055, 'name': '60', 'type': 'seat', 'x': 6, 'y': 15}
+        ]
+    };
 
     function handleNameInput(input) {
         let val = input.value;
@@ -400,6 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openSeatModal(el) {
         activeSelect = el;
+        renderSeatGrid();
         document.getElementById('seatModal').style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
@@ -409,9 +389,58 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = 'auto';
     }
 
-    function confirmSeat(el) {
+    function renderSeatGrid() {
+        const gridContainer = document.getElementById('dynamicSeatGrid');
+        gridContainer.innerHTML = '';
+
+        if (!seatData || !seatData.seats) {
+            gridContainer.innerHTML = '<p class="text-center text-muted col-12">No seat layout available.</p>';
+            return;
+        }
+
+        if (seatData.maxX) {
+            gridContainer.style.gridTemplateColumns = `repeat(${seatData.maxX}, 1fr)`;
+        }
+
+        seatData.seats.forEach(seat => {
+            const cell = document.createElement('div');
+            let typeClass = '';
+            let iconHtml = '';
+            let labelText = seat.name || '';
+
+            // ከ 51 በላይ ቁጥር ያላቸውን መቀመጫዎች እንደ Aile (ባዶ ቦታ) በመቁጠር ከ 51 ማዕቀፍ ውጪ ማድረግ
+            if (seat.type === 'seat' && parseInt(seat.name) > 51) {
+                typeClass = 'aile';
+                labelText = '';
+            } else if (seat.type === 'driver seat') {
+                typeClass = 'driver-seat';
+                iconHtml = '<i class="fas fa-steering-wheel"></i>';
+                labelText = 'Driver';
+            } else if (seat.type === 'seat') {
+                typeClass = 'seat';
+                iconHtml = '<i class="fas fa-chair"></i>';
+                cell.setAttribute('data-id', seat.id);
+                cell.onclick = () => confirmSeat(cell, seat.name);
+            } else if (seat.type === 'aile') {
+                typeClass = 'aile';
+            } else if (seat.type === 'stair case') {
+                typeClass = 'stair-case';
+                iconHtml = '<i class="fas fa-stairs"></i>';
+            } else {
+                typeClass = 'seat';
+                iconHtml = '<i class="fas fa-chair"></i>';
+            }
+
+            cell.className = `seat-cell ${typeClass}`;
+            cell.innerHTML = `${iconHtml}<span>${labelText}</span>`;
+            gridContainer.appendChild(cell);
+        });
+    }
+
+    function confirmSeat(el, seatName) {
         if (el.classList.contains('booked')) return;
-        activeSelect.innerHTML = `<option value="${el.dataset.id}" selected>Seat ${el.dataset.id}</option>`;
+        activeSelect.innerHTML = `<option value="${seatName}" selected>Seat ${seatName}</option>`;
+        activeSelect.value = seatName;
         closeModal();
     }
 
@@ -419,27 +448,56 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.getElementById('passenger-container');
         const clone = container.firstElementChild.cloneNode(true);
         clone.querySelectorAll('input:not([type="hidden"])').forEach(i => i.value = '');
-        clone.querySelector('select[name="no_seat[]"]').innerHTML = '<option value="" disabled selected>Select seat from map...</option>';
+        clone.querySelector('.p-seat').innerHTML = '<option value="" disabled selected>Select seat from map...</option>';
         
-        // Ensure dropdown selections are reset for cloned items
         clone.querySelectorAll('select').forEach(select => {
             select.selectedIndex = 0;
         });
 
         const x = document.createElement('button');
         x.innerHTML = '&times;'; x.className = 'remove-x'; x.type = 'button';
-        x.onclick = () => { clone.remove(); calculateTotal(); };
+        x.onclick = () => { clone.remove(); calculateTotal(); updateTotalPriceInput(); };
         clone.appendChild(x);
         container.appendChild(clone);
         calculateTotal();
+        updateTotalPriceInput();
     });
 
     function calculateTotal() {
         let total = 0;
-        document.querySelectorAll('.individual-price').forEach(p => total += parseFloat(p.value));
+        document.querySelectorAll('.individual-price').forEach(p => total += parseFloat(p.value || 0));
         document.getElementById('totalDisplay').innerText = total.toFixed(2);
     }
+
+    function updateTotalPriceInput() {
+        let total = 0;
+        document.querySelectorAll('.individual-price').forEach(p => total += parseFloat(p.value || 0));
+        document.getElementById('req_paymentAmount').value = total;
+    }
+
+    function prepareTicketData(event) {
+        const cards = document.querySelectorAll('.passenger-card');
+        let ticketDetails = [];
+
+        cards.forEach(card => {
+            let detail = {
+                firstname: card.querySelector('.p-firstname').value,
+                lastname: card.querySelector('.p-lastname').value,
+                phone: card.querySelector('.p-phone').value,
+                gender: card.querySelector('.p-gender').value,
+                passengerType: parseInt(card.querySelector('.p-type').value || 1),
+                email: card.querySelector('.p-email').value,
+                seatNo: card.querySelector('.p-seat').value,
+                price: parseFloat(card.querySelector('.individual-price').value || 0)
+            };
+            ticketDetails.push(detail);
+        });
+
+        updateTotalPriceInput();
+        document.getElementById('ticketDetailJson').value = JSON.stringify(ticketDetails);
+    }
 </script>
+
 <div id="google_translate_element" style="display:none;"></div>
 <script type="text/javascript">
 function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:"en,am,om,ti",autoDisplay:false},"google_translate_element")}function changeLanguage(l){localStorage.setItem("userLanguage",l);var s=document.querySelector("select.goog-te-combo");if(s){s.value=l;s.dispatchEvent(new Event("change"))}}window.addEventListener("load",function(){const l=localStorage.getItem("userLanguage");if(l&&l!=="en"){setTimeout(()=>{changeLanguage(l)},1000)}});

@@ -11,11 +11,18 @@
     <link rel="stylesheet" href="../static/styles/bootstrap4/bootstrap.min.css">
 
     <style>
+        /* --- HIDE GOOGLE UI --- */
+        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; }
+        body { top: 0px !important; position: static !important; }
+        html { margin-top: 0px !important; }
+        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+
         :root {
             --brand-navy: #00264d;
             --brand-gold: #ffcc00;
             --brand-dark: #0f172a;
             --text-main: #1e293b;
+            --accent-green: #007A78;
         }
 
         body { 
@@ -23,6 +30,9 @@
             background: #f8fafc; 
             color: var(--text-main);
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* --- NAVIGATION --- */
@@ -47,15 +57,14 @@
         .brand-logo { 
             height: 90px !important; 
             width: auto; 
-            border-radius: 12px; 
+            border-radius: 0; 
             margin-right: 20px; 
-            border: 4px solid var(--brand-navy) !important;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: none !important;
+            box-shadow: none !important;
             transition: 0.3s ease;
         }
 
         .brand-text { font-weight: 800; color: var(--brand-navy); font-size: 32px; text-transform: uppercase; line-height: 0.8; }
-        .brand-tagline { color: var(--brand-gold); font-weight: 800; font-size: 11px; letter-spacing: 2px; display: block; margin-top: 5px; }
 
         .nav-link { 
             color: var(--brand-navy) !important; 
@@ -80,15 +89,22 @@
             margin: -60px auto 0; position: relative; z-index: 10;
         }
 
-        .input-group-custom { flex: 1; }
-        .input-group-custom label { font-weight: 800; color: var(--brand-navy); font-size: 12px; margin-bottom: 8px; display: block; }
-        .input-field { background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 8px; padding: 12px; display: flex; align-items: center; }
-        .input-field input { border: none; background: transparent; width: 100%; outline: none; font-weight: 700; }
+        .input-group-custom { flex: 1; position: relative; }
+        .input-group-custom label { font-weight: 800; color: var(--brand-navy); font-size: 11px; margin-bottom: 8px; display: block; letter-spacing: 0.5px; transition: color 0.3s ease; }
+        .input-field { background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 8px; padding: 12px; display: flex; align-items: center; transition: all 0.3s ease; }
+        .input-field i { color: #94a3b8; margin-right: 10px; transition: color 0.3s ease; }
+        .input-field input { border: none; background: transparent; width: 100%; outline: none; font-weight: 700; color: var(--brand-dark); }
+        
+        .input-field:focus-within { border-color: var(--brand-navy); background: #ffffff; box-shadow: 0 0 0 4px rgba(0,38,77,0.05); }
+        .input-field:focus-within i { color: var(--brand-navy); }
 
-        .btn-search { background: var(--brand-navy); color: white; font-weight: 800; height: 55px; padding: 0 35px; border-radius: 8px; border: none; transition: 0.3s; }
-        .btn-search:hover { background: #cc0000; transform: translateY(-2px); }
+        .route-indicator { display: flex; align-items: center; justify-content: center; height: 50px; padding-bottom: 2px; color: #cbd5e1; font-size: 20px; font-weight: 700; transition: all 0.3s ease; }
+        .route-indicator.active { color: var(--brand-gold); transform: scale(1.1); }
 
-        /* --- FEATURE CARD HARDENING --- */
+        .btn-search { background: var(--brand-navy); color: white; font-weight: 800; height: 53px; padding: 0 35px; border-radius: 8px; border: none; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-search:hover { background: #cc0000; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(204,0,0,0.2); }
+
+        /* --- FEATURE CARDS --- */
         .feature-card {
             background: white;
             border-radius: 16px;
@@ -97,95 +113,31 @@
             height: 100%;
             transition: transform 0.3s ease;
         }
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        .card-image-holder {
-            position: relative;
-            height: 240px;
-            width: 100%;
-            overflow: hidden;
-        }
-        .card-image-holder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .card-badge {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            background: var(--brand-gold);
-            color: var(--brand-navy);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        .card-text-block {
-            padding: 25px;
-        }
-        .card-text-block h3 {
-            font-weight: 800;
-            color: var(--brand-navy);
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-        .card-text-block p {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        /* --- MOBILE ADJUSTMENTS --- */
-        @media (max-width: 991px) {
-            .navbar-collapse {
-                background: white;
-                margin-top: 15px;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            }
-            .brand-logo { height: 60px !important; margin-right: 10px; }
-            .brand-text { font-size: 22px; }
-            .booking-container { 
-                flex-direction: column; 
-                align-items: stretch; 
-                margin-top: -30px; 
-            }
-            .btn-search { width: 100%; }
-        }
+        .feature-card:hover { transform: translateY(-5px); }
+        .card-image-holder { position: relative; height: 240px; width: 100%; overflow: hidden; }
+        .card-image-holder img { width: 100%; height: 100%; object-fit: cover; }
+        .card-badge { position: absolute; bottom: 15px; left: 15px; background: var(--brand-gold); color: var(--brand-navy); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .card-text-block { padding: 25px; }
+        .card-text-block h3 { font-weight: 800; color: var(--brand-navy); font-size: 22px; margin-bottom: 12px; }
+        .card-text-block p { color: #64748b; font-size: 14px; line-height: 1.6; margin: 0; }
 
         /* --- REGIONAL SECTION --- */
-        .region-card { 
-            background: white; border-top: 5px solid var(--brand-navy); 
-            padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%;
-        }
+        .region-card { background: white; border-top: 5px solid var(--brand-navy); padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%; }
         .region-name { font-weight: 800; font-size: 20px; color: var(--brand-navy); margin-bottom: 15px; display: block; border-bottom: 2px solid var(--brand-gold); padding-bottom: 5px; }
         .city-item { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 15px; }
 
-        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0 30px; margin-top: 80px; text-align: center; }
+        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0 30px; margin-top: auto; text-align: center; }
 
-        /* Hide Google Translate attribution elements */
-        .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
-        body { top: 0px !important; }
-        .goog-te-banner-frame, .goog-te-banner, .skiptranslate, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; visibility: hidden !important; } 
-        body { top: 0px !important; position: static !important; } 
-        html { margin-top: 0px !important; } 
-        .goog-text-highlight { background: none !important; box-shadow: none !important; }
+        @media (max-width: 991px) {
+            .navbar-collapse { background: white; margin-top: 15px; padding: 20px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+            .brand-logo { height: 60px !important; margin-right: 10px; }
+            .brand-text { font-size: 22px; }
+            .booking-container { flex-direction: column; align-items: stretch; margin-top: -30px; gap: 10px; }
+            .route-indicator { transform: rotate(90deg); height: auto; margin: 5px 0; }
+            .route-indicator.active { transform: rotate(90deg) scale(1.1); }
+            .btn-search { width: 100%; }
+        }
     </style>
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
 </head>
 <body>
 
@@ -196,30 +148,13 @@
     </div>
 </div>
 
-<style>
-.brand-logo {
-    border: none !important;      /* Removes the black border */
-    box-shadow: none !important;  /* Removes any surrounding shadow if present */
-    border-radius: 0;             /* Resets the rounded corners if necessary */
-}
-</style>
 <nav class="navbar navbar-expand-lg navbar-light navbar-main">
     <div class="container">
-	<!--
         <a href="{% url 'home' %}" class="brand-area">
-		<img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
-            <div>
-	<h3><span style="color:#0A3977;font-weight:bold">BUSFERMATA</span></h3>
-		<h3 class="brand-tagline" style="color: #007A78 !important; font-weight: bold !important; display: inline; margin: 0; padding: 0;">Digital Technology</h3>
-
-            </div>
-        </a>
-	-->
-	<a href="{% url 'home' %}" class="brand-area">
             <img src="../static/images/l.jpeg" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
             <div>
-        <h2><span class="brand-text" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
-        <h6 style="color:#007A78;font-weight:bold;margin:0;padding:0">Digital Technology</h6>
+                <h2><span class="brand-text" data-translate-english="BUSFERMATA" style="color: #0A3977 !important; font-weight: bold !important;">BUSFERMATA</span></h2>
+                <h6 style="color:#007A78; font-weight:bold; margin:0; padding:0;">Digital Technology</h6>
             </div>
         </a>
 
@@ -274,52 +209,50 @@
     <p style="font-size: 1.2rem; font-weight: 600;">Modernize Ethiopian Travel</p>
 </section>
 
+<!-- FORM CONTAINER -->
 <div class="container">
     <div class="booking-container">
-        <form action="{% url 'book' %}" method="post" style="display: contents;">
-            {% csrf_token %}
+        <form action="{% url 'book' %}" method="get" style="display: contents;" onsubmit="return validateForm()">
+            <!-- DEPARTURE CITY -->
             <div class="input-group-custom">
-                <label>DEPARTURE (START TYPING...)</label>
-                <div class="input-field">
+                <label id="depcity-label" style="text-transform: none !important;">Departure City</label>
+                <div class="input-field" id="depcity-box">
                     <i class="fas fa-search"></i>
-                    <input list="cities-from" name="depcity" translate="no" placeholder="e.g. Addis Ababa" required
-                           oninput="let v=this.value.replace(/[^a-zA-Z]/g, ''); this.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();">
-                    <datalist id="cities-from">
-                        {% for city in des %}
-                            {% if city.depcity != 'Asko' and city.depcity != 'Autobustera' and city.depcity != 'Lamberet' and city.depcity != 'Kality' and city.depcity != 'Ayertena' %}
-                                <option value="{{ city.depcity }}">
-                            {% endif %}
-                        {% endfor %}
-                    </datalist>
+                    <input list="cities-from" name="depcity_name" id="depcity-input" translate="no" placeholder="e.g. Addis Ababa (Lambert)" autocomplete="off" required oninput="handleInputSync('departure')">
+                    <datalist id="cities-from"></datalist>
                 </div>
             </div>
 
+            <div class="route-indicator" id="direction-arrow" title="Route Direction">
+                <i class="fas fa-long-arrow-alt-right"></i>
+            </div>
+
+            <!-- DESTINATION CITY -->
             <div class="input-group-custom">
-                <label>DESTINATION</label>
-                <div class="input-field">
+                <label id="descity-label" style="text-transform: none !important;">Destination City</label>
+                <div class="input-field" id="descity-box">
                     <i class="fas fa-location-dot"></i>
-                    <input list="cities-to" name="descity" translate="no" placeholder="e.g. Hawassa" required oninput="let v=this.value.replace(/\s/g, ''); this.value = v.charAt(0).toUpperCase() + v.slice(1).toLowerCase();">
-                    <datalist id="cities-to">
-                        {% for city in des %}
-                            {% if city.depcity != 'Asko' and city.depcity != 'Lamberet' and city.depcity != 'Kality' and city.depcity != 'Ayertena' and city.depcity != 'Autobustera' %}
-                                <option value="{{ city.depcity }}">
-                            {% endif %}
-                        {% endfor %}
-                    </datalist>
+                    <input list="cities-to" name="descity_name" id="descity-input" translate="no" placeholder="e.g. Kemise" autocomplete="off" required oninput="handleInputSync('destination')">
+                    <datalist id="cities-to"></datalist>
                 </div>
             </div>
 
+            <!-- TRAVEL DATE -->
             <div class="input-group-custom" style="flex: 0.5;">
                 <label>DATE OF JOURNEY</label>
                 <div class="input-field">
-                    <input type="date" name="date" required>
+                    <input type="date" name="date" required style="width: 100%; border: none; background: transparent; font-weight: 700; color: var(--brand-navy); outline: none;">
                 </div>
             </div>
+
+            <input type="hidden" id="route-id-output" name="route">
+            
             <button type="submit" class="btn-search">SEARCH TRAVEL</button>
         </form>
     </div>
 </div>
 
+<!-- FEATURE CARDS SECTION (KE FORMU BETACH) -->
 <section class="container" style="margin-top: 100px;">
     <div class="text-center mb-5">
         <h2 style="font-weight: 800; color: var(--brand-navy); font-size: 36px;">Seamless Travel Across the Entire Country</h2>
@@ -359,7 +292,8 @@
     </div>
 </section>
 
-<section class="container" style="margin-top: 80px;">
+<!-- PRIMARY ROUTES SECTION -->
+<section class="container" style="margin-top: 80px; margin-bottom: 80px;">
     <div class="text-center mb-5">
         <h2 style="font-weight: 800; color: var(--brand-navy); font-size: 32px;">Our Primary Routes</h2>
         <p class="text-muted">Direct Connections across the Ethiopian Highlands</p>
@@ -415,27 +349,127 @@
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const message = document.getElementById('status-message');
-        if (message) {
-            setTimeout(function() {
-                message.style.opacity = '0';
-                setTimeout(function() {
-                    message.remove();
-                }, 1000);
-            }, 5000);
+    const rawRoutes = '{{ routes_data|safe|escapejs }}';
+    let allRoutes = [];
+    try {
+        allRoutes = JSON.parse(rawRoutes);
+    } catch(e) {
+        allRoutes = [];
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        if (Array.isArray(allRoutes) && allRoutes.length > 0) {
+            const allDepartureCities = allRoutes.map(r => r.depcity);
+            const allDestinationCities = allRoutes.map(r => r.descity);
+            const combinedCities = [...allDepartureCities, ...allDestinationCities];
+
+            populateCleanDatalists("cities-from", combinedCities);
+            populateCleanDatalists("cities-to", combinedCities);
         }
     });
 
+    function populateCleanDatalists(elementId, cityArray) {
+        const datalist = document.getElementById(elementId);
+        if (!datalist) return;
+        datalist.innerHTML = "";
+        
+        const cleanedCities = cityArray
+            .filter(Boolean)
+            .map(c => {
+                let str = c.trim();
+                const isAllowedAddisTerminal = /Addis Ababa \((Lambert|Lamberet|Merkato Tilku|Kality|Asco|Asko|Ayer Tena)\)/i.test(str);
+                if (!isAllowedAddisTerminal) {
+                    str = str.replace(/\(.*?\)/g, '').trim();
+                }
+                return str;
+            }) 
+            .filter((value, index, self) => value !== "" && self.indexOf(value) === index);
+
+        cleanedCities.sort().forEach(cityName => {
+            const opt = document.createElement("option");
+            opt.value = cityName;
+            datalist.appendChild(opt);
+        });
+    }
+
+    function normalizeString(str) {
+        if (!str) return '';
+        return str.toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function handleInputSync(changedField) {
+        const depInput = document.getElementById("depcity-input");
+        const desInput = document.getElementById("descity-input");
+        const routeIdOutput = document.getElementById("route-id-output");
+        const arrow = document.getElementById("direction-arrow");
+        const depLabel = document.getElementById("depcity-label");
+        const desLabel = document.getElementById("descity-label");
+
+        let depValue = depInput.value.trim();
+        let desValue = desInput.value.trim();
+
+        if (depValue === desValue && depValue !== "") {
+            if (changedField === 'departure') {
+                desInput.value = ""; desValue = "";
+            } else if (changedField === 'destination') {
+                depInput.value = ""; depValue = "";
+            }
+        }
+
+        if (arrow) {
+            if (depValue !== "" && desValue !== "") {
+                arrow.classList.add("active");
+            } else {
+                arrow.classList.remove("active");
+            }
+        }
+
+        depLabel.style.color = (depValue !== "") ? "var(--accent-green)" : "var(--brand-navy)";
+        desLabel.style.color = (desValue !== "") ? "var(--accent-green)" : "var(--brand-navy)";
+
+        if (depValue && desValue && Array.isArray(allRoutes) && allRoutes.length > 0) {
+            const cleanDep = normalizeString(depValue);
+            const cleanDes = normalizeString(desValue);
+
+            const matched = allRoutes.find(r => {
+                const rDep = normalizeString(r.depcity);
+                const rDes = normalizeString(r.descity);
+                return rDep.includes(cleanDep) && rDes.includes(cleanDes);
+            });
+
+            routeIdOutput.value = matched ? (matched.route_id || matched.id || "") : "";
+        } else {
+            routeIdOutput.value = "";
+        }
+    }
+
+    function validateForm() {
+        const depValue = document.getElementById("depcity-input").value.trim();
+        const desValue = document.getElementById("descity-input").value.trim();
+        const routeId = document.getElementById("route-id-output").value;
+
+        if (depValue === desValue && depValue !== "") {
+            alert("Error: Departure and Destination cities cannot be the same. Please choose different cities!");
+            return false;
+        }
+        if (!routeId) {
+            alert("እባክዎ ትክክለኛ የከተማ ምርጫ በማድረግ Route ID እንዲመጣ ያድርጉ!");
+            return false;
+        }
+        return true;
+    }
+
     const brand = document.querySelector('.brand-area');
     const logo = document.querySelector('.brand-logo');
-    brand.addEventListener('mousemove', (e) => {
-        const rect = brand.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / 10;
-        const y = (e.clientY - rect.top - rect.height / 2) / 10;
-        logo.style.transform = `perspective(1000px) rotateX(${-y}deg) rotateY(${x}deg) scale(1.05)`;
-    });
-    brand.addEventListener('mouseleave', () => { logo.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`; });
+    if (brand && logo) {
+        brand.addEventListener('mousemove', (e) => {
+            const rect = brand.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) / 10;
+            const y = (e.clientY - rect.top - rect.height / 2) / 10;
+            logo.style.transform = `perspective(1000px) rotateX(${-y}deg) rotateY(${x}deg) scale(1.05)`;
+        });
+        brand.addEventListener('mouseleave', () => { logo.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`; });
+    }
 </script>
 
 </body>

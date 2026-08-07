@@ -1,0 +1,1953 @@
+{
+  "/api/routes/getallroutes": {
+    "get": {
+      "tags": [
+        "Route"
+      ],
+      "summary": "Retrieves all routes.",
+      "description": "Retrieves all routes.",
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "example": [
+                {
+                  "originCityName": "Addis Ababa",
+                  "routes": [
+                    {
+                      "routeId": 3,
+                      "distance": 0,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Mota",
+                      "destinationCityName": "Bahir Dar",
+                      "destinationTerminalName": "Bahir Dar",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 20,
+                      "distance": 325,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Debre Sina",
+                      "destinationCityName": "Kemise",
+                      "destinationTerminalName": "Kemise",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 21,
+                      "distance": 376,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Debre Sina",
+                      "destinationCityName": "Kombolcha",
+                      "destinationTerminalName": "Kombolcha",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 22,
+                      "distance": 401,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Debre Sina",
+                      "destinationCityName": "Dessie",
+                      "destinationTerminalName": "Dessie",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 23,
+                      "distance": 561,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Jimma",
+                      "destinationCityName": "MIzan Aman ",
+                      "destinationTerminalName": "Mizan Aman ",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 24,
+                      "distance": 526,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Chiro",
+                      "destinationCityName": "Harar",
+                      "destinationTerminalName": "Harar",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 25,
+                      "distance": 505,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Shashemene",
+                      "destinationCityName": "Arba Minch",
+                      "destinationTerminalName": "Arba Minch",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 26,
+                      "distance": 346,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Sebeta",
+                      "destinationCityName": "Jimma",
+                      "destinationTerminalName": "Jimma",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 27,
+                      "distance": 628,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Harar",
+                      "destinationCityName": "Jigjiga",
+                      "destinationTerminalName": "Jigjiga",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 28,
+                      "distance": 1080,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Awash Arba",
+                      "destinationCityName": "Mekele",
+                      "destinationTerminalName": "Mekele",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 29,
+                      "distance": 401,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Debre Sina",
+                      "destinationCityName": "Dessie",
+                      "destinationTerminalName": "Dessie",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 30,
+                      "distance": 273,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Shashemene",
+                      "destinationCityName": "Hawassa",
+                      "destinationTerminalName": "Hawassa",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 31,
+                      "distance": 449,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Bonga",
+                      "destinationTerminalName": "Bonga",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 32,
+                      "distance": 771,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dila",
+                      "destinationCityName": "Moyale",
+                      "destinationTerminalName": "Moyale",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 33,
+                      "distance": 610,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dila",
+                      "destinationCityName": "Negele Borena",
+                      "destinationTerminalName": "Negele Borena ",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 34,
+                      "distance": 600,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Metu",
+                      "destinationTerminalName": "Metu",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 35,
+                      "distance": 412,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Arsi",
+                      "destinationCityName": " Robe",
+                      "destinationTerminalName": "Robe",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 36,
+                      "distance": 515,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Chiro",
+                      "destinationCityName": "Dire Dawa",
+                      "destinationTerminalName": "Dire Dawa",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 37,
+                      "distance": 383,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Hosaena",
+                      "destinationCityName": "Wolayta Sodo",
+                      "destinationTerminalName": "Wolayta Sodo",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 38,
+                      "distance": 521,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Debre Sina",
+                      "destinationCityName": "Woldiya",
+                      "destinationTerminalName": "Woldiya",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 39,
+                      "distance": 299,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Debre Markos",
+                      "destinationTerminalName": "Debre Markos ",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 40,
+                      "distance": 600,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Alamata",
+                      "destinationTerminalName": "Alamata",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 41,
+                      "distance": 369,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Shashemene",
+                      "destinationCityName": "Dila",
+                      "destinationTerminalName": "Dila",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 42,
+                      "distance": 738,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Gondar",
+                      "destinationTerminalName": "Gondar",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 43,
+                      "distance": 652,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Gimbi",
+                      "destinationTerminalName": "Gimbi ",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 44,
+                      "distance": 390,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Agaro",
+                      "destinationTerminalName": "Agaro",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 45,
+                      "distance": 769,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Awash Arba",
+                      "destinationCityName": "Alamata",
+                      "destinationTerminalName": "Alamata Chifra",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 46,
+                      "distance": 652,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Dambi Dollo",
+                      "destinationTerminalName": "Dambi Dollo",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 47,
+                      "distance": 328,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Ambo",
+                      "destinationCityName": "Nekemt",
+                      "destinationTerminalName": "Nekemt",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 48,
+                      "distance": 521,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Debre Sina",
+                      "destinationCityName": "Dessie",
+                      "destinationTerminalName": "Dessie",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 49,
+                      "distance": 600,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Weldiya",
+                      "destinationCityName": "Alamata",
+                      "destinationTerminalName": "Alamata",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 50,
+                      "distance": 635,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Weldiya",
+                      "destinationCityName": "Gashna Kon",
+                      "destinationTerminalName": "Gashna Kon",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 51,
+                      "distance": 662,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Weldiya",
+                      "destinationCityName": "Maychew",
+                      "destinationTerminalName": "Maychew",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 52,
+                      "distance": 451,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Wuchale",
+                      "destinationTerminalName": "Wuchale",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 53,
+                      "distance": 510,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Akesta",
+                      "destinationTerminalName": "Akesta",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 54,
+                      "distance": 553,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Masha",
+                      "destinationTerminalName": "Masha",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 56,
+                      "distance": 671,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Weldiya",
+                      "destinationCityName": "Geregera",
+                      "destinationTerminalName": "Geregera",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 57,
+                      "distance": 783,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Weldiya",
+                      "destinationCityName": "Mekele",
+                      "destinationTerminalName": "Mekele",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 58,
+                      "distance": 254,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Tarma Ber",
+                      "destinationCityName": "Molalie",
+                      "destinationTerminalName": "Molalie",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 59,
+                      "distance": 295,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Tarma Ber",
+                      "destinationCityName": "Mehal Meda",
+                      "destinationTerminalName": "Mehal Meda",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 60,
+                      "distance": 325,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Debre Sina",
+                      "destinationCityName": "Zemero",
+                      "destinationTerminalName": "Zemero",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 61,
+                      "distance": 448,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Were Babu",
+                      "destinationTerminalName": "Were Babu",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 62,
+                      "distance": 592,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Sayint Ajbar",
+                      "destinationTerminalName": "Sayint Ajbar",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 63,
+                      "distance": 461,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Degaga",
+                      "destinationTerminalName": "Degaga",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 64,
+                      "distance": 493,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Were Ilu",
+                      "destinationTerminalName": "Were Ilu",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 65,
+                      "distance": 499,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Delanta",
+                      "destinationTerminalName": "Delanta",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 66,
+                      "distance": 514,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Weyin Amba",
+                      "destinationTerminalName": "Weyin Amba",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 67,
+                      "distance": 531,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Tenta",
+                      "destinationTerminalName": "Tenta",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 68,
+                      "distance": 569,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Kobo",
+                      "destinationTerminalName": "Kobo",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 69,
+                      "distance": 589,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Muja",
+                      "destinationTerminalName": "Muja",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 70,
+                      "distance": 595,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Wegdi",
+                      "destinationTerminalName": "Wegdi",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 71,
+                      "distance": 604,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Dessie",
+                      "destinationCityName": "Densa",
+                      "destinationTerminalName": "Densa",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 72,
+                      "distance": 701,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Weldiya",
+                      "destinationCityName": "Lalibela",
+                      "destinationTerminalName": "Lalibela",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 73,
+                      "distance": 721,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Weldiya",
+                      "destinationCityName": "Sekota",
+                      "destinationTerminalName": "Sekota",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 74,
+                      "distance": 898,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Mekele",
+                      "destinationCityName": "Adigrat",
+                      "destinationTerminalName": "Adigrat  ",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 75,
+                      "distance": 1006,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Mekele",
+                      "destinationCityName": "Adwa",
+                      "destinationTerminalName": "Adwa",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 76,
+                      "distance": 1024,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Mekele",
+                      "destinationCityName": "Axum",
+                      "destinationTerminalName": "Axum",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 78,
+                      "distance": 1087,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Mekele",
+                      "destinationCityName": "Shire  ",
+                      "destinationTerminalName": "Shire  ",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 79,
+                      "distance": 1187,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Mekele",
+                      "destinationCityName": "Shiraro",
+                      "destinationTerminalName": "Shiraro",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 80,
+                      "distance": 1080,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Mekele",
+                      "destinationCityName": "Rama",
+                      "destinationTerminalName": "Rama",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 81,
+                      "distance": 1087,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Mekele",
+                      "destinationCityName": "Shire  ",
+                      "destinationTerminalName": "Shire  ",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 82,
+                      "distance": 1187,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Mekele",
+                      "destinationCityName": "Shiraro",
+                      "destinationTerminalName": "Shiraro",
+                      "routeGroupDesc": "Dessie Route"
+                    },
+                    {
+                      "routeId": 83,
+                      "distance": 411,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Bure",
+                      "destinationTerminalName": "Bure",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 84,
+                      "distance": 485,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Dangila",
+                      "destinationTerminalName": "Dangila",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 85,
+                      "distance": 598,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Mekane Selam",
+                      "destinationTerminalName": "Mekane Selam",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 86,
+                      "distance": 447,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Tilili",
+                      "destinationCityName": "Kosober",
+                      "destinationTerminalName": "Kosober",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 87,
+                      "distance": 563,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bure",
+                      "destinationCityName": "Bahir Dar",
+                      "destinationTerminalName": "Bahir Dar",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 88,
+                      "distance": 387,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Finote Selam",
+                      "destinationTerminalName": "Finote Selam",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 89,
+                      "distance": 368,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Mota",
+                      "destinationTerminalName": "Mota",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 90,
+                      "distance": 364,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Merto Lemariyam",
+                      "destinationTerminalName": "Merto Lemariyam",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 91,
+                      "distance": 349,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Birhan",
+                      "destinationCityName": "Dembecha",
+                      "destinationTerminalName": "Dembecha",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 92,
+                      "distance": 299,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Debre Markos",
+                      "destinationTerminalName": "Debre Markos ",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 93,
+                      "distance": 290,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "DebreWorq",
+                      "destinationTerminalName": "DebreWorq",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 94,
+                      "distance": 265,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Bichena",
+                      "destinationTerminalName": "Bichena",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 95,
+                      "distance": 0,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Bichena",
+                      "destinationTerminalName": "Bichena",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 96,
+                      "distance": 505,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Adiet",
+                      "destinationTerminalName": "Adiet",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 97,
+                      "distance": 288,
+                      "originTerminalName": "Asco",
+                      "viaName": "Bako",
+                      "destinationCityName": "Hareto",
+                      "destinationTerminalName": "Hareto",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 98,
+                      "distance": 504,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bure",
+                      "destinationCityName": "Chagni",
+                      "destinationTerminalName": "Chagni",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 99,
+                      "distance": 739,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Gayint",
+                      "destinationTerminalName": "Gayint",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 100,
+                      "distance": 738,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "wereta",
+                      "destinationCityName": "Gondar",
+                      "destinationTerminalName": "Gondar",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 101,
+                      "distance": 385,
+                      "originTerminalName": "Asco",
+                      "viaName": "Mendi",
+                      "destinationCityName": "Arjo Gudetu",
+                      "destinationTerminalName": "Arjo Gudetu",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 102,
+                      "distance": 666,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Gondar",
+                      "destinationCityName": "Debre Tabor",
+                      "destinationTerminalName": "Debre Tabor",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 103,
+                      "distance": 606,
+                      "originTerminalName": "Asco",
+                      "viaName": "Mendi",
+                      "destinationCityName": "Mechara",
+                      "destinationTerminalName": "Mechara",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 104,
+                      "distance": 334,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Ginde Weyin",
+                      "destinationTerminalName": "Ginde Weyin",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 105,
+                      "distance": 328,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Amanuel",
+                      "destinationTerminalName": "Amanuel",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 106,
+                      "distance": 284,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Bichena Quy",
+                      "destinationTerminalName": "Bichena Quy",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 107,
+                      "distance": 261,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Lumamie",
+                      "destinationTerminalName": "Lumamie",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 108,
+                      "distance": 297,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Muketuri",
+                      "destinationCityName": "Alem Degolo",
+                      "destinationTerminalName": "Alem Degolo",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 109,
+                      "distance": 232,
+                      "originTerminalName": "Lambert",
+                      "viaName": "Butajira",
+                      "destinationCityName": "Hosaena",
+                      "destinationTerminalName": "Hosaena",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 110,
+                      "distance": 487,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Gimjabet Azena",
+                      "destinationTerminalName": "Gimjabet Azena",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 111,
+                      "distance": 770,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Simada",
+                      "destinationTerminalName": "Simada",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 112,
+                      "distance": 744,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Jarra Gedo",
+                      "destinationTerminalName": "Jarra Gedo",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 114,
+                      "distance": 385,
+                      "originTerminalName": "Asco",
+                      "viaName": "Mendi",
+                      "destinationCityName": "Amuru",
+                      "destinationTerminalName": "Amuru",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 115,
+                      "distance": 345,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Debre Elias",
+                      "destinationTerminalName": "Debre Elias",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 116,
+                      "distance": 307,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Yejubie",
+                      "destinationTerminalName": "Yejubie",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 117,
+                      "distance": 413,
+                      "originTerminalName": "Asco",
+                      "viaName": "Shambu",
+                      "destinationCityName": "Dedu",
+                      "destinationTerminalName": "Dedu",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 118,
+                      "distance": 400,
+                      "originTerminalName": "Asco",
+                      "viaName": "Mendi",
+                      "destinationCityName": "Chewaka",
+                      "destinationTerminalName": "Chewaka",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 119,
+                      "distance": 297,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Muketuri",
+                      "destinationCityName": "Were Ilu",
+                      "destinationTerminalName": "Were Ilu",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 120,
+                      "distance": 395,
+                      "originTerminalName": "Asco",
+                      "viaName": "Mendi",
+                      "destinationCityName": "Guduru Kombolcha",
+                      "destinationTerminalName": "Guduru Kombolcha",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 121,
+                      "distance": 991,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Humera",
+                      "destinationTerminalName": "Humera",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 122,
+                      "distance": 364,
+                      "originTerminalName": "Asco",
+                      "viaName": "Shambu",
+                      "destinationCityName": "Fincha",
+                      "destinationTerminalName": "Fincha",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 124,
+                      "distance": 441,
+                      "originTerminalName": "Asco",
+                      "viaName": "Dambi Dollo",
+                      "destinationCityName": "Gida Ayana",
+                      "destinationTerminalName": "Gida Ayana",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 125,
+                      "distance": 929,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Metemma",
+                      "destinationTerminalName": "Metemma",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 126,
+                      "distance": 844,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Dansha  ",
+                      "destinationTerminalName": "Dansha ",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 127,
+                      "distance": 729,
+                      "originTerminalName": "Asco",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Bahir Dar",
+                      "destinationTerminalName": "Bahir Dar",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 128,
+                      "distance": 841,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Debarq",
+                      "destinationTerminalName": "Debarq",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 129,
+                      "distance": 773,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "GorGorra",
+                      "destinationTerminalName": "GorGorra",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 130,
+                      "distance": 789,
+                      "originTerminalName": "Asco",
+                      "viaName": "Dambi Dollo",
+                      "destinationCityName": "Gambella",
+                      "destinationTerminalName": "Gambella",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 131,
+                      "distance": 661,
+                      "originTerminalName": "Asco",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Assosa",
+                      "destinationTerminalName": "Assosa",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 132,
+                      "distance": 461,
+                      "originTerminalName": "Asco",
+                      "viaName": "Nekemt",
+                      "destinationCityName": " Arjo",
+                      "destinationTerminalName": " Arjo",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 133,
+                      "distance": 519,
+                      "originTerminalName": "Asco",
+                      "viaName": "Dambi Dollo",
+                      "destinationCityName": "Ayra",
+                      "destinationTerminalName": "Ayra  ",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 134,
+                      "distance": 688,
+                      "originTerminalName": "Asco",
+                      "viaName": "Dambi Dollo",
+                      "destinationCityName": "Begi",
+                      "destinationTerminalName": "Begi",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 135,
+                      "distance": 593,
+                      "originTerminalName": "Asco",
+                      "viaName": "Dambi Dollo",
+                      "destinationCityName": "Qaqie",
+                      "destinationTerminalName": "Qaqie",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 136,
+                      "distance": 600,
+                      "originTerminalName": "Asco",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Metu",
+                      "destinationTerminalName": "Metu",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 137,
+                      "distance": 433,
+                      "originTerminalName": "Asco",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Bedele",
+                      "destinationTerminalName": "Bedele",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 138,
+                      "distance": 582,
+                      "originTerminalName": "Asco",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Mendi",
+                      "destinationTerminalName": "Mendi",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 139,
+                      "distance": 315,
+                      "originTerminalName": "Asco",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Shambu",
+                      "destinationTerminalName": "Shambu",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 140,
+                      "distance": 251,
+                      "originTerminalName": "Asco",
+                      "viaName": "Guder",
+                      "destinationCityName": "Bako",
+                      "destinationTerminalName": "Bako",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 141,
+                      "distance": 514,
+                      "originTerminalName": "Asco",
+                      "viaName": "Bako",
+                      "destinationCityName": "Nejo",
+                      "destinationTerminalName": "Nejo ",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 142,
+                      "distance": 588,
+                      "originTerminalName": "Asco",
+                      "viaName": "Bako",
+                      "destinationCityName": "Chanka",
+                      "destinationTerminalName": "Chanka",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 143,
+                      "distance": 652,
+                      "originTerminalName": "Asco",
+                      "viaName": "Gimbi",
+                      "destinationCityName": "Dambi Dollo",
+                      "destinationTerminalName": "Dambi Dollo",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 144,
+                      "distance": 441,
+                      "originTerminalName": "Asco",
+                      "viaName": "Nekemt",
+                      "destinationCityName": "Gimbi",
+                      "destinationTerminalName": "Gimbi ",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 145,
+                      "distance": 328,
+                      "originTerminalName": "Asco",
+                      "viaName": "Bako",
+                      "destinationCityName": "Nekemt",
+                      "destinationTerminalName": "Nekemt",
+                      "routeGroupDesc": "Wollega  Route"
+                    },
+                    {
+                      "routeId": 146,
+                      "distance": 653,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": " Este",
+                      "destinationTerminalName": " Este",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 147,
+                      "distance": 620,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "wereta",
+                      "destinationTerminalName": "wereta",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 148,
+                      "distance": 549,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Bonga",
+                      "destinationCityName": "Gesha",
+                      "destinationTerminalName": "Gesha",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 149,
+                      "distance": 425,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Jigga Quarit",
+                      "destinationTerminalName": "Jigga Quarit",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 150,
+                      "distance": 601,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Nekemt",
+                      "destinationTerminalName": "Nekemt",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 151,
+                      "distance": 229,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Gebre Gurecha",
+                      "destinationCityName": "Dejen",
+                      "destinationTerminalName": "Dejen",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 152,
+                      "distance": 556,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Chagni",
+                      "destinationCityName": "Gilgel Beles",
+                      "destinationTerminalName": "Gilgel Beles",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 153,
+                      "distance": 757,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Debre Markos",
+                      "destinationCityName": "Bekune/Shawra Delengo",
+                      "destinationTerminalName": "Bekune/Shawra Delengo",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 154,
+                      "distance": 510,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Tercha",
+                      "destinationTerminalName": "Tercha",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 155,
+                      "distance": 693,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Ebnat",
+                      "destinationTerminalName": "Ebnat",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 156,
+                      "distance": 604,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Jawi",
+                      "destinationTerminalName": "Jawi",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 158,
+                      "distance": 243,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Welkite",
+                      "destinationCityName": "Saja",
+                      "destinationTerminalName": "Saja",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 159,
+                      "distance": 464,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Sekela",
+                      "destinationTerminalName": "Sekela",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 160,
+                      "distance": 409,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Bahir Dar",
+                      "destinationCityName": "Feres Bet",
+                      "destinationTerminalName": "Feres Bet",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 161,
+                      "distance": 382,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Dego Tsion",
+                      "destinationTerminalName": "Dego Tsion",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 162,
+                      "distance": 620,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Gorie",
+                      "destinationTerminalName": "Gorie",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 163,
+                      "distance": 289,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dejen",
+                      "destinationCityName": "Shebel Berenta",
+                      "destinationTerminalName": "Shebel Berenta",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 164,
+                      "distance": 237,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Muketuri",
+                      "destinationCityName": "Merhabete",
+                      "destinationTerminalName": "Merhabete",
+                      "routeGroupDesc": "Gojam  Route"
+                    },
+                    {
+                      "routeId": 165,
+                      "distance": 526,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Asebe Teferi",
+                      "destinationCityName": "Harar",
+                      "destinationTerminalName": "Harar",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 166,
+                      "distance": 415,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Sigmo",
+                      "destinationTerminalName": "Sigmo",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 167,
+                      "distance": 515,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Chiro",
+                      "destinationCityName": "Dire Dawa",
+                      "destinationTerminalName": "Dire Dawa",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 168,
+                      "distance": 3260,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Asebe Teferi",
+                      "destinationCityName": "Chiro",
+                      "destinationTerminalName": "Chiro",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 169,
+                      "distance": 676,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "MIzan Aman ",
+                      "destinationCityName": "Masha (Sheka)",
+                      "destinationTerminalName": "Masha (Sheka)",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 170,
+                      "distance": 611,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "MIzan Aman ",
+                      "destinationCityName": "Teppi",
+                      "destinationTerminalName": "Teppi",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 171,
+                      "distance": 766,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Gorie",
+                      "destinationCityName": "Gambella",
+                      "destinationTerminalName": "Gambella",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 172,
+                      "distance": 454,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Ameya",
+                      "destinationTerminalName": "Ameya",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 173,
+                      "distance": 663,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Hosaena",
+                      "destinationTerminalName": "Hosaena",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 174,
+                      "distance": 421,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Limmu",
+                      "destinationTerminalName": "Limmu",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 175,
+                      "distance": 433,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Bedele",
+                      "destinationTerminalName": "Bedele",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 176,
+                      "distance": 561,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "MIzan Aman ",
+                      "destinationTerminalName": "Mizan Aman ",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 177,
+                      "distance": 449,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Bonga",
+                      "destinationTerminalName": "Bonga",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 178,
+                      "distance": 600,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Metu",
+                      "destinationTerminalName": "Metu",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 179,
+                      "distance": 390,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Agaro",
+                      "destinationTerminalName": "Agaro",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 180,
+                      "distance": 346,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Sebeta",
+                      "destinationCityName": "Jimma",
+                      "destinationTerminalName": "Jimma",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 181,
+                      "distance": 549,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Hosaena",
+                      "destinationCityName": "Jimma",
+                      "destinationTerminalName": "Jimma",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 182,
+                      "distance": 361,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Hosaena",
+                      "destinationCityName": "Durame",
+                      "destinationTerminalName": "Durame",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 183,
+                      "distance": 264,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Doyogena",
+                      "destinationTerminalName": "Doyogena",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 184,
+                      "distance": 570,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Chencha",
+                      "destinationCityName": "Dieta Zada",
+                      "destinationTerminalName": "Dieta Zada",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 185,
+                      "distance": 499,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Wolayta Sodo",
+                      "destinationCityName": "Tercha",
+                      "destinationTerminalName": "Tercha",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 186,
+                      "distance": 595,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Arba Minch",
+                      "destinationCityName": "Konso",
+                      "destinationTerminalName": "Konso",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 187,
+                      "distance": 455,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Wolayta Sodo",
+                      "destinationCityName": "Birbir/Mirab Abaya",
+                      "destinationTerminalName": "Birbir/Mirab Abaya",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 188,
+                      "distance": 524,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Wolayta Sodo",
+                      "destinationCityName": "Chencha",
+                      "destinationTerminalName": "Chencha",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 189,
+                      "distance": 320,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Hosaena",
+                      "destinationCityName": "Mudula",
+                      "destinationTerminalName": "Mudula",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 190,
+                      "distance": 232,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Butajira",
+                      "destinationCityName": "Hosaena",
+                      "destinationTerminalName": "Hosaena",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 191,
+                      "distance": 258,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Lera",
+                      "destinationTerminalName": "Lera",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 192,
+                      "distance": 505,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Arba Minch",
+                      "destinationTerminalName": "Arba Minch",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 193,
+                      "distance": 383,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Hosaena",
+                      "destinationCityName": "Wolayta Sodo",
+                      "destinationTerminalName": "Wolayta Sodo",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 194,
+                      "distance": 733,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Arba Minch",
+                      "destinationCityName": "Jinka",
+                      "destinationTerminalName": "Jinka",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 195,
+                      "distance": 387,
+                      "originTerminalName": "Kality",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Bore",
+                      "destinationTerminalName": "Bore",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 196,
+                      "distance": 273,
+                      "originTerminalName": "Kality",
+                      "viaName": "Shashemene",
+                      "destinationCityName": "Hawassa",
+                      "destinationTerminalName": "Hawassa",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 197,
+                      "distance": 347,
+                      "originTerminalName": "Kality",
+                      "viaName": "Shashemene",
+                      "destinationCityName": "Aleta Wendo",
+                      "destinationTerminalName": "Aleta Wendo",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 198,
+                      "distance": 505,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Arba Minch",
+                      "destinationTerminalName": "Arba Minch",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 199,
+                      "distance": 395,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": "Yirgachefe",
+                      "destinationTerminalName": "Yirgachefe",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 200,
+                      "distance": 273,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Shashemene",
+                      "destinationCityName": "Hawassa",
+                      "destinationTerminalName": "Hawassa",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 201,
+                      "distance": 326,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Asebe Teferi",
+                      "destinationCityName": "Chiro",
+                      "destinationTerminalName": "Chiro",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 202,
+                      "distance": 628,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Harar",
+                      "destinationCityName": "Jigjiga",
+                      "destinationTerminalName": "Jigjiga",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 203,
+                      "distance": 449,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Asebe Teferi",
+                      "destinationCityName": "Kobo Deder",
+                      "destinationTerminalName": "Kobo Deder",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 204,
+                      "distance": 434,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Chiro",
+                      "destinationCityName": "Mechara",
+                      "destinationTerminalName": "Mechara",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 205,
+                      "distance": 870,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Jigjiga",
+                      "destinationCityName": "Godie",
+                      "destinationTerminalName": "Godie",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 206,
+                      "distance": 515,
+                      "originTerminalName": "Kality",
+                      "viaName": "Chiro",
+                      "destinationCityName": "Dire Dawa",
+                      "destinationTerminalName": "Dire Dawa",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 207,
+                      "distance": 526,
+                      "originTerminalName": "Kality",
+                      "viaName": "Asebe Teferi",
+                      "destinationCityName": "Harar",
+                      "destinationTerminalName": "Harar",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 208,
+                      "distance": 588,
+                      "originTerminalName": "Kality",
+                      "viaName": "Millie",
+                      "destinationCityName": "Semera",
+                      "destinationTerminalName": "\tSemera",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 209,
+                      "distance": 1028,
+                      "originTerminalName": "Kality",
+                      "viaName": "Millie",
+                      "destinationCityName": "Mekele",
+                      "destinationTerminalName": "Mekele",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 210,
+                      "distance": 175,
+                      "originTerminalName": "Kality",
+                      "viaName": "Adama",
+                      "destinationCityName": "Asella",
+                      "destinationTerminalName": "Asella",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 211,
+                      "distance": 251,
+                      "originTerminalName": "Kality",
+                      "viaName": "Mojo",
+                      "destinationCityName": "Shashemene",
+                      "destinationTerminalName": "Shashemene",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 212,
+                      "distance": 442,
+                      "originTerminalName": "Kality",
+                      "viaName": "Shashemene",
+                      "destinationCityName": " Robe",
+                      "destinationTerminalName": "Robe",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 213,
+                      "distance": 548,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": " Robe",
+                      "destinationCityName": "Ginir",
+                      "destinationTerminalName": "Ginir",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 214,
+                      "distance": 427,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Arsi",
+                      "destinationCityName": "Goba",
+                      "destinationTerminalName": "Goba",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 215,
+                      "distance": 472,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Goba",
+                      "destinationCityName": "Goro",
+                      "destinationTerminalName": "Goro",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 216,
+                      "distance": 462,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Goba",
+                      "destinationCityName": "Gasera",
+                      "destinationTerminalName": "Gasera",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 217,
+                      "distance": 430,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": "Gedeb",
+                      "destinationTerminalName": "Gedeb",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 218,
+                      "distance": 563,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": "Yabelo",
+                      "destinationTerminalName": "Yabelo",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 219,
+                      "distance": 495,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": " Shakiso",
+                      "destinationTerminalName": " Shakiso",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 220,
+                      "distance": 471,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": "Adola Wayu",
+                      "destinationTerminalName": "Adola Wayu",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 221,
+                      "distance": 467,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": "Bule Hora",
+                      "destinationTerminalName": "Bule Hora",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 222,
+                      "distance": 610,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": "Negele Borena",
+                      "destinationTerminalName": "Negele Borena ",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 223,
+                      "distance": 771,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": "Moyale",
+                      "destinationTerminalName": "Moyale",
+                      "routeGroupDesc": "South East  Route"
+                    },
+                    {
+                      "routeId": 224,
+                      "distance": 369,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Dila",
+                      "destinationTerminalName": "Dila",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 225,
+                      "distance": 350,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Wondo Bensa",
+                      "destinationTerminalName": "Wondo Bensa",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 226,
+                      "distance": 315,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Wondo Genet",
+                      "destinationCityName": "Yirgalem",
+                      "destinationTerminalName": "Yirgalem",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 227,
+                      "distance": 273,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Shashemene",
+                      "destinationCityName": "Hawassa",
+                      "destinationTerminalName": "Hawassa",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 228,
+                      "distance": 395,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Dila",
+                      "destinationCityName": "Yirgachefe",
+                      "destinationTerminalName": "Yirgachefe",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 229,
+                      "distance": 505,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Arba Minch",
+                      "destinationTerminalName": "Arba Minch",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 230,
+                      "distance": 514,
+                      "originTerminalName": "Merkato Tilku",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Goffa",
+                      "destinationTerminalName": "Goffa",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 232,
+                      "distance": 733,
+                      "originTerminalName": "Kality",
+                      "viaName": "Hawassa",
+                      "destinationCityName": "Jinka",
+                      "destinationTerminalName": "Jinka",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 233,
+                      "distance": 503,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": "Jimma",
+                      "destinationCityName": "Chena Shishinda",
+                      "destinationTerminalName": "Chena Shishinda",
+                      "routeGroupDesc": "Jima  Route"
+                    },
+                    {
+                      "routeId": 237,
+                      "distance": 600,
+                      "originTerminalName": "Lambert",
+                      "viaName": null,
+                      "destinationCityName": "Jigjiga",
+                      "destinationTerminalName": "Jigjiga",
+                      "routeGroupDesc": "East Route"
+                    },
+                    {
+                      "routeId": 238,
+                      "distance": 300,
+                      "originTerminalName": "Ayer Tena",
+                      "viaName": null,
+                      "destinationCityName": "Shashemene",
+                      "destinationTerminalName": "Shashemene",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 239,
+                      "distance": 400,
+                      "originTerminalName": "Kality",
+                      "viaName": null,
+                      "destinationCityName": "Hawassa",
+                      "destinationTerminalName": "Hawassa",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 240,
+                      "distance": 1500,
+                      "originTerminalName": "Lambert",
+                      "viaName": null,
+                      "destinationCityName": "Hawassa",
+                      "destinationTerminalName": "Hawassa",
+                      "routeGroupDesc": "South  Route"
+                    },
+                    {
+                      "routeId": 241,
+                      "distance": 356,
+                      "originTerminalName": "Kality",
+                      "viaName": null,
+                      "destinationCityName": "Jimma",
+                      "destinationTerminalName": "Jimma",
+                      "routeGroupDesc": "Jima  Route"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

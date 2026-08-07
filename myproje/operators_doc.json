@@ -1,0 +1,142 @@
+{
+  "/api/operators/getalloperators": {
+    "get": {
+      "tags": [
+        "Operator"
+      ],
+      "summary": "Retrieves all operators.",
+      "description": "Retrieves all operators.",
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "example": [
+                {
+                  "companyName": "YEABAY ESHET TRANSPORT SHARE COMPANY",
+                  "tradeName": "YEABAY ESHET"
+                },
+                {
+                  "companyName": "BT Transport One Member PLC",
+                  "tradeName": "BT"
+                },
+                {
+                  "companyName": "Zemen Addis Cross Country Public Transport Share Company",
+                  "tradeName": "Zemen Addis"
+                },
+                {
+                  "companyName": "ELSHADAY TRANSPORT AND TRADING SHARE COMPANY",
+                  "tradeName": "ELSHADAY TANSPORT AND TRADING SHARE COMPANY"
+                },
+                {
+                  "companyName": "Dream Liner Bus PLC",
+                  "tradeName": "Dream Liner Bus PLC"
+                },
+                {
+                  "companyName": "Awash Bus Transport",
+                  "tradeName": "DERESE EJARA"
+                },
+                {
+                  "companyName": "Liyu Africa Express Bus",
+                  "tradeName": "Liyu Africa Express Bus"
+                },
+                {
+                  "companyName": "Air Bus Transport System",
+                  "tradeName": "Air Bus Transport"
+                },
+                {
+                  "companyName": "BIrhan Bus ",
+                  "tradeName": "Birhan Bus"
+                },
+                {
+                  "companyName": "FELEGE GHION TRADING P.L.C",
+                  "tradeName": "FELEGE GHION BUS TRANSPORT "
+                },
+                {
+                  "companyName": "Gelila Manufacturing P.L.C.",
+                  "tradeName": "Soloda Bus"
+                },
+                {
+                  "companyName": "Zeleke and Abayneh Transport Service P.L.C.",
+                  "tradeName": "Ethio Bus Transport"
+                },
+                {
+                  "companyName": "Walya BusTransport Service P.L.C.",
+                  "tradeName": "Walya Bus Transport Service"
+                },
+                {
+                  "companyName": "Yegna Bus Transport",
+                  "tradeName": "Yegna Bus Transport PLC"
+                },
+                {
+                  "companyName": "Abay Bus Transport P.L.C.",
+                  "tradeName": "Abay Bus Transport P.L.C."
+                },
+                {
+                  "companyName": "Habesha Bus Transport",
+                  "tradeName": "Habesha Bus Transport"
+                },
+                {
+                  "companyName": "GHION BUS",
+                  "tradeName": "GUMSA TRADING GROUP"
+                },
+                {
+                  "companyName": "Golden Bus",
+                  "tradeName": "Golden Bus Transport Share Company"
+                },
+                {
+                  "companyName": "ODAA Integreted Transport S.C.",
+                  "tradeName": "ODAA"
+                },
+                {
+                  "companyName": "Public Service Transport Service",
+                  "tradeName": "Public Transport"
+                },
+                {
+                  "companyName": "Tuba Commercial Investment PLC ",
+                  "tradeName": "Zemen Fetan Tebabari"
+                },
+                {
+                  "companyName": "Mekuria Ayalew Medhanit ",
+                  "tradeName": "Zemen Bus Ethiopian Transport Service "
+                },
+                {
+                  "companyName": "Selam Bus Line Share Company new",
+                  "tradeName": "Selam Bus Line Share Company trade"
+                },
+                {
+                  "companyName": "F.M BUS TRANSPORT",
+                  "tradeName": "DANIEL MULUGETA"
+                },
+                {
+                  "companyName": "Buna Bus Treading ",
+                  "tradeName": "Buna Bus"
+                },
+                {
+                  "companyName": "Walia Trade and Public Transport Private Limited Company",
+                  "tradeName": "Walia Trade and Public Transport  PLC"
+                },
+                {
+                  "companyName": "telebirr MM business ",
+                  "tradeName": "telebirr"
+                },
+                {
+                  "companyName": "Test Share Company ",
+                  "tradeName": "Test Share Company "
+                },
+                {
+                  "companyName": "TestB Private Company",
+                  "tradeName": "TestB Private Company"
+                },
+                {
+                  "companyName": "testAzi",
+                  "tradeName": "Azi"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

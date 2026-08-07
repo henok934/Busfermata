@@ -1,6 +1,6 @@
 from django.urls import path
 from .import views
-from .views import Workerdelet, BusDeleteViews, Recover_balanceView, CancelTicketView, ProfileView, LogoutView, DeleteTicketViews, TicketBookingViews, DeleteTicketsView, SeeView, Changepassenger, Activates, Activate, TicketBookingViews, Books, Totalballance,  Specific, Serviceupdate, MyBus, ServicInsertView, UpdateTicketViews, ScDeleteViews, Scchange,  Sce, SelView, MyRoute, BusInsertView, ShowTicketsViewss,ScInsertViews, BusInsertViews, Safaricompassword, ForgotPasswordView, Boapassword, Cbepassword, Awashpassword, Telebirrpassword, ShowTicketsViews,TelebirrPaymentView, SafariPaymentView, AwashPaymentView, CbePaymentView, BoaPaymentView, ProcessPaymentView, SelectView,ChangesBusView, ChangePasswordView, ChangeBusesViews, DeleteTickets, BusUpdateViewss, CommentDeleteViews, WorkerDeleteViews, RouteDeleteViews, CityDeleteViews, About, AdminDeleteViews, LoginView, HomeViews, BookView, GetTicketViews, CommentsView,  CityInsertView, RoutesInsertView, UrRegisterView, Workers, TicketInfoView, SelectBusView, Buse, Com, Rout, Use, Drivers, RouteView, SelectBusView, SelectView, ChangePasswordView, CommentsView, SelectBusView,  RouteView
+from .views import Workerdelet, Sce, VehicleSeatLayoutView, PickupLocationsView, VehicleDetailByIdView, SaveTicketView, TicketHistoryByPhoneView,  RouteScheduleByOperatorView, RouteScheduleView,  OperatorDetailView,ImageViewerPage, OperatorDetailByIdView, Special_activates,PaymentSuccessView, TelebirrNotifyView, TelebirrCallbackView, Actiions, UserProfileUpdateView, Subspecific,SubshowTicketsViewss,SpecialDeleteTickets,ToggleDriverStatusView, SpecialDeleteTicketsView, SpecialDeleteTicket, SpecialBuschange, Special_route_DeleteViews, Special_route, Special_active, BusDeleteViews, Recover_balanceView, CancelTicketView, ProfileView, LogoutView, DeleteTicketViews, TicketBookingViews, DeleteTicketsView, SeeView, Changepassenger, Activates, Activate, TicketBookingViews, Books, Totalballance,  Specific, Serviceupdate, MyBus, ServicInsertView, UpdateTicketViews, ScDeleteViews, Scchange, SelView, MyRoute, BusInsertView, ShowTicketsViewss,ScInsertViews, BusInsertViews, Safaricompassword, ForgotPasswordView, Boapassword, Cbepassword, Awashpassword, Telebirrpassword, ShowTicketsViews,TelebirrPaymentView, SafariPaymentView, AwashPaymentView, CbePaymentView, BoaPaymentView, ProcessPaymentView, SelectView,ChangesBusView, ChangePasswordView, ChangeBusesViews, DeleteTickets, BusUpdateViewss, CommentDeleteViews, WorkerDeleteViews, RouteDeleteViews, CityDeleteViews, About, AdminDeleteViews, LoginView, HomeViews, BookView, GetTicketViews, CommentsView,  CityInsertView, RoutesInsertView, UrRegisterView, Workers, TicketInfoView, SelectBusView, Buse, Com, Rout, Use, Drivers, RouteView, SelectBusView, SelectView, ChangePasswordView, CommentsView, SelectBusView,  RouteView
 from django.views.generic import RedirectView
 from django.urls import path
 from rest_framework import permissions
@@ -11,37 +11,57 @@ urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('about/', About.as_view(), name='about'),
+    path('vehicle-seat-layout/', VehicleSeatLayoutView.as_view(), name='vehicle_seat_layout'),
+    path('save-ticket/', SaveTicketView.as_view(), name='save_ticket'),
+    path('vehicle-detail-by-id/', VehicleDetailByIdView.as_view(), name='vehicle_detail_by_id'),
+    path('ticket-history-by-phone/', TicketHistoryByPhoneView.as_view(), name='ticket_history_by_phone'),
+    path('schedules/', RouteScheduleView.as_view(), name='route_schedules'),
+    path('schedules-by-operator/', RouteScheduleByOperatorView.as_view(), name='route_schedules_operator'),
+    #path('routes/pickups/', PickupLocationsView.as_view(), name='pickup_locations'),
+    path('pickups/', PickupLocationsView.as_view(), name='pickup_locations'),
+    path('image-viewer/', ImageViewerPage.as_view(), name='image_viewer_page'),
+    #path('image-viewer/', ImageViewerPage.as_view(), name='image_viewer_page'),
+    path('operator-search-by-id/', OperatorDetailByIdView.as_view(), name='operator_detail_by_id'),
     path('cancel-ticket/', CancelTicketView.as_view(), name='cancel_ticket'),
-
     path('recover/', Recover_balanceView.as_view(), name='recover'),
+    #path('telebirr/callback/', TelebirrCallbackView.as_view(), name='telebirr_callback'),
+    #path('payment/success/', views.payment_success, name='payment_success'),
+    path('operator-search/', OperatorDetailView.as_view(), name='operator_detail'),
+    #path('telebirr/pay/', TelebirrPaymentView.as_view(), name='telebirr-pay'),
+    #path('telebirr/notify/', TelebirrCallbackView.as_view(), name='telebirr-notify'),
+    path('api/payment/telebirr/checkout/', TelebirrPaymentView.as_view(), name='telebirr-checkout'),
+    path('api/payment/telebirr/notify/', TelebirrNotifyView.as_view(), name='telebirr-notify'),
+
+    path('telebirr/notify/', TelebirrNotifyView.as_view(), name='telebirr_notify'),
+
+    # 3. ተጠቃሚው ክፍያ ጨርሶ ሲመለስ የሚያየው ገጽ
+    path('payment-success/', PaymentSuccessView.as_view(), name='payment_success'),
 
     path('api/about/', About.as_view(), name='api_about'),  # Updated to 'api/about/'
     path('Select/', SelectView.as_view(), name='Select'),
-    
     path('Sel/', SelView.as_view(), name='Sel'), # Unique name
-    path('api/Sel/', SelView.as_view(), name='sel_api'), # Unique name
-    
+    path('api/Sel/', SelView.as_view(), name='sel_api'), # Unique name    
     path('see/', SeeView.as_view(), name='see'),
-    
-    # Path for Swagger/API
     path('api/see/', SeeView.as_view(), name='api_see'),
-
-    #path('see/', SeeView.as_view(), name='see'),
     path('updatebus/', BusUpdateViewss.as_view(), name='updatebus'),
-    #path('updatedriver/', DriverUpdateViewss.as_view(), name='updatedriver'),
+    path('special_active/', Special_active.as_view(), name='special_active'),
     #path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     #path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    #path('updateservice_fee/<int:pk>/', ServiceUpdateViews.as_view(), name='updateservice_fee'),  # Use 'pk' to capture the ID
-    #path('updateservice_fee/', ServiceUpdateViews.as_view(), name='updateservice_fee'),
+    path('specialdeletetickets/', SpecialDeleteTicketsView.as_view(), name='specialdeletetickets'),  # Use 'pk' to capture the ID
+    path('Special_activates/', Special_activates.as_view(), name='special_activates'),
     path('forgot_password/', ForgotPasswordView.as_view(), name='forgot_password'),
     #path('login/forgot_password/', ForgotPasswordView.as_view(), name='forgot_password'),  # Existing line
     path('api/forgot_password/', ForgotPasswordView.as_view(), name='api_forgot_password'),
     path('comment/', CommentsView.as_view(), name='comment'),
     path('api/comment/', CommentsView.as_view(), name='api_comment'),
-    #path('changebuses/', views.changebuses, name='changebuses'),
+    path('subshowTicketsViewss/', SubshowTicketsViewss.as_view(), name='subshowTicketsViewss'),
     path('book/', BookView.as_view(), name='book'),
     path('api/book/', BookView.as_view(), name='api_book'),
     path('telebirr/', TelebirrPaymentView.as_view(), name='telebirr'),
+
+    path('telebirr/pay/', TelebirrPaymentView.as_view(), name='telebirr-pay'),
+    path('telebirr/callback/', TelebirrCallbackView.as_view(), name='telebirr-callback'),
+
     path('safari/', SafariPaymentView.as_view(), name='safari'),
     path('cbe/', CbePaymentView.as_view(), name='cbe'),
     path('boa/', BoaPaymentView.as_view(), name='boa'),
@@ -49,35 +69,24 @@ urlpatterns = [
     path('cbepassword/', Cbepassword.as_view(), name='cbepassword'),
     path('boapassword/', Boapassword.as_view(), name='boapassword'),
     path('awashpassword/', Awashpassword.as_view(), name='awashpassword'),
-    #path('show-routes/', ViewRoute.as_view(), name='show_routes'),
+    path('special_bus_change/', SpecialBuschange.as_view(), name='special_bus_change'),
     path('workerdelete/', Workerdelet.as_view(), name='workerdelete'),
-    #path('api/workerdelete/', WorkerDeleteViews.as_view(), name='api-workerdelete'),  # Route for the JSON API
-    #path('delete_tickets/', DeleteTickets.as_view(), name='delete_tickets'),  # Serve form.html
-    #path('delete_tickets/', DeleteTickets.as_view(), name='delete_ticketss'),  # Serve form.html
-    #path('delete-tickets/', DeleteTicketsView.as_view(), name='delete_tickets'),
+    path('specialdeleteticket/', SpecialDeleteTicket.as_view(), name='specialdeleteticket'),  # Route for the JSON API
+    path('special_route_delete/', Special_route_DeleteViews.as_view(), name='special_route_delete'),  # Serve form.html
+    path('specialdeletetickets/', SpecialDeleteTickets.as_view(), name='specialdeletetickets'),  # Serve form.html
+    path('userprofile/', UserProfileUpdateView.as_view(), name='userprofile'),
     path('delete_tickets/', DeleteTickets.as_view(), name='delete_tickets_web_search'),
     # 2. The Execution/Action View
     path('delete-tickets/', DeleteTicketsView.as_view(), name='delete_tickets_api_execution'),
-
-    # urls.py
-
-    # 1. Name this specifically for the form
-    #path('delete_tickets/', DeleteTickets.as_view(), name='delete_tickets_html_form'), 
-
-    # 2. Name this specifically for the API
-    #path('delete-tickets/', DeleteTicketsView.as_view(), name='delete_tickets_api_action'),
-
-
-    #path('api', Routes.as_view(), name='api'),
     path('citydelete/', CityDeleteViews.as_view(), name='citydelete'), 
     #path('api/citydelete/', CityDeleteViews.as_view(), name='city_delete'),
     path('api/citydelete/', CityDeleteViews.as_view(), name='api_city_delete'),
-
     #path('api/city/delete/', CityDeleteViews.as_view(), name='city-delete'),
     path('busdelete/', BusDeleteViews.as_view(), name='busdelete'),
-    #path('api/busdelete/', BusDeleteViews.as_view(), name='api_busdelete'),
+    path('act', Actiions.as_view(), name='act'),
     path('update_ticket/', UpdateTicketViews.as_view(), name='update_ticket'),
     path('specific/', Specific.as_view(), name='specific'),
+    path('subspecific/', Subspecific.as_view(), name='subspecific'),
     path('get_ticket/', GetTicketViews.as_view(), name='get_ticket'),
     path('api/get_ticket/', GetTicketViews.as_view(), name='api_get_ticket'),  # API endpoint
     path('totalballance/', Totalballance.as_view(), name='totalballance'),  # URL for the bus insert view
@@ -93,6 +102,7 @@ urlpatterns = [
     path('api/service_fee/', ServicInsertView.as_view(), name='service_fee'),  # For rendering the form page
     path('api/city/', CityInsertView.as_view(), name='api_city'),  # API endpoint
     path('route/', RoutesInsertView.as_view(), name='route'),
+    path('special_route/', Special_route.as_view(), name='special_route'),
     path('api/route/', RoutesInsertView.as_view(), name='api_route'),
     path('commentdelete/', CommentDeleteViews.as_view(), name='commentdelete'),
     path('api/commentdelete/', CommentDeleteViews.as_view(), name='api-commentdelete'),
@@ -120,7 +130,10 @@ urlpatterns = [
     path('routes/', Rout.as_view(), name='routes'),
     path('api/users/', Use.as_view(), name='users_api'),
     path('users/', Use.as_view(), name='users'),
-    path('sce/', Sce.as_view(), name='sce'),
+    #path('alloperators/', Operators.as_view(), name='alloperators'),
+    #path('sce/', Sce.as_view(), name='sce'),
+    path('alloperators/', Sce.as_view(), name='alloperators'),
+
     path('passenger/', Changepassenger.as_view(), name='passenger'),
     #path('register/', RegisterView.as_view(), name='register'),
     #path('updatebus/', views.updatebus, name='updatebus'),
@@ -145,15 +158,21 @@ urlpatterns = [
     path('sc/', ScInsertViews.as_view(), name='sc'),    
     path('worker/', Workers.as_view(), name='worker'),
     path('api/worker/', Workers.as_view(), name='api_worker'),
-
     path('registor/', UrRegisterView.as_view(), name='registor'),
     path('api/registor/', UrRegisterView.as_view(), name='api_user_register'),
     #path('book-ticket/', TicketBookingView.as_view(), name='book_ticket'),
     #path('api/tickets/', get_tickets, name='get_tickets'),  # New endpoint for retrieving tickets
     path('api/comments/', Com.as_view(),  name='comments_api'),
     path('comments/', Com.as_view(), name='comments'),
-    path('api/driver/', Drivers.as_view(),  name='driver_api'),
-    path('driver/', Drivers.as_view(), name='driver'),
+    
+    
+    #path('api/driver/', Drivers.as_view(),  name='driver_api'),
+    #path('driver/', Drivers.as_view(), name='driver'),
+    #path('drivers/toggle/<int:pk>/', ToggleDriverStatusView.as_view(), name='toggle-driver-status'),
+    
+    path('drivers/', Drivers.as_view(), name='driver'),
+    path('toggle-driver-status/<int:pk>/', ToggleDriverStatusView.as_view(), name='toggle-driver-status'),
+
     path('login/change_password/', ChangePasswordView.as_view(), name='login_change_password'),  # Define this route  
     path('api/routes/', Rout.as_view(), name='routes_api'),  # API endpoint
     path('routes/', Rout.as_view(), name='routes'),  # HTML page endpoint
@@ -161,11 +180,9 @@ urlpatterns = [
     #path('city-delete/', CityDeleteView.as_view(), name='city_delete'),
     #path('admin-delete/', AdminDeleteView.as_view(), name='admin_delete'),
     path('change-password/', ChangePasswordView.as_view(), name='change_password'),
-
     #path('comment-delete/', CommentDeleteView.as_view(), name='comment_delete'),
     #path('workerdelete/', WorkerDeleteView.as_view(), name='workerdelete'),
     #path('route-delete/', RouteDeleteView.as_view(), name='route_delete'),
-
     path('select-bus/', SelectBusView.as_view(), name='select_bus'),
     path('api/Select/', SelectView.as_view(), name='select_bus'),
     path('payment/', ProcessPaymentView.as_view(), name='payment'),

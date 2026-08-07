@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Busfermata | Payment Successful</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+        :root {
+            --brand-navy: #00264d;
+            --brand-gold: #ffcc00;
+            --brand-dark: #0f172a;
+            --accent-green: #16a34a;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            color: var(--text-main);
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        .top-bar {
+            background: var(--brand-dark);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        .top-bar a { color: var(--brand-gold); font-weight: 700; text-decoration: none; }
+
+        .navbar-main {
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 5px solid var(--brand-gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-area { display: flex; align-items: center; text-decoration: none !important; }
+        .brand-logo { 
+            height: 70px !important; 
+            width: auto; 
+            margin-right: 15px; 
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0;
+        }
+        .brand-text { font-weight: 800; color: #0A3977; font-size: 26px; text-transform: uppercase; line-height: 0.8; }
+
+        .nav-link { 
+            color: var(--brand-navy) !important; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 14px; 
+            transition: 0.3s;
+        }
+
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 15px;
+        }
+
+        .success-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 38, 77, 0.15);
+            border: none;
+            max-width: 520px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            background: var(--accent-green);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--brand-gold);
+        }
+
+        .card-header-custom i {
+            font-size: 48px;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .detail-box {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 15px 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #64748b;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            font-weight: 800;
+            color: var(--brand-navy);
+            font-size: 15px;
+        }
+
+        .btn-home {
+            background: var(--brand-navy);
+            color: white !important;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,38,77,0.2);
+        }
+
+        .btn-ticket {
+            background: var(--brand-gold);
+            color: var(--brand-navy) !important;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            border: none;
+        }
+
+        .footer-main { background: var(--brand-navy); color: white; padding: 60px 0; text-align: center; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-bus mr-2"></i> Ethiopian National Transport Standards</span>
+        <a href="{% url 'login' %}"><i class="fas fa-lock mr-1"></i> STAFF LOGIN PORTAL</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-main">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-area">
+            <img src="{% static 'images/l.jpeg' %}" class="brand-logo" alt="Busfermata Logo" style="width: 150px !important; height: 100px !important; object-fit: contain !important;">
+            <div>
+                ## <span class="brand-text">BUSFERMATA</span>
+                <h6 style="color:#007A78; font-weight:bold; margin:0; padding:0">Digital Technology</h6>
+            </div>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navPortal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navPortal">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'get_ticket' %}">My Ticket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'comment' %}">Feedback</a></li>
+                <li class="nav-item ml-lg-3"><a class="btn px-4" style="background:var(--brand-gold); color:var(--brand-navy); font-weight:800; border-radius:10px;" href="{% url 'book' %}">BOOK NOW</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="main-wrapper">
+    <div class="success-card">
+        <div class="card-header-custom">
+            <i class="fas fa-check-circle"></i>
+            <h4 class="mb-0" style="font-weight: 800;">Payment Successful!</h4>
+        </div>
+        
+        <div class="card-body p-4">
+            <p class="text-center text-muted mb-4" style="font-weight: 600;">
+                Your ticket payment has been confirmed successfully.
+            </p>
+
+            <div class="detail-box mb-4">
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-ticket-alt mr-2" style="color: var(--brand-navy);"></i>PNR Reference:</span>
+                    <span class="detail-value" style="color: var(--accent-green);">{{ request.GET.pnr|default:pnr }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-info-circle mr-2" style="color: var(--brand-navy);"></i>Status:</span>
+                    <span class="detail-value text-success">CONFIRMED</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <a href="{% url 'get_ticket' %}" class="btn-ticket">
+                        <i class="fas fa-ticket-alt mr-1"></i> View Ticket
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="{% url 'home' %}" class="btn-home">
+                        <i class="fas fa-home mr-1"></i> Back Home
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-footer bg-white text-center py-3 border-0">
+            <small class="text-muted font-weight-bold">Busfermata Digital Technology &copy; Safe & Secure Gateway</small>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <h3 class="mb-4" style="font-weight: 800;">Busfermata Digital Technology</h3>
+        <p class="opacity-50">© 2026 Busfermata • National Travel Solutions</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
