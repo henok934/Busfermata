@@ -23,7 +23,7 @@ if not SECRET_KEY:
 
 
 SECRET_KEY = 'fbchw3&+vaut7yj4c9$jz$a=9r40d-zp&=be32@5hu_+wi1=zh' # nosec
-DEBUG = False
+DEBUG = True
 
 #ALLOWED_HOSTS = ['*']
 
